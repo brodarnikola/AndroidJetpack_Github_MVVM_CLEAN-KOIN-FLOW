@@ -7,8 +7,7 @@ import org.koin.dsl.module
 private const val WEATHER_DB = "programing-domainLanguages-database"
 
 val databaseModule = module {
-
-
+  
   single { AppDatabase.getInstance(androidContext()) }
 
   factory { get<AppDatabase>().languagesDAO() }
