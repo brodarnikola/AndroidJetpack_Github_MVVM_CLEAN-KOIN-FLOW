@@ -51,7 +51,7 @@ class LanguagesAdapter : ListAdapter<Languages, RecyclerView.ViewHolder>(PlantDi
         private val binding: ListItemLanguagesBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.setClickListener {
+            binding.setClickListenerLanguages {
                 binding.language?.let { language ->
                     navigateToLanguage(language, it)
                 }

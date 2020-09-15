@@ -11,8 +11,9 @@ import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.ui.adapters.ALL_GITHUBS
 import com.vjezba.androidjetpackgithub.ui.adapters.SavedLanguagesAdapter
 import com.vjezba.androidjetpackgithub.databinding.FragmentSavedLanguagesBinding
-import com.vjezba.androidjetpackgithub.utilities.InjectorUtils
+import com.vjezba.androidjetpackgithub.viewmodels.GalleryViewModel
 import com.vjezba.androidjetpackgithub.viewmodels.SavedLanguagesListViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 /**
@@ -24,9 +25,7 @@ class SavedLanguagesFragment : Fragment() {
 
     private lateinit var binding: FragmentSavedLanguagesBinding
 
-    private val viewModel: SavedLanguagesListViewModel by viewModels {
-        InjectorUtils.provideSavedLanguagesViewModelFactory(requireContext())
-    }
+    private val viewModel : SavedLanguagesListViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

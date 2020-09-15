@@ -18,18 +18,12 @@ package com.vjezba.androidjetpackgithub.ui.fragments
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.vjezba.androidjetpackgithub.R
-import com.vjezba.androidjetpackgithub.ui.adapters.LanguagesAdapter
 import com.vjezba.androidjetpackgithub.databinding.FragmentLanguagesBinding
-import com.vjezba.androidjetpackgithub.utilities.InjectorUtils
+import com.vjezba.androidjetpackgithub.ui.adapters.LanguagesAdapter
 import com.vjezba.androidjetpackgithub.viewmodels.LanguagesListViewModel
-import com.vjezba.androidjetpackgithub.viewmodels.SavedLanguagesListViewModel
-import kotlinx.android.synthetic.main.activity_languages_main.*
 import org.koin.androidx.viewmodel.ext.android.getStateViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LanguagesFragment : Fragment() {
 
@@ -39,10 +33,6 @@ class LanguagesFragment : Fragment() {
     }
    /* private val viewModel: LanguagesListViewModel by viewModels {
         InjectorUtils.provideLanguagesListViewModelFactory(this)
-    }*/
-
-    /*private val viewModel: SavedLanguagesListViewModel by viewModels {
-        InjectorUtils.provideSavedLanguagesViewModelFactory(requireContext())
     }*/
 
     override fun onCreateView(
@@ -64,7 +54,7 @@ class LanguagesFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_language_list, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+        //super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

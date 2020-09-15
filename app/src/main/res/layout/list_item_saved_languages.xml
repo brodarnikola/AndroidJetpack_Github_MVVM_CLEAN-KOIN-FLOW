@@ -28,6 +28,7 @@
     </data>
 
     <com.vjezba.androidjetpackgithub.views.MaskedCardView
+        android:id="@+id/cardViewSavedLanguages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_side_margin"
@@ -39,6 +40,7 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Sunflower.Card">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSavedLanguages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

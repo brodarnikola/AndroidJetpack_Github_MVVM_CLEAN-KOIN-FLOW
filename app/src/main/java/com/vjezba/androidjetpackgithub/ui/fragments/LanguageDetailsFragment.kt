@@ -22,17 +22,17 @@ import android.view.*
 import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.databinding.FragmentLanguageDetailsBinding
-import com.vjezba.androidjetpackgithub.utilities.InjectorUtils
 import com.vjezba.androidjetpackgithub.viewmodels.LanguageDetailsViewModel
 import com.vjezba.domain.model.Languages
 import kotlinx.android.synthetic.main.activity_languages_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 /**
  * A fragments representing a single Plant detail screen.
@@ -41,8 +41,12 @@ class LanguageDetailsFragment : Fragment() {
 
     private val args: LanguageDetailsFragmentArgs by navArgs()
 
-    private val languageDetailsViewModel: LanguageDetailsViewModel by viewModels {
+    /*private val languageDetailsViewModel: LanguageDetailsViewModel by viewModels {
         InjectorUtils.provideLanguageDetailsViewModelFactory(requireActivity(), args.languagesId)
+    }*/
+
+    private val languageDetailsViewModel : LanguageDetailsViewModel by viewModel {
+        parametersOf( args.languagesId)
     }
 
     override fun onCreateView(

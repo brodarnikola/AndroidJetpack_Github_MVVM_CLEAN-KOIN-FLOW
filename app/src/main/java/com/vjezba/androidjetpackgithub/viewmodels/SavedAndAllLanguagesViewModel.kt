@@ -22,7 +22,7 @@ import java.util.Locale
 
 class SavedAndAllLanguagesViewModel(languages: SavedAndAllLanguages) {
     private val languages = checkNotNull(languages.languages)
-    private val savedLanguages = languages.savedLanguages[0]
+    private val savedLanguages = checkNotNull(languages.savedLanguages[0])
 
     val lastVisitedLanguageDate: String = dateFormat.format(savedLanguages.lastVisitedLanguageDate.time)
     /*val createdAt

@@ -63,19 +63,15 @@ class LanguagesActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        setupSpeedDialView()
+    }
 
+    override fun onStart() {
+        super.onStart()
+        setupSpeedDialView()
     }
 
     private fun setupSpeedDialView() {
         val speedDialView: SpeedDialView = findViewById(R.id.speedDial)
-        speedDialView.addActionItem(
-            SpeedDialActionItem.Builder(
-                R.id.sd_main_fab,
-                R.drawable.ic_android_24dp
-            )
-                .create()
-        )
 
         speedDialView.setOnActionSelectedListener { speedDialActionItem ->
             when (speedDialActionItem.id) {
@@ -102,42 +98,9 @@ class LanguagesActivity : AppCompatActivity() {
         }
 
         speedDialView.inflate(R.menu.menu_speed_dial)
-
-        speedDialView.addActionItem(
-            SpeedDialActionItem.Builder(
-                R.id.sd_main_fab,
-                R.drawable.ic_android_24dp
-            )
-                .setFabBackgroundColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        R.color.colorAccent,
-                        theme
-                    )
-                )
-                .setFabImageTintColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        R.color.colorPrimary,
-                        theme
-                    )
-                )
-                .setLabel("AAAAA BBBB")
-                .setLabelColor(Color.WHITE)
-                .setLabelBackgroundColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        R.color.colorPrimaryDark,
-                        theme
-                    )
-                )
-                .setLabelClickable(false)
-                .create()
-        )
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        //navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
