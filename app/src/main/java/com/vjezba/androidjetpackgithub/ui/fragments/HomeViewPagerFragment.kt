@@ -1,16 +1,17 @@
 package com.vjezba.androidjetpackgithub.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.vjezba.androidjetpackgithub.R
+import com.vjezba.androidjetpackgithub.databinding.FragmentViewPagerBinding
 import com.vjezba.androidjetpackgithub.ui.adapters.ALL_GITHUBS
 import com.vjezba.androidjetpackgithub.ui.adapters.GithubPagerAdapter
 import com.vjezba.androidjetpackgithub.ui.adapters.SAVED_GITHUB_REPOSITORIES
-import com.vjezba.androidjetpackgithub.databinding.FragmentViewPagerBinding
 import kotlinx.android.synthetic.main.activity_languages_main.*
 
 
@@ -42,6 +43,11 @@ class HomeViewPagerFragment : Fragment() {
         }.attach()
 
         //(activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+
+        (activity as AppCompatActivity?)?.setSupportActionBar(activity?.toolbar)
+
+        //activity?.windowManager.setSupportActionBar(findViewById(R.id.toolbar))
+        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         return binding.root
     }

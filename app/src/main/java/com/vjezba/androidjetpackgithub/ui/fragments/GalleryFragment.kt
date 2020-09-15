@@ -24,6 +24,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
@@ -48,10 +49,8 @@ class GalleryFragment : Fragment() {
     private val args: GalleryFragmentArgs by navArgs()
     private var searchJob: Job? = null
 
-    private val viewModel by viewModel<GalleryViewModel>()
-    /*private val viewModel: GalleryViewModel by viewModel<GalleryViewModel>() by viewModels {
-        InjectorUtils.provideGalleryViewModelFactory()
-    }*/
+    private val viewModel : GalleryViewModel by viewModel()
+    //by viewModel<GalleryViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

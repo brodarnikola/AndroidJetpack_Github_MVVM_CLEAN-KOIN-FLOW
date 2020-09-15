@@ -38,6 +38,6 @@ class LanguagesListViewModelFactory(
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return LanguagesListViewModel(repository, handle) as T
+        return LanguagesListViewModel( handle,repository) as T
     }
 }

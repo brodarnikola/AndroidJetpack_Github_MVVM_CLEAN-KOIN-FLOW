@@ -23,42 +23,47 @@ import com.vjezba.domain.repository.LanguagesRepository
  * The ViewModel for [SavedLanguagesFragment].
  */
 class LanguagesListViewModel internal constructor(
-    languagesRepository: LanguagesRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    languagesRepository: LanguagesRepository
 ) : ViewModel() {
 
-    /*val domainLanguages: LiveData<List<LanguagesDb>> = getSavedGrowZoneNumber().switchMap {
-        if (it == NO_GROW_ZONE) {
-            val d =languagesRepository.getDomainLanguages()
-            print("Data is: " + d)
-            languagesRepository.getDomainLanguages()
+    val languages  = getSavedOnlyMobilProgrammingLanguages().switchMap {
+        if (it == NO_MOBILE_PROGRAMMING_LANGUAGE_FILTER) {
+            //val d =languagesRepository.getLanguages()
+            //print("Data is: " + d)
+            languagesRepository.getLanguages()
         } else {
-            val d = languagesRepository.getDomainLanguages()
-            print("Data is: " + d)
+            //val d = languagesRepository.getOnlyMobilleProgrammingLanguages(it)
+            //print("Data is: " + d)
 
-            languagesRepository.getDomainLanguages()
-            //plantRepository.getPlantsWithGrowZoneNumber(it)
+            languagesRepository.getOnlyMobilleProgrammingLanguages(it)
         }
+    }
+
+    /*@OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun onPause() {
+        // This is just to demo onPaused is called.
+        // To save, we don't need to `set`. It is just same as set directly to textLiveData.value
+        // Refer https://medium.com/@elye.project/unintuitive-livedata-savedstatehandle-3d01fbdbfc01
+        savedStateHandle.set(KEY, "From onPaused")
     }*/
 
-    val languages = languagesRepository.getLanguages()
-
-    fun setGrowZoneNumber(num: Int) {
-        savedStateHandle.set(GROW_ZONE_SAVED_STATE_KEY, num)
+    fun setOnlyMobileProgrammingLanguages(selectOnlyMobileLanguages: String) {
+        savedStateHandle.set(MOBILE_PROGRAMMING_LANGUAGES_KEY, selectOnlyMobileLanguages)
     }
 
-    fun clearGrowZoneNumber() {
-        savedStateHandle.set(GROW_ZONE_SAVED_STATE_KEY, NO_GROW_ZONE)
+    fun clearFilterForMobileProgrammingLanguages() {
+        savedStateHandle.set(MOBILE_PROGRAMMING_LANGUAGES_KEY, NO_MOBILE_PROGRAMMING_LANGUAGE_FILTER)
     }
 
-    fun isFiltered() = getSavedGrowZoneNumber().value != NO_GROW_ZONE
+    fun isFiltered() = getSavedOnlyMobilProgrammingLanguages().value != NO_MOBILE_PROGRAMMING_LANGUAGE_FILTER
 
-    private fun getSavedGrowZoneNumber(): MutableLiveData<Int> {
-        return savedStateHandle.getLiveData(GROW_ZONE_SAVED_STATE_KEY, NO_GROW_ZONE)
+    private fun getSavedOnlyMobilProgrammingLanguages(): MutableLiveData<String> {
+        return savedStateHandle.getLiveData(MOBILE_PROGRAMMING_LANGUAGES_KEY, NO_MOBILE_PROGRAMMING_LANGUAGE_FILTER)
     }
 
     companion object {
-        private const val NO_GROW_ZONE = -1
-        private const val GROW_ZONE_SAVED_STATE_KEY = "GROW_ZONE_SAVED_STATE_KEY"
+        private const val NO_MOBILE_PROGRAMMING_LANGUAGE_FILTER = ""
+        private const val MOBILE_PROGRAMMING_LANGUAGES_KEY = "MOBILE_PROGRAMMING_LANGUAGES_KEY"
     }
 }

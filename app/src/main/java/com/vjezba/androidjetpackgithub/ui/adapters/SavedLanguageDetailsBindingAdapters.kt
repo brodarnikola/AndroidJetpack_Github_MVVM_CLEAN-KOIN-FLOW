@@ -32,8 +32,8 @@ fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
     if (!imageUrl.isNullOrEmpty()) {
         Glide.with(view.context)
             .load(imageUrl)
-            //.placeholder(R.drawable.garden_tab_selector)
-            //.error(R.drawable.ic_detail_share)
+            .placeholder(R.drawable.garden_tab_selector)
+             .error(R.drawable.ic_detail_share)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
     }

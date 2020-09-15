@@ -49,6 +49,7 @@ class DbMapperImpl : DbMapper {
                     description,
                     createdBy,
                     createdAt,
+                    typeLanguage,
                     imageUrl
                 )
             }
@@ -63,6 +64,7 @@ class DbMapperImpl : DbMapper {
                 description,
                 createdBy,
                 createdAt,
+                typeLanguage,
                 imageUrl
             )
         }
@@ -72,7 +74,7 @@ class DbMapperImpl : DbMapper {
         return listLanguages.map {
             with(it) {
                 com.vjezba.domain.model.SavedAndAllLanguages(
-                    Languages(languagesDb.languageId, languagesDb.name, languagesDb.description, languagesDb.createdBy, languagesDb.createdAt, languagesDb.imageUrl),
+                    Languages(languagesDb.languageId, languagesDb.name, languagesDb.description, languagesDb.createdBy, languagesDb.createdAt, languagesDb.typeLanguage, languagesDb.imageUrl),
                     savedLanguageDbs.map {
                         with(it) {
                             SavedLanguages(

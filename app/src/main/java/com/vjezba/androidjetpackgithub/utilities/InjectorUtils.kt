@@ -18,15 +18,11 @@ package com.vjezba.androidjetpackgithub.utilities
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import androidx.navigation.ui.AppBarConfiguration
-import com.vjezba.androidjetpackgithub.viewmodels.GalleryViewModelFactory
 import com.vjezba.androidjetpackgithub.viewmodels.LanguagesListViewModelFactory
 import com.vjezba.androidjetpackgithub.viewmodels.LanguageDetailsViewModelFactory
 import com.vjezba.androidjetpackgithub.viewmodels.SavedLanguagesListViewModelFactory
 import com.vjezba.data.database.AppDatabase
 import com.vjezba.data.database.mapper.DbMapperImpl
-import com.vjezba.data.networking.GithubRepositoryApi
-import com.vjezba.data.repository.GithubRepositoryImpl
 import com.vjezba.data.repository.LanguagesRepositoryImpl
 import com.vjezba.data.repository.SavedLanguagesRepositoryImpl
 import com.vjezba.domain.repository.LanguagesRepository
@@ -48,7 +44,7 @@ object InjectorUtils {
         return SavedLanguagesListViewModelFactory(getSavedLanguagesRepository(context = context))
     }
 
-    private fun getLanguagesRepository(context: Context): LanguagesRepository {
+   private fun getLanguagesRepository(context: Context): LanguagesRepository {
         val dbMapper = DbMapperImpl()
         return LanguagesRepositoryImpl.getInstance(
             AppDatabase.getInstance(context.applicationContext).languagesDAO(), dbMapper
@@ -56,8 +52,8 @@ object InjectorUtils {
     }
 
     fun provideLanguagesListViewModelFactory(fragment: Fragment): LanguagesListViewModelFactory {
-        return LanguagesListViewModelFactory(getLanguagesRepository(fragment.requireContext()), fragment)
-    }
+       return LanguagesListViewModelFactory(getLanguagesRepository(fragment.requireContext()), fragment)
+   }
 
 
     fun provideLanguageDetailsViewModelFactory(

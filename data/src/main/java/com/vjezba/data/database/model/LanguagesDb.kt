@@ -29,6 +29,7 @@ data class LanguagesDb(
     val description: String,
     val createdBy: String = "",
     val createdAt: Int = 7, // how often the plant should be watered, in days
+    val typeLanguage: String = "",
     val imageUrl: String = ""
 ) {
 

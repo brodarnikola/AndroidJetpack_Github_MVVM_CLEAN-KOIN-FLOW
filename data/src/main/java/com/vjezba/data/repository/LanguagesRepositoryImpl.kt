@@ -16,9 +16,11 @@
 
 package com.vjezba.data.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.vjezba.data.database.dao.LanguagesDao
 import com.vjezba.data.database.mapper.DbMapper
+import com.vjezba.domain.model.Languages
 import com.vjezba.domain.repository.LanguagesRepository
 
 /**
@@ -29,6 +31,10 @@ class LanguagesRepositoryImpl  constructor(
     : LanguagesRepository   {
 
     override fun getLanguages() = languages.getLanguages().map { dbMapper.mapDbLanguagesToDomainLanguages(it) }
+
+    override fun getOnlyMobilleProgrammingLanguages(onlyMobileProgrammingLanguages: String): LiveData<List<Languages>> {
+        return languages.getOnlyMobileProgrammingLanguages(onlyMobileProgrammingLanguages).map { dbMapper.mapDbLanguagesToDomainLanguages(it) }
+    }
 
     override fun getLanguage(languagesId: String) = languages.getLanguageRepo(languagesId).map { dbMapper.mapDbLanguageToDomainLanguage(it) }
 

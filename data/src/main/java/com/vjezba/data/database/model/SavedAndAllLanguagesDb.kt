@@ -25,7 +25,7 @@ import androidx.room.Relation
  */
 data class SavedAndAllLanguagesDb(
     @Embedded
-    val languagesDb: LanguagesDb = LanguagesDb("", "", "", "", 0, ""),
+    val languagesDb: LanguagesDb = LanguagesDb("", "", "", "", 0, "", ""),
 
     @Relation(parentColumn = "id", entityColumn = "language_id")
     val savedLanguageDbs: List<SavedLanguagesDb> = emptyList()

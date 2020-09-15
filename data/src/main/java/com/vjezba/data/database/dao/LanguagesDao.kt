@@ -31,6 +31,9 @@ interface LanguagesDao {
     @Query("SELECT * FROM languages ORDER BY name")
     fun getLanguages(): LiveData<List<LanguagesDb>>
 
+    @Query("SELECT * FROM languages WHERE typeLanguage = :onlyMobileProgrammingLanguages ORDER BY name")
+    fun getOnlyMobileProgrammingLanguages(onlyMobileProgrammingLanguages: String): LiveData<List<LanguagesDb>>
+
     @Query("SELECT * FROM languages WHERE id = :languageId")
     fun getLanguageRepo(languageId: String): LiveData<LanguagesDb>
 

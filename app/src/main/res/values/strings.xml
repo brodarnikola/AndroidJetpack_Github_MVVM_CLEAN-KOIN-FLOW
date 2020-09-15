@@ -7,7 +7,7 @@
     <string name="not_one_saved_languages">You dont have saved any languages</string>
     <string name="save_language">SAVE LANGUAGE</string>
 
-    <string name="menu_filter_by_language">Filter by language</string>
+    <string name="menu_filter_by_language">Filter only mobille languages</string>
 
     <string name="menu_item_share_language">Share language</string>
 
