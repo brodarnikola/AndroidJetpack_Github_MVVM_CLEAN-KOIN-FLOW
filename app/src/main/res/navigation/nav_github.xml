@@ -11,13 +11,6 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_view_pager">
 
-        <action
-            android:id="@+id/action_language_detail_fragment_to_languages_fragment"
-            app:destination="@id/view_pager_fragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
 
         <action
             android:id="@+id/action_language_detail_fragment_to_slideshow_fragment"

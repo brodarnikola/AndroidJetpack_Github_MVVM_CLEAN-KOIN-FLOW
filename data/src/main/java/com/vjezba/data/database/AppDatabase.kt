@@ -34,7 +34,7 @@ import com.vjezba.data.database.model.SavedLanguagesDb
 /**
  * The Room database for this app
  */
-@Database(entities = [SavedLanguagesDb::class, LanguagesDb::class], version = 3, exportSchema = false)
+@Database(entities = [SavedLanguagesDb::class, LanguagesDb::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun savedLanguagesDAO(): SavedLanguagesDAO

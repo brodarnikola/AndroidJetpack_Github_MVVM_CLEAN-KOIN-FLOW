@@ -18,6 +18,7 @@ import com.google.android.material.navigation.NavigationView
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import com.vjezba.androidjetpackgithub.R
+import com.vjezba.androidjetpackgithub.ui.fragments.HomeViewPagerFragmentDirections
 import kotlinx.android.synthetic.main.activity_languages.*
 
 class LanguagesActivity : AppCompatActivity() {
@@ -86,9 +87,9 @@ class LanguagesActivity : AppCompatActivity() {
                     false // true to keep the Speed Dial open
                 }
                 R.id.action_dogo2 -> {
-                   /* val direction =
+                    val direction =
                         HomeViewPagerFragmentDirections.actionLanguageDetailFragmentToSlideshowFragment()
-                    navController.navigate(direction)*/
+                    navController.navigate(direction)
                     //navController.navigate(R.id.nav_slideshow)
                     Toast.makeText(this, "Doggo2 action clicked!", Toast.LENGTH_LONG).show()
                     false // true to keep the Speed Dial open
