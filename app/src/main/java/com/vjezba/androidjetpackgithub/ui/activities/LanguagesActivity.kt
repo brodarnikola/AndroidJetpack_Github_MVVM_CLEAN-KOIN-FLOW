@@ -1,8 +1,10 @@
 package com.vjezba.androidjetpackgithub.ui.activities
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.res.ResourcesCompat
@@ -20,6 +22,7 @@ import com.leinardi.android.speeddial.SpeedDialView
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.ui.fragments.HomeViewPagerFragmentDirections
 import kotlinx.android.synthetic.main.activity_languages.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class LanguagesActivity : AppCompatActivity() {
 
@@ -68,6 +71,15 @@ class LanguagesActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         setupSpeedDialView()
+        logoutUser()
+    }
+
+    private fun logoutUser() {
+        ivLogout.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun setupSpeedDialView() {
