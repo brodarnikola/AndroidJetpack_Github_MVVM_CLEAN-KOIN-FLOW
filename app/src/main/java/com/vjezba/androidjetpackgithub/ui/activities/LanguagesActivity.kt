@@ -5,6 +5,8 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.res.ResourcesCompat
@@ -21,11 +23,14 @@ import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.ui.fragments.HomeViewPagerFragmentDirections
+import com.vjezba.domain.repository.UserManager
 import kotlinx.android.synthetic.main.activity_languages.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import org.koin.android.ext.android.inject
 
 class LanguagesActivity : AppCompatActivity() {
 
+    val userManager: UserManager by inject()
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
@@ -75,7 +80,9 @@ class LanguagesActivity : AppCompatActivity() {
     }
 
     private fun logoutUser() {
-        ivLogout.setOnClickListener {
+        val logout= nav_view?.getHeaderView(0)?.findViewById<ImageView>(R.id.ivLogout)
+        logout?.setOnClickListener {
+            userManager.logout()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
