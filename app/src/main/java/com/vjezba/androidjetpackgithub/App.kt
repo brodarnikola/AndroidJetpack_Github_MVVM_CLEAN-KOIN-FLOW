@@ -31,6 +31,3 @@ class App : Application() {
 
 val appModules = listOf(presentationModule)
 val dataModules = listOf( networkingModule, repositoryModule, databaseModule)
-
-//val domainModules = listOf(interactionModule)
-//val dataModules = listOf(networkingModule, repositoryModule, databaseModule)
