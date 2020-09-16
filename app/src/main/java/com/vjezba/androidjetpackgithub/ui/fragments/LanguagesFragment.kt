@@ -18,6 +18,7 @@ package com.vjezba.androidjetpackgithub.ui.fragments
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.databinding.FragmentLanguagesBinding
@@ -34,6 +35,8 @@ class LanguagesFragment : Fragment() {
    /* private val viewModel: LanguagesListViewModel by viewModels {
         InjectorUtils.provideLanguagesListViewModelFactory(this)
     }*/
+
+    var menuItemFinal: MenuItem? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +57,15 @@ class LanguagesFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_language_list, menu)
-        //super.onCreateOptionsMenu(menu, inflater)
+        with(viewModel) {
+            if (isFiltered()) {
+                menu.get(0).title = getString(R.string.menu_filter_none)
+                menuItemFinal = menu[0]
+            } else {
+                menu.get(0).title = getString(R.string.menu_filter_by_language)
+                menuItemFinal = menu[0]
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -77,8 +88,10 @@ class LanguagesFragment : Fragment() {
         with(viewModel) {
             if (isFiltered()) {
                 clearFilterForMobileProgrammingLanguages()
+                menuItemFinal?.title = getString(R.string.menu_filter_by_language)
             } else {
                 setOnlyMobileProgrammingLanguages("Mobile")
+                menuItemFinal?.title = getString(R.string.menu_filter_none)
             }
         }
     }
