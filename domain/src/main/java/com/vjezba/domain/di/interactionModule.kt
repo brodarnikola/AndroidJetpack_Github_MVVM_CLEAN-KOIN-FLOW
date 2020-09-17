@@ -9,6 +9,6 @@ import org.koin.dsl.module
 
 val interactionModule = module {
 
-  single<UserManager> { UserManagerImpl(get())}
+  factory<UserManager> { UserManagerImpl(get())}
   factory<Storage> { SharedPreferencesStorage(get()) }
 }

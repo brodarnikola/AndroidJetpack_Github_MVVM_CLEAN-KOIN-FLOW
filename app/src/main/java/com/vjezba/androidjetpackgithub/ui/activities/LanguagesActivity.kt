@@ -66,7 +66,8 @@ class LanguagesActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.view_pager_fragment,
-                R.id.nav_slideshow
+                R.id.nav_slideshow,
+                R.id.dagger2_github
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -103,12 +104,14 @@ class LanguagesActivity : AppCompatActivity() {
             when (speedDialActionItem.id) {
                 R.id.action_slideshow_fragment -> {
                     val direction =
-                        HomeViewPagerFragmentDirections.actionLanguageDetailFragmentToSlideshowFragment()
+                        HomeViewPagerFragmentDirections.actionViewPagerFragmentToSlideshowFragment()
                     navController.navigate(direction)
                     false // true to keep the Speed Dial open
                 }
                 R.id.action_dance -> {
-                    Toast.makeText(this, "Just dance dance", Toast.LENGTH_LONG).show()
+                    val direction =
+                        HomeViewPagerFragmentDirections.actionViewPagerFragmentToDagger2GithubFragment()
+                    navController.navigate(direction)
                     false // true to keep the Speed Dial open
                 }
                 R.id.action_dogo -> {

@@ -8,7 +8,7 @@
     <item
         android:id="@+id/action_dance"
         android:icon="@drawable/ic_dance_24dp"
-        android:title="Dance" />
+        android:title="Dagger2 Github Fragment" />
 
     <item
         android:id="@+id/action_dogo"

@@ -12,5 +12,9 @@
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
+        <item
+            android:id="@+id/dagger2_github"
+            android:icon="@drawable/ic_doggo_24dp"
+            android:title="DAGGER_GITHUB_EXAMPLE" />
     </group>
 </menu>

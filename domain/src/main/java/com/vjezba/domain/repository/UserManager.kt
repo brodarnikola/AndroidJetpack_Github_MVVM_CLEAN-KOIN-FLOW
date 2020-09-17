@@ -16,11 +16,8 @@
 
 package com.vjezba.domain.repository
 
-import com.vjezba.domain.user.UserManagerImpl
 
 interface UserManager {
-
-    fun getUserManager() : UserManagerImpl
 
     fun loginUser(username: String, password: String) : Boolean
 
