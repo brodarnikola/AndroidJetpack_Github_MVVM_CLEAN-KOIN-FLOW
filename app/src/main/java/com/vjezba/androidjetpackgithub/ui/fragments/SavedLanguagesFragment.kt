@@ -13,6 +13,8 @@ import com.vjezba.androidjetpackgithub.ui.adapters.SavedLanguagesAdapter
 import com.vjezba.androidjetpackgithub.databinding.FragmentSavedLanguagesBinding
 import com.vjezba.androidjetpackgithub.viewmodels.GalleryViewModel
 import com.vjezba.androidjetpackgithub.viewmodels.SavedLanguagesListViewModel
+import com.vjezba.domain.model.SavedAndAllLanguages
+import com.vjezba.domain.model.SavedLanguages
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -34,7 +36,7 @@ class SavedLanguagesFragment : Fragment() {
     ): View? {
         binding = FragmentSavedLanguagesBinding.inflate(inflater, container, false)
         val adapter =
-            SavedLanguagesAdapter()
+            SavedLanguagesAdapter( { position: String -> setDeleteLanguageClickListener(position) })
         binding.savedLanguageList.adapter = adapter
 
         binding.addLanguage.setOnClickListener {
@@ -43,6 +45,10 @@ class SavedLanguagesFragment : Fragment() {
 
         subscribeUi(adapter, binding)
         return binding.root
+    }
+
+    private fun setDeleteLanguageClickListener(position: String) {
+        viewModel.deleteSelectedProgrammingLanguage(position.toInt())
     }
 
     private fun subscribeUi(adapter: SavedLanguagesAdapter, binding: FragmentSavedLanguagesBinding) {

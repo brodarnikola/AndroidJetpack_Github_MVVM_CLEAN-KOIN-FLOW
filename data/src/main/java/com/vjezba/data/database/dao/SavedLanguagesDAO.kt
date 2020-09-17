@@ -47,8 +47,8 @@ interface SavedLanguagesDAO {
     @Insert
     suspend fun insertSavedLanguage(savedLanguageDb: SavedLanguagesDb): Long
 
-    @Delete
-    suspend fun deleteSavedLanguage(savedLanguageDb: SavedLanguagesDb)
+    @Query("DELETE FROM saved_languages WHERE language_id = :languagedId")
+    suspend fun deleteSavedLanguage(languagedId: Int)
 
     @Query("DELETE FROM saved_languages")
     suspend fun deleteAllSavedProgrammingLanguages()

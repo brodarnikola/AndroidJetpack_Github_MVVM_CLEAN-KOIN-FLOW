@@ -20,6 +20,8 @@ import androidx.lifecycle.map
 import com.vjezba.data.database.dao.SavedLanguagesDAO
 import com.vjezba.data.database.mapper.DbMapper
 import com.vjezba.data.database.model.SavedLanguagesDb
+import com.vjezba.domain.model.SavedAndAllLanguages
+import com.vjezba.domain.model.SavedLanguages
 import com.vjezba.domain.repository.SavedLanguagesRepository
 
 class SavedLanguagesRepositoryImpl constructor(
@@ -34,6 +36,10 @@ class SavedLanguagesRepositoryImpl constructor(
 
     override suspend fun deleteAllSavedProgrammingLanguages() {
         return savedLanguagesDAO.deleteAllSavedProgrammingLanguages()
+    }
+
+    override suspend fun deleteSelectedProgrammingLanguage(languagedId: Int) {
+        savedLanguagesDAO.deleteSavedLanguage( languagedId /*dbMapper.mapDomainSavedAndAllLanguagesToDbSavedAndAllLanguages(savedAndAllLanguages)*/)
     }
 
     override fun isLanguageSaved(languageId: String) =

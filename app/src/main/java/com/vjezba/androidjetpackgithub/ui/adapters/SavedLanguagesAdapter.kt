@@ -19,6 +19,7 @@ package com.vjezba.androidjetpackgithub.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -29,8 +30,10 @@ import com.vjezba.androidjetpackgithub.databinding.ListItemSavedLanguagesBinding
 import com.vjezba.androidjetpackgithub.ui.fragments.HomeViewPagerFragmentDirections
 import com.vjezba.androidjetpackgithub.viewmodels.SavedAndAllLanguagesViewModel
 import com.vjezba.domain.model.SavedAndAllLanguages
+import com.vjezba.domain.model.SavedLanguages
 
-class SavedLanguagesAdapter :
+class SavedLanguagesAdapter(
+    val clickListener: (String) -> Unit, ) :
     ListAdapter<SavedAndAllLanguages, SavedLanguagesAdapter.ViewHolder>(
         LanguageDiffCallback()
     ) {
@@ -47,7 +50,7 @@ class SavedLanguagesAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), clickListener, position)
     }
 
     class ViewHolder(
@@ -67,9 +70,12 @@ class SavedLanguagesAdapter :
             view.findNavController().navigate(direction)
         }
 
-        fun bind(savedLanguage: SavedAndAllLanguages) {
+        fun bind(savedLanguage: SavedAndAllLanguages, clickListener: (String) -> Unit, position: Int) {
             with(binding) {
                 viewModel = SavedAndAllLanguagesViewModel(savedLanguage)
+                binding.ivDeleteLanguage.setOnClickListener {
+                    clickListener( savedLanguage.languages.languageId )
+                }
                 executePendingBindings()
             }
         }
