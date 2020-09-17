@@ -31,10 +31,7 @@
 package com.vjezba.androidjetpackgithub.di
 
 import androidx.lifecycle.SavedStateHandle
-import com.vjezba.androidjetpackgithub.viewmodels.GalleryViewModel
-import com.vjezba.androidjetpackgithub.viewmodels.LanguageDetailsViewModel
-import com.vjezba.androidjetpackgithub.viewmodels.LanguagesListViewModel
-import com.vjezba.androidjetpackgithub.viewmodels.SavedLanguagesListViewModel
+import com.vjezba.androidjetpackgithub.viewmodels.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -43,4 +40,8 @@ val presentationModule = module {
   viewModel { (handle: SavedStateHandle) -> LanguagesListViewModel(handle, get()) }
   viewModel { SavedLanguagesListViewModel(get()) }
   viewModel { (languagedId : String) -> LanguageDetailsViewModel(get(), get(), languagedId) }
+  viewModel { LoginViewModel(get()) }
+  factory { RegistrationViewModel(get()) }
+  viewModel { EnterDetailsViewModel() }
+  viewModel { LanguagesActivityViewModel(get()) }
 }

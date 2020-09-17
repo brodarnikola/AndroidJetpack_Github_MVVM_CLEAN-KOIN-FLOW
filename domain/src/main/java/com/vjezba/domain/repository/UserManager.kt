@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,23 @@
 
 package com.vjezba.domain.repository
 
-import androidx.lifecycle.LiveData
-import com.vjezba.domain.model.SavedAndAllLanguages
+import com.vjezba.domain.user.UserManagerImpl
 
-/**
- * RepositoryResponse module for handling data operations.
- */
-interface SavedLanguagesRepository  {
+interface UserManager {
 
-    fun getSavedLanguages() : LiveData<List<SavedAndAllLanguages>>
+    fun getUserManager() : UserManagerImpl
 
-    fun isLanguageSaved(languagesId: String) : LiveData<Boolean>
+    fun loginUser(username: String, password: String) : Boolean
 
-    suspend fun createSavedLanguage(savedLanguageId: String)
+    fun registerUser(username: String, password: String)
 
-    suspend fun deleteAllSavedProgrammingLanguages()
+    fun unregister()
+
+    fun isUserLoggedIn() : Boolean
+
+    fun isUserRegistered() : Boolean
+
+    fun getUserName() : String
+
+    fun logout()
 }

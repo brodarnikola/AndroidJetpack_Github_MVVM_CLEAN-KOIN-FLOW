@@ -14,6 +14,8 @@
 
     <string name="aplly_language_item_image">Picture of language</string>
 
+    <string name="tcs_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pharetra, nibh eget fringilla fringilla, nibh leo gravida leo, sed imperdiet purus dolor vitae urna. Etiam nec tincidunt lacus. Aenean porttitor, orci feugiat porttitor sollicitudin, ante tellus tempus augue, ac facilisis augue eros at mi. Quisque iaculis arcu vel purus egestas, eu aliquet metus pharetra. Sed fringilla, velit ut ullamcorper volutpat, lorem velit tincidunt lacus, eu viverra leo felis vitae risus.</string>
+
 
     <string name="gallery_content_description">Navigate to gallery screen</string>
     <string name="language_details_image_content_description">Image of language details</string>

@@ -1,13 +1,18 @@
 package com.vjezba.androidjetpackgithub.ui.activities
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,9 +24,23 @@ import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.ui.fragments.HomeViewPagerFragmentDirections
+import com.vjezba.androidjetpackgithub.viewmodels.GalleryViewModel
+import com.vjezba.androidjetpackgithub.viewmodels.LanguagesActivityViewModel
+import com.vjezba.androidjetpackgithub.viewmodels.RegistrationViewModel
+import com.vjezba.androidjetpackgithub.viewmodels.SavedLanguagesListViewModel
+import com.vjezba.domain.repository.SavedLanguagesRepository
+import com.vjezba.domain.repository.UserManager
 import kotlinx.android.synthetic.main.activity_languages.*
+import kotlinx.android.synthetic.main.nav_header_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LanguagesActivity : AppCompatActivity() {
+
+    val userManager: UserManager by inject()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
@@ -68,6 +87,23 @@ class LanguagesActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         setupSpeedDialView()
+        logoutUser()
+    }
+
+    private fun logoutUser() {
+        val logout= nav_view?.getHeaderView(0)?.findViewById<ImageView>(R.id.ivLogout)
+        logout?.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val languagesActivityViewModel : LanguagesActivityViewModel by viewModel()
+                languagesActivityViewModel.deleteAllSavedProgrammingLanguagesOfUser()
+                userManager.logout()
+                withContext(Dispatchers.Main) {
+                        val intent = Intent(this@LanguagesActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                }
+            }
+        }
     }
 
     private fun setupSpeedDialView() {

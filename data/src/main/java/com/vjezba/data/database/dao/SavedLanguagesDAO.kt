@@ -49,4 +49,7 @@ interface SavedLanguagesDAO {
 
     @Delete
     suspend fun deleteSavedLanguage(savedLanguageDb: SavedLanguagesDb)
+
+    @Query("DELETE FROM saved_languages")
+    suspend fun deleteAllSavedProgrammingLanguages()
 }
