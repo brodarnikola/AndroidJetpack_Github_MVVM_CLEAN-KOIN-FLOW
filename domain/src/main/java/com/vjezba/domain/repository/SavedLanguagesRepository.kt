@@ -30,4 +30,5 @@ interface SavedLanguagesRepository  {
 
     suspend fun createSavedLanguage(savedLanguageId: String)
 
+    suspend fun deleteAllSavedProgrammingLanguages()
 }

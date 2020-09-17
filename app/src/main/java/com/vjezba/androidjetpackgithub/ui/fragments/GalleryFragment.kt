@@ -50,7 +50,6 @@ class GalleryFragment : Fragment() {
     private var searchJob: Job? = null
 
     private val viewModel : GalleryViewModel by viewModel()
-    //by viewModel<GalleryViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

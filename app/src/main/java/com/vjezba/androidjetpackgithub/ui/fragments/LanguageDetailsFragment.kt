@@ -66,7 +66,7 @@ class LanguageDetailsFragment : Fragment() {
                 Callback { repoDetails ->
                     repoDetails?.let {
                         hideAppBarFab(fab)
-                        languageDetailsViewModel.addPlantToGarden()
+                        languageDetailsViewModel.saveProgrammingLanguage()
                         Snackbar.make(
                             root,
                             R.string.saved_language_successfully,

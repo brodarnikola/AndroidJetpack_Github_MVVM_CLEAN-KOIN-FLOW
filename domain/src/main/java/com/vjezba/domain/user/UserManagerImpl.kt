@@ -16,10 +16,6 @@
 
 package com.vjezba.domain.user
 
-import android.content.Context
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.vjezba.domain.repository.UserManager
 import com.vjezba.domain.storage.Storage
 
@@ -48,7 +44,7 @@ class UserManagerImpl constructor(private val storage: Storage,
     }
 
 
-    
+
 
 
 
@@ -56,7 +52,7 @@ class UserManagerImpl constructor(private val storage: Storage,
     val username: String
         get() = storage.getString(REGISTERED_USER)
 
-    override fun isUserLoggedIn() = storage.getString(LOGGED_USER).isNotEmpty() //userComponent != null
+    override fun isUserLoggedIn() = storage.getString(LOGGED_USER).isNotEmpty()
 
     override fun isUserRegistered() = storage.getString(REGISTERED_USER).isNotEmpty()
 
@@ -78,13 +74,11 @@ class UserManagerImpl constructor(private val storage: Storage,
         if (registeredPassword != password) return false
 
         storage.setString(LOGGED_USER, username)
-        userJustLoggedIn()
         return true
     }
 
     override fun logout() {
         storage.setString(LOGGED_USER, "")
-        //userComponent = null
     }
 
     override fun unregister() {

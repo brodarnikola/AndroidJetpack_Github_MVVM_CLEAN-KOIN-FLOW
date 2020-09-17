@@ -16,7 +16,6 @@ class RegistrationActivity : AppCompatActivity() {
 
     val userManager: UserManager by inject()
     val registrationViewModel : RegistrationViewModel = RegistrationViewModel( userManager )
-    //private val registrationViewModel : RegistrationViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

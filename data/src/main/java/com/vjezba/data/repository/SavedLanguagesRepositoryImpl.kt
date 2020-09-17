@@ -32,19 +32,13 @@ class SavedLanguagesRepositoryImpl constructor(
         savedLanguagesDAO.insertSavedLanguage(savedLanguage)
     }
 
+    override suspend fun deleteAllSavedProgrammingLanguages() {
+        return savedLanguagesDAO.deleteAllSavedProgrammingLanguages()
+    }
+
     override fun isLanguageSaved(languageId: String) =
         savedLanguagesDAO.isLanguageSaved(languageId)
 
     override fun getSavedLanguages() = savedLanguagesDAO.getSavedLanguages().map { dbMapper.mapDbSavedLanguagesToDomainSavedLanguages(it) }
 
-    companion object {
-
-        // For Singleton instantiation
-        @Volatile private var instance: SavedLanguagesRepository? = null
-
-        fun getInstance(savedLanguagesDAO: SavedLanguagesDAO, dbMapper: DbMapper) =
-            instance ?: synchronized(this) {
-                instance ?: SavedLanguagesRepositoryImpl(savedLanguagesDAO, dbMapper).also { instance = it }
-            }
-    }
 }
