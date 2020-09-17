@@ -39,13 +39,6 @@ import com.vjezba.domain.model.*
 
 class DbMapperImpl : DbMapper {
 
-    override fun mapDomainSavedAndAllLanguagesToDbSavedAndAllLanguages(savedLanguages: SavedLanguages): SavedLanguagesDb {
-        return with(savedLanguages) {
-            SavedLanguagesDb(
-                languagesId, savedLanguageDate, lastVisitedLanguageDate
-            )
-        }
-    }
 
     override fun mapDbLanguagesToDomainLanguages(languages: List<com.vjezba.data.database.model.LanguagesDb>): List<Languages> {
         return languages.map {

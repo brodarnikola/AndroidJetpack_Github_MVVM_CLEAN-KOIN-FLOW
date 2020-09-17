@@ -74,7 +74,7 @@
     <fragment
         android:id="@+id/dagger2_github"
         android:name="com.vjezba.androidjetpackgithub.ui.fragments.Dagger2GithubFragment"
-        android:label="Dagger2_github"
+        android:label="@string/dagger2_github_title"
         tools:layout="@layout/fragment_dagger2_github" />
 
 </navigation>

@@ -10,15 +10,11 @@ import com.vjezba.domain.model.*
 
 interface DbMapper {
 
+    fun mapDbLanguagesToDomainLanguages(languages: List<LanguagesDb>): List<Languages>
 
-    fun mapDomainSavedAndAllLanguagesToDbSavedAndAllLanguages(savedLanguages: SavedLanguages): SavedLanguagesDb
+    fun mapDbLanguageToDomainLanguage(language: LanguagesDb): Languages
 
-
-    fun mapDbLanguagesToDomainLanguages(languages: List<LanguagesDb>): List<com.vjezba.domain.model.Languages>
-
-    fun mapDbLanguageToDomainLanguage(language: LanguagesDb): com.vjezba.domain.model.Languages
-
-    fun mapDbSavedLanguagesToDomainSavedLanguages(language: List<SavedAndAllLanguagesDb>): List<com.vjezba.domain.model.SavedAndAllLanguages>
+    fun mapDbSavedLanguagesToDomainSavedLanguages(language: List<SavedAndAllLanguagesDb>): List<SavedAndAllLanguages>
 
 
     fun mapApiResponseGithubToDomainGithub(responseApi: PagingData<RepositoryDetailsResponseApi>): PagingData<RepositoryDetailsResponse>
