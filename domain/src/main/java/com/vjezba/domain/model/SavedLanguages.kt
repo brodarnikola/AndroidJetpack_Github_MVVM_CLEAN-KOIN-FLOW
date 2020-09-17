@@ -20,7 +20,7 @@ import java.util.Calendar
 
 
 data class SavedLanguages(
-    val languagesId: String = "",
+    val languagesId: Int = 0,
 
     /**
      * Indicates when the [Plant] was planted. Used for showing notification when it's time

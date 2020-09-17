@@ -43,7 +43,7 @@
              app:popExitAnim="@anim/slide_out_right" />
          <argument
              android:name="languagesId"
-             app:argType="string" />
+             app:argType="integer" />
      </fragment>
 
     <fragment

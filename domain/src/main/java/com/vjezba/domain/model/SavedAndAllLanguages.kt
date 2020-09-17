@@ -21,7 +21,7 @@ package com.vjezba.domain.model
  * used by Room to fetch the related entities.
  */
 data class SavedAndAllLanguages(
-   val languages: Languages, //= Languages("", "", "", "", 0, "", ""),
+   val languages: Languages,
 
    val savedLanguages: List<SavedLanguages> = emptyList()
 )

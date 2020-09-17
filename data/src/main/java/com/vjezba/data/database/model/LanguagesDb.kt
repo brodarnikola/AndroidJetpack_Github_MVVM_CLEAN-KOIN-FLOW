@@ -24,7 +24,7 @@ import java.util.Calendar.DAY_OF_YEAR
 
 @Entity(tableName = "languages")
 data class LanguagesDb(
-    @PrimaryKey @ColumnInfo(name = "id") val languageId: String,
+    @PrimaryKey @ColumnInfo(name = "id") val languageId: Int,
     val name: String,
     val description: String,
     val createdBy: String = "",

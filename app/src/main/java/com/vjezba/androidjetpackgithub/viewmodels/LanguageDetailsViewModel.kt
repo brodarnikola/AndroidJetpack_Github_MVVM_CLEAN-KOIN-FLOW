@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 class LanguageDetailsViewModel(
     languageRepository: LanguagesRepository,
     private val savedLanguagesRepository: SavedLanguagesRepository,
-    private val languagesId: String
+    private val languagesId: Int
 ) : ViewModel() {
 
     val isSavedLanguage = savedLanguagesRepository.isLanguageSaved(languagesId)

@@ -36,7 +36,7 @@ class SavedLanguagesFragment : Fragment() {
     ): View? {
         binding = FragmentSavedLanguagesBinding.inflate(inflater, container, false)
         val adapter =
-            SavedLanguagesAdapter( { position: String -> setDeleteLanguageClickListener(position) })
+            SavedLanguagesAdapter( { position: Int -> setDeleteLanguageClickListener(position) })
         binding.savedLanguageList.adapter = adapter
 
         binding.addLanguage.setOnClickListener {
@@ -47,8 +47,8 @@ class SavedLanguagesFragment : Fragment() {
         return binding.root
     }
 
-    private fun setDeleteLanguageClickListener(position: String) {
-        viewModel.deleteSelectedProgrammingLanguage(position.toInt())
+    private fun setDeleteLanguageClickListener(position: Int) {
+        viewModel.deleteSelectedProgrammingLanguage(position)
     }
 
     private fun subscribeUi(adapter: SavedLanguagesAdapter, binding: FragmentSavedLanguagesBinding) {

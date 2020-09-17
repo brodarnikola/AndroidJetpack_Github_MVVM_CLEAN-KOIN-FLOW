@@ -39,7 +39,7 @@ import java.util.Calendar
     indices = [Index("language_id")]
 )
 data class SavedLanguagesDb(
-    @ColumnInfo(name = "language_id") val languagesId: String,
+    @ColumnInfo(name = "language_id") val languagesId: Int,
 
     /**
      * Indicates when the [Plant] was planted. Used for showing notification when it's time

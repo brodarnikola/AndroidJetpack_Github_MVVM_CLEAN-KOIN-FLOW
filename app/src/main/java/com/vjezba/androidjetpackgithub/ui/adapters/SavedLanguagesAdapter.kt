@@ -33,7 +33,7 @@ import com.vjezba.domain.model.SavedAndAllLanguages
 import com.vjezba.domain.model.SavedLanguages
 
 class SavedLanguagesAdapter(
-    val clickListener: (String) -> Unit, ) :
+    val clickListener: (Int) -> Unit, ) :
     ListAdapter<SavedAndAllLanguages, SavedLanguagesAdapter.ViewHolder>(
         LanguageDiffCallback()
     ) {
@@ -64,13 +64,13 @@ class SavedLanguagesAdapter(
             }
         }
 
-        private fun navigateToLanguageDetails(languagesId: String, view: View) {
+        private fun navigateToLanguageDetails(languagesId: Int, view: View) {
             val direction = HomeViewPagerFragmentDirections.actionViewPagerFragmentToLanguageDetailsFragment(languagesId)
             //val direction = HomeViewPagerFragmentDirections.actionViewPagerFragmentToGithubRepoDetailFragment(languagesId)
             view.findNavController().navigate(direction)
         }
 
-        fun bind(savedLanguage: SavedAndAllLanguages, clickListener: (String) -> Unit, position: Int) {
+        fun bind(savedLanguage: SavedAndAllLanguages, clickListener: (Int) -> Unit, position: Int) {
             with(binding) {
                 viewModel = SavedAndAllLanguagesViewModel(savedLanguage)
                 binding.ivDeleteLanguage.setOnClickListener {

@@ -29,7 +29,7 @@ class SavedLanguagesRepositoryImpl constructor(
     private val dbMapper: DbMapper
 ) : SavedLanguagesRepository {
 
-    override suspend fun createSavedLanguage(savedLanguageId: String) {
+    override suspend fun createSavedLanguage(savedLanguageId: Int) {
         val savedLanguage = SavedLanguagesDb(savedLanguageId)
         savedLanguagesDAO.insertSavedLanguage(savedLanguage)
     }
@@ -42,7 +42,7 @@ class SavedLanguagesRepositoryImpl constructor(
         savedLanguagesDAO.deleteSavedLanguage( languagedId /*dbMapper.mapDomainSavedAndAllLanguagesToDbSavedAndAllLanguages(savedAndAllLanguages)*/)
     }
 
-    override fun isLanguageSaved(languageId: String) =
+    override fun isLanguageSaved(languageId: Int) =
         savedLanguagesDAO.isLanguageSaved(languageId)
 
     override fun getSavedLanguages() = savedLanguagesDAO.getSavedLanguages().map { dbMapper.mapDbSavedLanguagesToDomainSavedLanguages(it) }

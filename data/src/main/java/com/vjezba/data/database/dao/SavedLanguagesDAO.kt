@@ -34,7 +34,7 @@ interface SavedLanguagesDAO {
     fun getSavedLanguagesTest(): LiveData<List<SavedLanguagesDb>>
 
     @Query("SELECT EXISTS(SELECT 1 FROM saved_languages WHERE language_id = :languageId LIMIT 1)")
-    fun isLanguageSaved(languageId: String): LiveData<Boolean>
+    fun isLanguageSaved(languageId: Int): LiveData<Boolean>
 
     /**
      * This query will tell Room to query both the [Plant] and [GardenPlanting] tables and handle

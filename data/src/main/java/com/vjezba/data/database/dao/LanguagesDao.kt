@@ -35,7 +35,7 @@ interface LanguagesDao {
     fun getOnlyMobileProgrammingLanguages(onlyMobileProgrammingLanguages: String): LiveData<List<LanguagesDb>>
 
     @Query("SELECT * FROM languages WHERE id = :languageId")
-    fun getLanguageRepo(languageId: String): LiveData<LanguagesDb>
+    fun getLanguageRepo(languageId: Int): LiveData<LanguagesDb>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(languages: List<LanguagesDb>)

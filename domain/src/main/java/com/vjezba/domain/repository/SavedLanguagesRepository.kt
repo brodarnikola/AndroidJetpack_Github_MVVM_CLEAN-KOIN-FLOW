@@ -27,9 +27,9 @@ interface SavedLanguagesRepository  {
 
     fun getSavedLanguages() : LiveData<List<SavedAndAllLanguages>>
 
-    fun isLanguageSaved(languagesId: String) : LiveData<Boolean>
+    fun isLanguageSaved(languagesId: Int) : LiveData<Boolean>
 
-    suspend fun createSavedLanguage(savedLanguageId: String)
+    suspend fun createSavedLanguage(savedLanguageId: Int)
 
     suspend fun deleteAllSavedProgrammingLanguages()
 

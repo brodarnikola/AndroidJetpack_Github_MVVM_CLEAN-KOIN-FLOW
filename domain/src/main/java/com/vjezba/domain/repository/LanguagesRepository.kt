@@ -28,6 +28,6 @@ interface LanguagesRepository  {
 
     fun getOnlyMobilleProgrammingLanguages(onlyMobileProgrammingLanguages: String) : LiveData<List<Languages>>
 
-    fun getLanguage(languagesId: String) : LiveData<Languages>
+    fun getLanguage(languagesId: Int) : LiveData<Languages>
 
 }

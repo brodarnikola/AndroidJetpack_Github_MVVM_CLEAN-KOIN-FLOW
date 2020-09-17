@@ -36,7 +36,7 @@ class LanguagesRepositoryImpl  constructor(
         return languages.getOnlyMobileProgrammingLanguages(onlyMobileProgrammingLanguages).map { dbMapper.mapDbLanguagesToDomainLanguages(it) }
     }
 
-    override fun getLanguage(languagesId: String) = languages.getLanguageRepo(languagesId).map { dbMapper.mapDbLanguageToDomainLanguage(it) }
+    override fun getLanguage(languagesId: Int) = languages.getLanguageRepo(languagesId).map { dbMapper.mapDbLanguageToDomainLanguage(it) }
 
     companion object {
 

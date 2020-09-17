@@ -18,7 +18,7 @@ package com.vjezba.domain.model
 
 
 data class Languages(
-    val languageId: String,
+    val languageId: Int,
     val name: String,
     val description: String,
     val createdBy: String = "",
