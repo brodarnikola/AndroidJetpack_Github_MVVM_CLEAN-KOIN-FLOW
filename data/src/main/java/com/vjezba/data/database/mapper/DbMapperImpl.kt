@@ -31,14 +31,21 @@
 package com.vjezba.data.database.mapper
 
 import androidx.paging.PagingData
+import com.vjezba.data.database.model.LanguagesDb
 import com.vjezba.data.database.model.SavedAndAllLanguagesDb
+import com.vjezba.data.database.model.SavedLanguagesDb
 import com.vjezba.data.networking.model.RepositoryDetailsResponseApi
-import com.vjezba.domain.model.SavedLanguages
-import com.vjezba.domain.model.Languages
-import com.vjezba.domain.model.RepositoryDetailsResponse
-import com.vjezba.domain.model.RepositoryOwnerResponse
+import com.vjezba.domain.model.*
 
 class DbMapperImpl : DbMapper {
+
+    override fun mapDomainSavedAndAllLanguagesToDbSavedAndAllLanguages(savedLanguages: SavedLanguages): SavedLanguagesDb {
+        return with(savedLanguages) {
+            SavedLanguagesDb(
+                languagesId, savedLanguageDate, lastVisitedLanguageDate
+            )
+        }
+    }
 
     override fun mapDbLanguagesToDomainLanguages(languages: List<com.vjezba.data.database.model.LanguagesDb>): List<Languages> {
         return languages.map {

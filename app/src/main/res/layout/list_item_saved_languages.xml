@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2018 Google LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +18,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="clickListener"
-            type="android.view.View.OnClickListener"/>
+            type="android.view.View.OnClickListener" />
+
         <variable
             name="viewModel"
-            type="com.vjezba.androidjetpackgithub.viewmodels.SavedAndAllLanguagesViewModel"/>
+            type="com.vjezba.androidjetpackgithub.viewmodels.SavedAndAllLanguagesViewModel" />
     </data>
 
     <com.vjezba.androidjetpackgithub.views.MaskedCardView
@@ -55,57 +56,79 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/language_name"
+            <LinearLayout
+                android:id="@+id/llDelete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:text="@{viewModel.languageName}"
-                android:gravity="center_horizontal"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView"/>
+                app:layout_constraintTop_toBottomOf="@id/imageView"
+                android:layout_marginTop="@dimen/margin_small">
+
+
+                <ImageView
+                    android:id="@+id/ivDeleteLanguage"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_delete_language"
+                    android:paddingLeft="10dp"
+                    android:layout_weight="0.25"/>
+
+                <TextView
+                    android:id="@+id/language_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@{viewModel.languageName}"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageView"
+                    android:layout_weight="0.75" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/language_date_header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:text="SAVED"
-                android:textStyle="bold"
+                android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center_horizontal"
+                android:text="SAVED"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 android:textColor="?attr/colorAccent"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/language_name"/>
+                app:layout_constraintTop_toBottomOf="@id/llDelete" />
 
             <TextView
                 android:id="@+id/language_saved_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="@{viewModel.savedLanguageDate}"
                 android:gravity="center_horizontal"
+                android:text="@{viewModel.savedLanguageDate}"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/language_date_header"/>
+                app:layout_constraintTop_toBottomOf="@id/language_date_header" />
 
             <TextView
                 android:id="@+id/last_visited_date_header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center_horizontal"
                 android:text="LAST VISITED"
-                android:textStyle="bold"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 android:textColor="?attr/colorAccent"
-                android:gravity="center_horizontal"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/language_saved_date"/>
+                app:layout_constraintTop_toBottomOf="@id/language_saved_date" />
 
             <TextView
                 android:id="@+id/last_visited_date"
@@ -113,13 +136,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="@dimen/margin_normal"
-                android:text="@{viewModel.lastVisitedLanguageDate}"
                 android:gravity="center_horizontal"
+                android:text="@{viewModel.lastVisitedLanguageDate}"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/last_visited_date_header"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/last_visited_date_header" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

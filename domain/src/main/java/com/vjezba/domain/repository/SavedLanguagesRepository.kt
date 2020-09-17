@@ -18,6 +18,7 @@ package com.vjezba.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.vjezba.domain.model.SavedAndAllLanguages
+import com.vjezba.domain.model.SavedLanguages
 
 /**
  * RepositoryResponse module for handling data operations.
@@ -31,4 +32,6 @@ interface SavedLanguagesRepository  {
     suspend fun createSavedLanguage(savedLanguageId: String)
 
     suspend fun deleteAllSavedProgrammingLanguages()
+
+    suspend fun deleteSelectedProgrammingLanguage(languagedId: Int)
 }
