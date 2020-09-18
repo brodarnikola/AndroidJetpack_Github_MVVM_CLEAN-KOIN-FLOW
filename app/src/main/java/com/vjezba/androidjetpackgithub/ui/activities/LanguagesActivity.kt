@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -21,14 +22,20 @@ import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.ui.fragments.HomeViewPagerFragmentDirections
 import com.vjezba.androidjetpackgithub.viewmodels.LanguagesActivityViewModel
 import com.vjezba.domain.repository.UserManager
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_languages.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
-class LanguagesActivity : AppCompatActivity() {
+class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     val userManager: UserManager by inject()
 
@@ -36,20 +43,24 @@ class LanguagesActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
 
+    override fun supportFragmentInjector() = dispatchingAndroidInjector
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_languages)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        /*nav_view.setNavigationItemSelectedListener{
+        nav_view.setNavigationItemSelectedListener{
             when (it.itemId) {
-                R.id.nav_home -> {
+                R.id.lego_fragment -> {
+                    val intent = Intent(this, LegoThemeActivity::class.java)
+                    startActivity(intent)
                     true
                 }
             }
             true
-        }*/
+        }
 
         val drawerToggle = ActionBarDrawerToggle(this, drawer_layout,
             R.string.open,
@@ -66,7 +77,8 @@ class LanguagesActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.view_pager_fragment,
-                R.id.nav_slideshow
+                R.id.nav_slideshow,
+                R.id.lego_fragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -103,12 +115,14 @@ class LanguagesActivity : AppCompatActivity() {
             when (speedDialActionItem.id) {
                 R.id.action_slideshow_fragment -> {
                     val direction =
-                        HomeViewPagerFragmentDirections.actionLanguageDetailFragmentToSlideshowFragment()
+                        HomeViewPagerFragmentDirections.actionViewPagerFragmentToSlideshowFragment()
                     navController.navigate(direction)
                     false // true to keep the Speed Dial open
                 }
                 R.id.action_dance -> {
-                    Toast.makeText(this, "Just dance dance", Toast.LENGTH_LONG).show()
+                    val direction =
+                        HomeViewPagerFragmentDirections.actionViewPagerFragmentToLegoThemeFragment()
+                    navController.navigate(direction)
                     false // true to keep the Speed Dial open
                 }
                 R.id.action_dogo -> {

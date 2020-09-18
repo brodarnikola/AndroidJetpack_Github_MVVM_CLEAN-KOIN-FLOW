@@ -39,7 +39,7 @@ class SavedLanguagesRepositoryImpl constructor(
     }
 
     override suspend fun deleteSelectedProgrammingLanguage(languagedId: Int) {
-        savedLanguagesDAO.deleteSavedLanguage( languagedId /*dbMapper.mapDomainSavedAndAllLanguagesToDbSavedAndAllLanguages(savedAndAllLanguages)*/)
+        savedLanguagesDAO.deleteSavedLanguage( languagedId )
     }
 
     override fun isLanguageSaved(languageId: Int) =

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.ui.adapters.ALL_GITHUBS
@@ -52,10 +53,10 @@ class SavedLanguagesFragment : Fragment() {
     }
 
     private fun subscribeUi(adapter: SavedLanguagesAdapter, binding: FragmentSavedLanguagesBinding) {
-        viewModel.savedAndAllLanguages.observe(viewLifecycleOwner) { result ->
+        viewModel.savedAndAllLanguages.observe(viewLifecycleOwner, Observer { result ->
             binding.hasLanguages = !result.isNullOrEmpty()
             adapter.submitList(result)
-        }
+        })
     }
 
     private fun navigateToPlantListPage() {

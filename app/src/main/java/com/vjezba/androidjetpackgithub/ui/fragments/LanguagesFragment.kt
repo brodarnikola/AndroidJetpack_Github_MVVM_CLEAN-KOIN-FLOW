@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.databinding.FragmentLanguagesBinding
 import com.vjezba.androidjetpackgithub.ui.adapters.LanguagesAdapter
@@ -79,9 +80,9 @@ class LanguagesFragment : Fragment() {
     }
 
     private fun subscribeUi(adapter: LanguagesAdapter) {
-        viewModel.languages.observe(viewLifecycleOwner) { plants ->
+        viewModel.languages.observe(viewLifecycleOwner,  Observer { plants ->
             adapter.submitList(plants)
-        }
+        })
     }
 
     private fun updateData() {

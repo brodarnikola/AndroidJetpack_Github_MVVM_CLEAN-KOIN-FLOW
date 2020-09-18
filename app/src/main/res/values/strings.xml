@@ -22,6 +22,8 @@
 
     <string name="language_details_title">Language details</string>
 
+    <string name="lego_title">Lego Home</string>
+
 
     <string name="created_by">Created by</string>
 
@@ -46,6 +48,10 @@
 
     <string name="menu_home">AndroidJetpackGithub Home</string>
     <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_numbers">Number</string>
+
+    <string name="number_of_parts">Number of parts: %d</string>
+    <string name="year">Year: %d</string>
+    <string name="share_lego_set">Check out %s Lego set : %s</string>
 
 </resources>

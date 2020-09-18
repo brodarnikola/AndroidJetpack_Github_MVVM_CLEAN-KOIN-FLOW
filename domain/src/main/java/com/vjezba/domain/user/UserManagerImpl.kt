@@ -24,30 +24,9 @@ private const val REGISTERED_USER = "registered_user"
 private const val LOGGED_USER = "logged_user"
 private const val PASSWORD_SUFFIX = "password"
 
-/**
- * Handles User lifecycle. Manages registrations, logs in and logs out.
- * Knows when the user is logged in.
- */
-//@Singleton
-class UserManagerImpl constructor(private val storage: Storage,
-                                        // Since UserManager will be in charge of managing the UserComponent lifecycle,
-                                        // it needs to know how to create instances of it
-                                      //private val userComponentFactory: UserComponent.Factory
+
+class UserManagerImpl constructor(private val storage: Storage
                                 ) : UserManager {
-
-
-
-
-
-    override fun getUserManager(): UserManagerImpl {
-        return this
-    }
-
-
-
-
-
-
 
     val username: String
         get() = storage.getString(REGISTERED_USER)
