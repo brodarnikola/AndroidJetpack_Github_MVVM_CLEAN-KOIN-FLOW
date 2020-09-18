@@ -28,8 +28,8 @@
             app:popExitAnim="@anim/slide_out_right" />
 
         <action
-            android:id="@+id/action_view_pager_fragment_to_dagger2_github_fragment"
-            app:destination="@id/dagger2_github"
+            android:id="@+id/action_view_pager_fragment_to_lego_theme_fragment"
+            app:destination="@id/lego_fragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -72,9 +72,9 @@
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
-        android:id="@+id/dagger2_github"
-        android:name="com.vjezba.androidjetpackgithub.ui.fragments.Dagger2GithubFragment"
-        android:label="@string/dagger2_github_title"
-        tools:layout="@layout/fragment_dagger2_github" />
+        android:id="@+id/lego_fragment"
+        android:name="com.vjezba.androidjetpackgithub.ui.fragments.LegoThemeFragment"
+        android:label="@string/lego_title"
+        tools:layout="@layout/fragment_lego_themes" />
 
 </navigation>

@@ -13,8 +13,8 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
         <item
-            android:id="@+id/dagger2_github"
+            android:id="@+id/lego_fragment"
             android:icon="@drawable/ic_doggo_24dp"
-            android:title="DAGGER_GITHUB_EXAMPLE" />
+            android:title="DAGGER LEGO EXAMPLE" />
     </group>
 </menu>

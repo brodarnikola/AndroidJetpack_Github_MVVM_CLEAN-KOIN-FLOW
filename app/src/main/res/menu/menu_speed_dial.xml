@@ -3,12 +3,12 @@
     <item
         android:id="@+id/action_slideshow_fragment"
         android:icon="@drawable/ic_add_24dp"
-        android:title="Slideshow fragment" />
+        android:title="Slideshow Example" />
 
     <item
         android:id="@+id/action_dance"
         android:icon="@drawable/ic_dance_24dp"
-        android:title="Dagger2 Github Fragment" />
+        android:title="Dagger2 Lego Example" />
 
     <item
         android:id="@+id/action_dogo"
