@@ -1,4 +1,4 @@
-package com.vjezba.data.lego
+package com.vjezba.data.lego.api
 
 import okhttp3.Interceptor
 import okhttp3.Response

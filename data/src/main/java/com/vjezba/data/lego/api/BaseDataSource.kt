@@ -1,5 +1,6 @@
-package com.vjezba.data.lego
+package com.vjezba.data.lego.api
 
+import com.vjezba.data.lego.data.Result
 import retrofit2.Response
 
 /**
@@ -12,7 +13,9 @@ abstract class BaseDataSource {
             val response = call()
             if (response.isSuccessful) {
                 val body = response.body()
-                if (body != null) return Result.success(body)
+                if (body != null) return Result.success(
+                    body
+                )
             }
             return error(" ${response.code()} ${response.message()}")
         } catch (e: Exception) {

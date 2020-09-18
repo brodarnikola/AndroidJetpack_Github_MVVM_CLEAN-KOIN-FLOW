@@ -1,9 +1,9 @@
-package com.vjezba.data.repository
+package com.vjezba.data.lego.repository
 
 import androidx.paging.PageKeyedDataSource
 import com.vjezba.data.database.dao.LegoSetDao
 import com.vjezba.data.database.model.LegoSet
-import com.vjezba.data.lego.Result
+import com.vjezba.data.lego.data.Result
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

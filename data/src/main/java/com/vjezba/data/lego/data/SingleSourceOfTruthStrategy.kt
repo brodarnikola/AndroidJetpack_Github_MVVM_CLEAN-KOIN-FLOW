@@ -1,4 +1,4 @@
-package com.vjezba.data.lego
+package com.vjezba.data.lego.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData

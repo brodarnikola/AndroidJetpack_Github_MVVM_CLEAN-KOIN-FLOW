@@ -18,7 +18,8 @@ import com.vjezba.androidjetpackgithub.ui.utilities.hide
 import com.vjezba.androidjetpackgithub.ui.utilities.show
 import com.vjezba.androidjetpackgithub.viewmodels.LegoThemeViewModel
 import javax.inject.Inject
-import com.vjezba.data.lego.Result
+import com.vjezba.data.lego.data.Result
+import kotlinx.android.synthetic.main.activity_languages_main.*
 
 class LegoThemeFragment : Fragment(), Injectable {
 
@@ -41,6 +42,7 @@ class LegoThemeFragment : Fragment(), Injectable {
         binding.recyclerView.adapter = adapter
 
         subscribeUi(binding, adapter)
+        activity?.speedDial?.visibility = View.GONE
 
         setHasOptionsMenu(true)
         return binding.root

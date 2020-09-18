@@ -1,6 +1,8 @@
-package com.vjezba.data.lego
+package com.vjezba.data.lego.repository
 
 import com.vjezba.data.database.dao.LegoThemeDao
+import com.vjezba.data.lego.data.resultLiveData
+import com.vjezba.data.lego.repository.LegoThemeRemoteDataSource
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -9,7 +11,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class LegoThemeRepository @Inject constructor(private val dao: LegoThemeDao,
-                                              private val remoteSource: LegoThemeRemoteDataSource) {
+                                              private val remoteSource: LegoThemeRemoteDataSource
+) {
 
     val themes = resultLiveData(
         databaseQuery = { dao.getLegoThemes() },

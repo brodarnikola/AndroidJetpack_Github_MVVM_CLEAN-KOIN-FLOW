@@ -2,7 +2,7 @@ package com.vjezba.androidjetpackgithub.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.vjezba.androidjetpackgithub.di.CoroutineScropeIO
-import com.vjezba.data.repository.LegoSetRepository
+import com.vjezba.data.lego.repository.LegoSetRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import javax.inject.Inject

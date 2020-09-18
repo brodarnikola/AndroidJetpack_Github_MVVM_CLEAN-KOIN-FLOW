@@ -3,10 +3,10 @@ package com.vjezba.androidjetpackgithub.di
 import android.app.Application
 import com.vjezba.androidjetpackgithub.BuildConfig
 import com.vjezba.data.database.AppDatabase
-import com.vjezba.data.lego.AuthInterceptor
+import com.vjezba.data.lego.api.AuthInterceptor
 import com.vjezba.data.lego.CoreDataModule
-import com.vjezba.data.lego.LegoService
-import com.vjezba.data.lego.LegoThemeRemoteDataSource
+import com.vjezba.data.lego.api.LegoService
+import com.vjezba.data.lego.repository.LegoThemeRemoteDataSource
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
@@ -28,7 +28,8 @@ class AppModule {
     @Singleton
     @Provides
     fun provideLegoThemeRemoteDataSource(legoService: LegoService)
-            = LegoThemeRemoteDataSource(legoService)
+            =
+        LegoThemeRemoteDataSource(legoService)
 
     @LegoAPI
     @Provides
@@ -36,7 +37,11 @@ class AppModule {
             upstreamClient: OkHttpClient
     ): OkHttpClient {
         return upstreamClient.newBuilder()
-                .addInterceptor(AuthInterceptor(BuildConfig.API_DEVELOPER_TOKEN)).build()
+                .addInterceptor(
+                    AuthInterceptor(
+                        BuildConfig.API_DEVELOPER_TOKEN
+                    )
+                ).build()
     }
 
     @Singleton

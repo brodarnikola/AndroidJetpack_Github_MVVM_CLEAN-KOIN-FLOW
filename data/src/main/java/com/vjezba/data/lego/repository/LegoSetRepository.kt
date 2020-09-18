@@ -1,12 +1,10 @@
-package com.vjezba.data.repository
+package com.vjezba.data.lego.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.distinctUntilChanged
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.vjezba.data.database.dao.LegoSetDao
 import com.vjezba.data.database.model.LegoSet
-import com.vjezba.data.lego.resultLiveData
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +14,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class LegoSetRepository @Inject constructor(private val dao: LegoSetDao,
-                                            private val legoSetRemoteDataSource: LegoSetRemoteDataSource) {
+                                            private val legoSetRemoteDataSource: LegoSetRemoteDataSource
+) {
 
     fun observePagedSets(connectivityAvailable: Boolean, themeId: Int? = null,
                          coroutineScope: CoroutineScope) =
@@ -34,8 +33,11 @@ class LegoSetRepository @Inject constructor(private val dao: LegoSetDao,
 
     private fun observeRemotePagedSets(themeId: Int? = null, ioCoroutineScope: CoroutineScope)
             : LiveData<PagedList<LegoSet>> {
-        val dataSourceFactory = LegoSetPageDataSourceFactory(themeId, legoSetRemoteDataSource,
-                dao, ioCoroutineScope)
+        val dataSourceFactory =
+            LegoSetPageDataSourceFactory(
+                themeId, legoSetRemoteDataSource,
+                dao, ioCoroutineScope
+            )
         return LivePagedListBuilder(dataSourceFactory,
                 LegoSetPageDataSourceFactory.pagedListConfig()).build()
     }
@@ -60,9 +62,14 @@ class LegoSetRepository @Inject constructor(private val dao: LegoSetDao,
         private var instance: LegoSetRepository? = null
 
         fun getInstance(dao: LegoSetDao, legoSetRemoteDataSource: LegoSetRemoteDataSource) =
-                instance ?: synchronized(this) {
+                instance
+                    ?: synchronized(this) {
                     instance
-                            ?: LegoSetRepository(dao, legoSetRemoteDataSource).also { instance = it }
+                            ?: LegoSetRepository(
+                                dao,
+                                legoSetRemoteDataSource
+                            )
+                                .also { instance = it }
                 }
     }
 }

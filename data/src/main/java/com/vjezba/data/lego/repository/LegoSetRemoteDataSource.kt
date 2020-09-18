@@ -1,7 +1,7 @@
-package com.vjezba.data.repository
+package com.vjezba.data.lego.repository
 
-import com.vjezba.data.lego.BaseDataSource
-import com.vjezba.data.lego.LegoService
+import com.vjezba.data.lego.api.BaseDataSource
+import com.vjezba.data.lego.api.LegoService
 import javax.inject.Inject
 
 /**

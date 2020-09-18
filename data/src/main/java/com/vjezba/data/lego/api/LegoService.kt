@@ -1,4 +1,4 @@
-package com.vjezba.data.lego
+package com.vjezba.data.lego.api
 
 import com.vjezba.data.database.model.LegoSet
 import com.vjezba.data.database.model.LegoTheme

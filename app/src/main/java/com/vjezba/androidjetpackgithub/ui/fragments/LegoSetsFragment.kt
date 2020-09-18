@@ -19,6 +19,7 @@ import com.vjezba.androidjetpackgithub.ui.utilities.GridSpacingItemDecoration
 import com.vjezba.androidjetpackgithub.ui.utilities.VerticalItemDecoration
 import com.vjezba.androidjetpackgithub.ui.utilities.hide
 import com.vjezba.androidjetpackgithub.viewmodels.LegoSetsViewModel
+import kotlinx.android.synthetic.main.activity_languages_main.*
 import javax.inject.Inject
 
 class LegoSetsFragment : Fragment(), Injectable {
@@ -63,6 +64,7 @@ class LegoSetsFragment : Fragment(), Injectable {
         binding.recyclerView.adapter = adapter
 
         subscribeUi(adapter)
+        activity?.speedDial?.visibility = View.GONE
 
         setHasOptionsMenu(true)
         return binding.root

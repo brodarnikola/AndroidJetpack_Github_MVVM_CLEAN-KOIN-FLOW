@@ -21,14 +21,10 @@ import android.view.*
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.google.android.material.snackbar.Snackbar
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.databinding.FragmentLanguagesBinding
 import com.vjezba.androidjetpackgithub.ui.adapters.LanguagesAdapter
-import com.vjezba.androidjetpackgithub.ui.utilities.hide
-import com.vjezba.androidjetpackgithub.ui.utilities.show
 import com.vjezba.androidjetpackgithub.viewmodels.LanguagesListViewModel
-import com.vjezba.data.lego.Result
 import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
 class LanguagesFragment : Fragment() {

@@ -1,4 +1,4 @@
-package com.vjezba.data.repository
+package com.vjezba.data.lego.repository
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
@@ -17,7 +17,12 @@ class LegoSetPageDataSourceFactory @Inject constructor(
     private val liveData = MutableLiveData<LegoSetPageDataSource>()
 
     override fun create(): DataSource<Int, LegoSet> {
-        val source = LegoSetPageDataSource(themeId, dataSource, dao, scope)
+        val source = LegoSetPageDataSource(
+            themeId,
+            dataSource,
+            dao,
+            scope
+        )
         liveData.postValue(source)
         return source
     }
