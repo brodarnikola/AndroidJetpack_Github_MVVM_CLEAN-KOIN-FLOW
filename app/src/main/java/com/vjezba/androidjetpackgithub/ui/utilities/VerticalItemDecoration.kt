@@ -1,4 +1,4 @@
-package com.vjezba.androidjetpackgithub.ui
+package com.vjezba.androidjetpackgithub.ui.utilities
 
 import android.graphics.Rect
 import android.view.View

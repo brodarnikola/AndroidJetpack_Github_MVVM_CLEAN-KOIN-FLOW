@@ -43,9 +43,9 @@ class AppModule {
     @Provides
     fun provideDb(app: Application) = AppDatabase.getInstance(app)
 
-    /*@Singleton
+    @Singleton
     @Provides
-    fun provideLegoSetDao(db: AppDatabase) = db.legoSetDao() */
+    fun provideLegoSetDao(db: AppDatabase) = db.legoSetDao()
 
 
     @Singleton

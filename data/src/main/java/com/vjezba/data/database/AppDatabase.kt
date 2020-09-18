@@ -27,22 +27,25 @@ import androidx.work.WorkManager
 import com.vjezba.androidjetpackgithub.workers.SeedDatabaseWorker
 import com.vjezba.data.DATABASE_NAME
 import com.vjezba.data.database.dao.LanguagesDao
+import com.vjezba.data.database.dao.LegoSetDao
 import com.vjezba.data.database.dao.LegoThemeDao
 import com.vjezba.data.database.dao.SavedLanguagesDAO
 import com.vjezba.data.database.model.LanguagesDb
+import com.vjezba.data.database.model.LegoSet
 import com.vjezba.data.database.model.LegoTheme
 import com.vjezba.data.database.model.SavedLanguagesDb
 
 /**
  * The Room database for this app
  */
-@Database(entities = [SavedLanguagesDb::class, LanguagesDb::class, LegoTheme::class], version = 3, exportSchema = false)
+@Database(entities = [SavedLanguagesDb::class, LanguagesDb::class, LegoTheme::class, LegoSet::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun savedLanguagesDAO(): SavedLanguagesDAO
     abstract fun languagesDAO(): LanguagesDao
 
     abstract fun legoThemeDao(): LegoThemeDao
+    abstract fun legoSetDao(): LegoSetDao
 
     companion object {
 

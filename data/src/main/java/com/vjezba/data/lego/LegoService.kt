@@ -1,5 +1,6 @@
 package com.vjezba.data.lego
 
+import com.vjezba.data.database.model.LegoSet
 import com.vjezba.data.database.model.LegoTheme
 import retrofit2.Response
 import retrofit2.http.GET
@@ -19,5 +20,13 @@ interface LegoService {
     suspend fun getThemes(@Query("page") page: Int? = null,
                           @Query("page_size") pageSize: Int? = null,
                           @Query("ordering") order: String? = null): Response<ResultsResponse<LegoTheme>>
+
+
+
+    @GET("lego/sets/")
+    suspend fun getSets(@Query("page") page: Int? = null,
+                        @Query("page_size") pageSize: Int? = null,
+                        @Query("theme_id") themeId: Int? = null,
+                        @Query("ordering") order: String? = null): Response<ResultsResponse<LegoSet>>
 
 }

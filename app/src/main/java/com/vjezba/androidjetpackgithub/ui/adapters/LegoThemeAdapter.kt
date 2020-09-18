@@ -5,11 +5,13 @@ package com.vjezba.androidjetpackgithub.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vjezba.androidjetpackgithub.databinding.ListItemThemeBinding
 import com.vjezba.androidjetpackgithub.ui.fragments.LegoThemeFragment
+import com.vjezba.androidjetpackgithub.ui.fragments.LegoThemeFragmentDirections
 import com.vjezba.data.database.model.LegoTheme
 
 /**
@@ -33,8 +35,8 @@ class LegoThemeAdapter : ListAdapter<LegoTheme, LegoThemeAdapter.ViewHolder>(Dif
 
     private fun createOnClickListener(id: Int, name: String): View.OnClickListener {
         return View.OnClickListener {
-            /*val direction = LegoThemeFragmentLegoThemeFragmentDirections.actionThemeFragmentToSetsFragment(id, name)
-            it.findNavController().navigate(direction)*/
+            val direction = LegoThemeFragmentDirections.actionLegoThemeFragmentToLegoSetsFragment(id, name)
+            it.findNavController().navigate(direction)
         }
     }
 

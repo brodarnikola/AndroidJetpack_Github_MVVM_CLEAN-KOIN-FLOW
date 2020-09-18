@@ -12,10 +12,10 @@ import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.databinding.FragmentLegoThemesBinding
 import com.vjezba.androidjetpackgithub.di.Injectable
 import com.vjezba.androidjetpackgithub.di.injectViewModel
-import com.vjezba.androidjetpackgithub.ui.VerticalItemDecoration
 import com.vjezba.androidjetpackgithub.ui.adapters.LegoThemeAdapter
-import com.vjezba.androidjetpackgithub.ui.hide
-import com.vjezba.androidjetpackgithub.ui.show
+import com.vjezba.androidjetpackgithub.ui.utilities.VerticalItemDecoration
+import com.vjezba.androidjetpackgithub.ui.utilities.hide
+import com.vjezba.androidjetpackgithub.ui.utilities.show
 import com.vjezba.androidjetpackgithub.viewmodels.LegoThemeViewModel
 import javax.inject.Inject
 import com.vjezba.data.lego.Result
