@@ -2,6 +2,7 @@ package com.vjezba.androidjetpackgithub.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.vjezba.androidjetpackgithub.viewmodels.LegoSetViewModel
 import com.vjezba.androidjetpackgithub.viewmodels.LegoSetsViewModel
 import com.vjezba.androidjetpackgithub.viewmodels.LegoThemeViewModel
 
@@ -23,11 +24,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LegoSetsViewModel::class)
     abstract fun bindLegoSetsViewModel(viewModel: LegoSetsViewModel): ViewModel
-/*
+
     @Binds
     @IntoMap
     @ViewModelKey(LegoSetViewModel::class)
-    abstract fun bindLegoSetViewModel(viewModel: LegoSetViewModel): ViewModel*/
+    abstract fun bindLegoSetViewModel(viewModel: LegoSetViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

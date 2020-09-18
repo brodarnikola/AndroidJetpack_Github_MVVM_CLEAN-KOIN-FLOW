@@ -50,4 +50,8 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    <string name="number_of_parts">Number of parts: %d</string>
+    <string name="year">Year: %d</string>
+    <string name="share_lego_set">Check out %s Lego set : %s</string>
+
 </resources>

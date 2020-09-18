@@ -1,10 +1,12 @@
 package com.vjezba.data.lego.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.distinctUntilChanged
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.vjezba.data.database.dao.LegoSetDao
 import com.vjezba.data.database.model.LegoSet
+import com.vjezba.data.lego.data.resultLiveData
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -42,16 +44,16 @@ class LegoSetRepository @Inject constructor(private val dao: LegoSetDao,
                 LegoSetPageDataSourceFactory.pagedListConfig()).build()
     }
 
-  /*  fun observeSet(id: String) = resultLiveData(
+    fun observeSet(id: String) = resultLiveData(
             databaseQuery = { dao.getLegoSet(id) },
             networkCall = { legoSetRemoteDataSource.fetchSet(id) },
             saveCallResult = { dao.insert(it) })
             .distinctUntilChanged()
 
-    fun observeSetsByTheme(themeId: Int) = resultLiveData(
-            databaseQuery = { dao.getLegoSets(themeId) },
-            networkCall = { legoSetRemoteDataSource.fetchSets(1, PAGE_SIZE, themeId) },
-            saveCallResult = { dao.insertAll(it.results) })*/
+    /*  fun observeSetsByTheme(themeId: Int) = resultLiveData(
+           databaseQuery = { dao.getLegoSets(themeId) },
+           networkCall = { legoSetRemoteDataSource.fetchSets(1, PAGE_SIZE, themeId) },
+           saveCallResult = { dao.insertAll(it.results) })*/
 
     companion object {
 

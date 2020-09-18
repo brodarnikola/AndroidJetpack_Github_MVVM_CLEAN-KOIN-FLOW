@@ -1,6 +1,7 @@
 package com.vjezba.androidjetpackgithub.di
 
 
+import com.vjezba.androidjetpackgithub.ui.fragments.LegoSetFragment
 import com.vjezba.androidjetpackgithub.ui.fragments.LegoSetsFragment
 import com.vjezba.androidjetpackgithub.ui.fragments.LegoThemeFragment
 import dagger.Module
@@ -16,7 +17,6 @@ abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun contributeLegoSetsFragment(): LegoSetsFragment
 
-/*
     @ContributesAndroidInjector
-    abstract fun contributeLegoSetFragment(): LegoSetFragment*/
+    abstract fun contributeLegoSetFragment(): LegoSetFragment
 }

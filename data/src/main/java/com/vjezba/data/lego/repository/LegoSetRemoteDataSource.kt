@@ -12,6 +12,6 @@ class LegoSetRemoteDataSource @Inject constructor(private val service: LegoServi
     suspend fun fetchSets(page: Int, pageSize: Int? = null, themeId: Int? = null)
             = getResult { service.getSets(page, pageSize, themeId, "-year") }
 
-    /*suspend fun fetchSet(id: String)
-            = getResult { service.getSet(id) }*/
+    suspend fun fetchSet(id: String)
+            = getResult { service.getSet(id) }
 }

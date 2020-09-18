@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vjezba.androidjetpackgithub.databinding.ListItemLegosetBinding
+import com.vjezba.androidjetpackgithub.ui.fragments.LegoSetsFragmentDirections
 import com.vjezba.data.database.model.LegoSet
 
 /**
@@ -42,8 +43,8 @@ class LegoSetAdapter :  PagedListAdapter<LegoSet, LegoSetAdapter.ViewHolder>(Leg
 
     private fun createOnClickListener(id: String): View.OnClickListener {
         return View.OnClickListener {
-           /* val direction = LegoSetsFragmentDirections.actionToLegosetDetailFragment(id)
-            it.findNavController().navigate(direction)*/
+            val direction = LegoSetsFragmentDirections.actionToLegosetDetailFragment(id)
+            it.findNavController().navigate(direction)
         }
     }
 
