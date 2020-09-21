@@ -18,11 +18,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginEnd="8dp"
                 android:text="Here number bellow will be increased by one every 10 seconds automatically. \n\n  You can rotate the screen, the value will be the same.  \n\nThat was to test viewmodel and livedata with configuration change."
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -32,11 +32,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginEnd="8dp"
                 android:text="1"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAutomaticallyIncreaseNumber" />
@@ -45,7 +45,7 @@
                 android:id="@+id/viewSeparator"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="7dp"
                 android:background="@color/sunflower_green_900"
                 app:layout_constraintTop_toBottomOf="@+id/tvNumberIncreaseAutomatically" />
 
@@ -54,11 +54,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginEnd="8dp"
                 android:text="Here you can increase number manually one by one. After that you can change the rotation of screen and the value will be the same."
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewSeparator" />
@@ -68,11 +68,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginEnd="8dp"
                 android:text="1"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvNumberIncreaseManuallyDesciption" />
@@ -81,11 +81,36 @@
                 android:id="@+id/btnIncreaseNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="7dp"
                 android:text="Increase"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvNumberIncreaseManually" />
+
+            <TextView
+                android:id="@+id/tvChooseProgrammingLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="8dp"
+                android:text="Choose a programming language to find a repositories on github"
+                android:textSize="17sp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnIncreaseNumber" />
+
+            <Button
+                android:id="@+id/btnChooseLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="CHOOSE"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvChooseProgrammingLanguage" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

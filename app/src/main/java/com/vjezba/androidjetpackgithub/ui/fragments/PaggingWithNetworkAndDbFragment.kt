@@ -8,23 +8,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.vjezba.androidjetpackgithub.databinding.FragmentWeatherBinding
-import com.vjezba.androidjetpackgithub.viewmodels.SlideshowViewModel
-import com.vjezba.androidjetpackgithub.viewmodels.WeatherViewModel
+import com.vjezba.androidjetpackgithub.databinding.FragmentPaggingNetworkAndDbBinding
+import com.vjezba.androidjetpackgithub.ui.activities.LanguagesActivity
+import com.vjezba.androidjetpackgithub.ui.dialog.ChooseProgrammingLanguageDialog
+import com.vjezba.androidjetpackgithub.viewmodels.PaggingWithNetworkAndDbViewModel
 import kotlinx.android.synthetic.main.activity_languages_main.*
-import kotlinx.android.synthetic.main.fragment_weather.*
+import kotlinx.android.synthetic.main.fragment_pagging_network_and_db.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val UPDATE_PERIOD = 10000L
 
-class WeatherFragment : Fragment() {
+class PaggingWithNetworkAndDbFragment : Fragment() {
 
-    private lateinit var slideshowViewModel: SlideshowViewModel
-
-
-    private val viewModel : WeatherViewModel by viewModel()
+    private val viewModel : PaggingWithNetworkAndDbViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +30,7 @@ class WeatherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentWeatherBinding.inflate(inflater, container, false)
+        val binding = FragmentPaggingNetworkAndDbBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
         viewModel.incrementNumberAutomaticallyByOne.observe(viewLifecycleOwner, Observer { currentNumber ->
@@ -53,6 +51,14 @@ class WeatherFragment : Fragment() {
 
         btnIncreaseNumber.setOnClickListener {
             viewModel.incrementManuallyByOne()
+        }
+
+        btnChooseLanguage.setOnClickListener {
+            val chooseProgrammingLanguageDialog =
+                ChooseProgrammingLanguageDialog()
+            chooseProgrammingLanguageDialog.show(
+                (requireActivity() as LanguagesActivity).supportFragmentManager,
+                "")
         }
 
         lifecycleScope.launch {

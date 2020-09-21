@@ -44,5 +44,5 @@ val presentationModule = module {
   factory { RegistrationViewModel(get()) }
   viewModel { EnterDetailsViewModel() }
   viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { WeatherViewModel() }
+  viewModel { PaggingWithNetworkAndDbViewModel() }
 }

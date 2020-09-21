@@ -77,7 +77,7 @@ class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.view_pager_fragment,
-                R.id.nav_slideshow,
+                R.id.paggin_with_network_and_db,
                 R.id.lego_fragment
             ), drawerLayout
         )
