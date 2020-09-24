@@ -38,7 +38,7 @@ import com.vjezba.data.database.model.SavedLanguagesDb
 /**
  * The Room database for this app
  */
-@Database(entities = [SavedLanguagesDb::class, LanguagesDb::class, LegoTheme::class, LegoSet::class], version = 3, exportSchema = false)
+@Database(entities = [SavedLanguagesDb::class, LanguagesDb::class, LegoTheme::class, LegoSet::class], version = 5, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun savedLanguagesDAO(): SavedLanguagesDAO
@@ -75,6 +75,7 @@ abstract class AppDatabase : RoomDatabase() {
                         }
                     }
                 )
+                .fallbackToDestructiveMigration()
                 .build()
         }
     }
