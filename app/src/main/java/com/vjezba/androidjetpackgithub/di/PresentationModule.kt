@@ -44,5 +44,6 @@ val presentationModule = module {
   factory { RegistrationViewModel(get()) }
   viewModel { EnterDetailsViewModel() }
   viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { PaggingWithNetworkAndDbViewModel() }
+  viewModel { PaggingWithNetworkAndDbViewModel( ) }
+  viewModel { (handle: SavedStateHandle) -> PaggingWithNetworkAndDbDataViewModel(get(), handle ) }
 }

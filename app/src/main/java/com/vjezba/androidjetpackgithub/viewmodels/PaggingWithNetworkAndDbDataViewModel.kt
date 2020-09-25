@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.paging.PagingData
 import com.vjezba.domain.model.RepositoryDetailsResponse
+import com.vjezba.domain.repository.GithubRepository
 import com.vjezba.domain.repository.PaggingWithNetworkAndDbRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -12,12 +13,13 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
 class PaggingWithNetworkAndDbDataViewModel(
-    private val repository: PaggingWithNetworkAndDbRepository,
+    private val repository: GithubRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    /*companion object {
-        const val KEY_SUBREDDIT = "subreddit"
-        const val DEFAULT_SUBREDDIT = "androiddev"
+
+    companion object {
+        const val KEY_SUBREDDIT = "name"
+        const val DEFAULT_SUBREDDIT = "java"
     }
 
     init {
@@ -26,16 +28,14 @@ class PaggingWithNetworkAndDbDataViewModel(
         }
     }
 
-    private val clearListCh =
-        Channel<Unit>(Channel.CONFLATED)
+    private val clearListCh = Channel<Unit>(Channel.CONFLATED)
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val posts = flowOf(
-        clearListCh.receiveAsFlow()
-            .map { PagingData.empty<RepositoryDetailsResponse>() },
+        clearListCh.receiveAsFlow().map { PagingData.empty<RepositoryDetailsResponse>() },
         savedStateHandle.getLiveData<String>(KEY_SUBREDDIT)
             .asFlow()
-            .flatMapLatest { repository.exampleOfPaggingWithNetworkAndDb(it, 30) }
+            .flatMapLatest { repository.getSearchRepositoriesWithMediatorAndPaggingData(it, 30) }
     ).flattenMerge(2)
 
     fun shouldShowSubreddit(
@@ -48,6 +48,7 @@ class PaggingWithNetworkAndDbDataViewModel(
         clearListCh.offer(Unit)
 
         savedStateHandle.set(KEY_SUBREDDIT, subreddit)
-    }*/
+    }
+
 }
 

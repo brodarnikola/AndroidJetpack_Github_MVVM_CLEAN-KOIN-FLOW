@@ -23,21 +23,31 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.vjezba.data.database.model.LanguagesDb
+import com.vjezba.data.database.model.RepositoryDetailsResponseDb
+import com.vjezba.domain.model.RepositoryDetailsResponse
 
 /**
  * The Data Access Object for the Plant class.
  */
 @Dao
-interface LanguagesDao {
-    @Query("SELECT * FROM languages ORDER BY name")
+interface LanguagesRepositoriesDao {
+
+
+    /*@Query("SELECT * FROM languages ORDER BY name")
     fun getLanguages(): LiveData<List<LanguagesDb>>
 
-    @Query("SELECT * FROM languages WHERE typeLanguage = :onlyMobileProgrammingLanguages ORDER BY name")
-    fun getOnlyMobileProgrammingLanguages(onlyMobileProgrammingLanguages: String): LiveData<List<LanguagesDb>>
 
     @Query("SELECT * FROM languages WHERE id = :languageId")
-    fun getLanguageRepo(languageId: Int): LiveData<LanguagesDb>
+    fun getLanguageRepo(languageId: Int): LiveData<LanguagesDb>*/
+
+
+    @Query("SELECT * FROM github_repositories WHERE name = :name ORDER BY indexInResponse ASC")
+    fun getLanguageRepoWithRemoteMediatorAndPagging(name: String): PagingSource<Int, RepositoryDetailsResponseDb>
+
+
+    @Query("DELETE FROM github_repositories WHERE name = :subreddit")
+    suspend fun deleteGithubRepositories(subreddit: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(languages: List<LanguagesDb>)
+    suspend fun insertAll(languages: List<RepositoryDetailsResponseDb>)
 }

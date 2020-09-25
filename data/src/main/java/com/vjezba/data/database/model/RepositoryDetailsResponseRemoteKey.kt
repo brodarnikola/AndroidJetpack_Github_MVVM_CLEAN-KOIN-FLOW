@@ -1,11 +1,11 @@
 /*
- * Copyright 2018 Google LLC
+ * Copyright (C) 2017 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package com.vjezba.data
+package com.vjezba.data.database.model
 
-/**
- * Constants used throughout the app.
- */
-const val DATABASE_NAME = "programming-language-db-1"
-const val PLANT_DATA_FILENAME = "languages.json"
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "remote_keys")
+data class RepositoryDetailsResponseRemoteKey(
+    @PrimaryKey
+    @ColumnInfo(collate = ColumnInfo.NOCASE)
+    val name: String, // technically mutable but fine for a demo
+    val nextPageKey: String?
+)

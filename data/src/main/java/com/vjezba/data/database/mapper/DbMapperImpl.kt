@@ -31,11 +31,17 @@
 package com.vjezba.data.database.mapper
 
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.room.ColumnInfo
+import androidx.room.PrimaryKey
 import com.vjezba.data.database.model.LanguagesDb
+import com.vjezba.data.database.model.RepositoryDetailsResponseDb
 import com.vjezba.data.database.model.SavedAndAllLanguagesDb
 import com.vjezba.data.database.model.SavedLanguagesDb
 import com.vjezba.data.networking.model.RepositoryDetailsResponseApi
 import com.vjezba.domain.model.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class DbMapperImpl : DbMapper {
 
@@ -101,5 +107,32 @@ class DbMapperImpl : DbMapper {
         }
     }
 
+    override fun mapApiResponseGithubToGithubDb(responseApi: List<RepositoryDetailsResponseApi>): List<RepositoryDetailsResponseDb> {
+        return responseApi.map {
+            with(it) {
+                RepositoryDetailsResponseDb(
+                    id,
+                    ownerApi.avatarUrl,
+                    name,
+                    description,
+                    html_url
+                )
+            }
+        }
+    }
+
+    override fun mapPagingRepositoryDetailsResponseDbToPagingRepositoryDetailsResponse(responseApi: PagingData<RepositoryDetailsResponseDb>): PagingData<RepositoryDetailsResponse> {
+        return responseApi.map {
+            with(it) {
+                RepositoryDetailsResponse(
+                    id,
+                    RepositoryOwnerResponse(avatarUrl),
+                    name,
+                    description,
+                    html_url
+                )
+            }
+        }
+    }
 
 }
