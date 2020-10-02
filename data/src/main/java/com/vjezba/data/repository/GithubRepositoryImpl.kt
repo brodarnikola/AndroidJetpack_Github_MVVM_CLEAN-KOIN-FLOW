@@ -33,43 +33,34 @@ import kotlinx.coroutines.flow.map
 class GithubRepositoryImpl  constructor(
     private val db: AppDatabase,
     private val service: GithubRepositoryApi,
-    private val dbMapper: DbMapper)
+    private val dbMapper: DbMapper?)
     : GithubRepository   {
 
     override fun getSearchRepositoriesResultStream(query: String): Flow<PagingData<RepositoryDetailsResponse>> {
         return Pager(
             config = PagingConfig(enablePlaceholders = false, pageSize = NETWORK_PAGE_SIZE),
             pagingSourceFactory = { GithubRepositorySource(service, query) }
-        ).flow.map { dbMapper.mapApiResponseGithubToDomainGithub(it) }
+        ).flow.map { dbMapper!!.mapApiResponseGithubToDomainGithub(it) }
     }
 
-    override fun getSearchRepositoriesWithMediatorAndPaggingData(query: String, pageSize: Int): Flow<PagingData<RepositoryDetailsResponse>> {
+    override fun getSearchRepositoriesWithMediatorAndPaggingData(query: String): Flow<PagingData<RepositoryDetailsResponse>> {
+
+        // appending '%' so we can allow other characters to be before and after the query string
+        //val dbQuery = "%${query.replace(' ', '%')}%"
+        val pagingSourceFactory = { db.languageReposDAO().getLanguageRepoWithRemoteMediatorAndPagging(query) }
+
+        val finalQuery = "language:" + query
         val repositoryDetailsResponse = Pager(
-            config = PagingConfig(pageSize),
-            remoteMediator = PageKeyedRemoteMediator(db, service, query, dbMapper, 0)
-        ) {
-            db.languagesRepositoriesDAO().getLanguageRepoWithRemoteMediatorAndPagging(query)
-        }.flow  //.map { dbMapper.mapPagingRepositoryDetailsResponseDbToPagingRepositoryDetailsResponse(it) }
+            config = PagingConfig(NETWORK_PAGE_SIZE),
+            remoteMediator = PageKeyedRemoteMediator(db, service, finalQuery, dbMapper!!),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
+
         return repositoryDetailsResponse.map { dbMapper.mapPagingRepositoryDetailsResponseDbToPagingRepositoryDetailsResponse(it) }
     }
 
-    /*override fun getSearchRepositoriesWithMediatorAndPaggingData(query: String, pageSize: Int) = Pager(
-        config = PagingConfig(pageSize),
-        remoteMediator = PageKeyedRemoteMediator(db, service, query, dbMapper)
-    ) {
-       db.languagesRepositoriesDAO().getLanguageRepoWithRemoteMediatorAndPagging(query)
-    }.flow*/
-
     companion object {
         private const val NETWORK_PAGE_SIZE = 25
-
-        /* // For Singleton instantiation
-        @Volatile private var instance: GithubRepository? = null
-
-        fun getInstance(languages: GithubRepositoryApi, dbMapper: DbMapper) =
-            instance ?: synchronized(this) {
-                instance ?: GithubRepositoryImpl(languages, dbMapper).also { instance = it }
-            }*/
     }
 
 

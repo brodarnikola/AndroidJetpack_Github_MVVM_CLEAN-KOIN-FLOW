@@ -32,14 +32,14 @@ import com.vjezba.data.database.model.*
 /**
  * The Room database for this app
  */
-@Database(entities = [SavedLanguagesDb::class, LanguagesDb::class, LegoTheme::class, LegoSet::class, RepositoryDetailsResponseDb::class, RepositoryDetailsResponseRemoteKey::class], version = 5, exportSchema = false)
+@Database(entities = [SavedLanguagesDb::class, LanguagesDb::class, LegoTheme::class, LegoSet::class, LanguagesRepoDb::class, LanguagesRemoteKeyDb::class], version = 5, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun savedLanguagesDAO(): SavedLanguagesDAO
     abstract fun languagesDAO(): LanguagesDao
 
-    abstract fun languagesRepositoriesDAO(): LanguagesRepositoriesDao
-    abstract fun languagesRepositoriesRemoteKeyDAO(): LanguagesRepositoriesRemoteKeyDao
+    abstract fun languageReposDAO(): LanguagesRepoDao
+    abstract fun languageRemoteKeyDAO(): LanguagesRemoteKeyDao
 
     abstract fun legoThemeDao(): LegoThemeDao
     abstract fun legoSetDao(): LegoSetDao

@@ -11,6 +11,6 @@ val databaseModule = module {
 
   factory { get<AppDatabase>().languagesDAO() }
   factory { get<AppDatabase>().savedLanguagesDAO() }
-  factory { get<AppDatabase>().languagesRepositoriesDAO() }
-  factory { get<AppDatabase>().languagesRepositoriesRemoteKeyDAO() }
+  factory { get<AppDatabase>().languageReposDAO() }
+  factory { get<AppDatabase>().languageRemoteKeyDAO() }
 }

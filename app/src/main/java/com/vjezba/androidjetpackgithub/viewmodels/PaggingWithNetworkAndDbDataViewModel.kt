@@ -1,54 +1,76 @@
 package com.vjezba.androidjetpackgithub.viewmodels
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.insertSeparators
 import com.vjezba.domain.model.RepositoryDetailsResponse
 import com.vjezba.domain.repository.GithubRepository
-import com.vjezba.domain.repository.PaggingWithNetworkAndDbRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
 class PaggingWithNetworkAndDbDataViewModel(
-    private val repository: GithubRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val repository: GithubRepository
 ) : ViewModel() {
 
-    companion object {
-        const val KEY_SUBREDDIT = "name"
-        const val DEFAULT_SUBREDDIT = "java"
-    }
+//    private val clearListCh = Channel<Unit>(Channel.CONFLATED)
+//
+//    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+//    val posts = flowOf(
+//        clearListCh.receiveAsFlow().map { PagingData.empty<RepositoryDetailsResponse>() },
+//        savedStateHandle.getLiveData<String>(KEY_SUBREDDIT)
+//            .asFlow()
+//            .flatMapLatest { repository.getSearchRepositoriesWithMediatorAndPaggingData(it, 30) }
+//    ).flattenMerge(2)
 
-    init {
-        if (!savedStateHandle.contains(KEY_SUBREDDIT)) {
-            savedStateHandle.set(KEY_SUBREDDIT, DEFAULT_SUBREDDIT)
+    private var currentQueryValue: String? = null
+
+    private var currentSearchResult: Flow<PagingData<UiModel>>? = null
+
+    fun searchRepo(queryString: String): Flow<PagingData<UiModel>> {
+        val lastResult = currentSearchResult
+        if (queryString == currentQueryValue && lastResult != null) {
+            return lastResult
         }
-    }
+        currentQueryValue = queryString
+        val newResult: Flow<PagingData<UiModel>> = repository.getSearchRepositoriesWithMediatorAndPaggingData(queryString)
+            .map { pagingData -> pagingData.map { UiModel.RepoItem(it) } }
+            .map {
+                it.insertSeparators<UiModel.RepoItem, UiModel> { before, after ->
+                    if (after == null) {
+                        // we're at the end of the list
+                        return@insertSeparators null
+                    }
 
-    private val clearListCh = Channel<Unit>(Channel.CONFLATED)
-
-    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-    val posts = flowOf(
-        clearListCh.receiveAsFlow().map { PagingData.empty<RepositoryDetailsResponse>() },
-        savedStateHandle.getLiveData<String>(KEY_SUBREDDIT)
-            .asFlow()
-            .flatMapLatest { repository.getSearchRepositoriesWithMediatorAndPaggingData(it, 30) }
-    ).flattenMerge(2)
-
-    fun shouldShowSubreddit(
-        subreddit: String
-    ) = savedStateHandle.get<String>(KEY_SUBREDDIT) != subreddit
-
-    fun showSubreddit(subreddit: String) {
-        if (!shouldShowSubreddit(subreddit)) return
-
-        clearListCh.offer(Unit)
-
-        savedStateHandle.set(KEY_SUBREDDIT, subreddit)
+                    if (before == null) {
+                        // we're at the beginning of the list
+                        return@insertSeparators UiModel.SeparatorItem("${after.roundedStarCount}0.000+ stars")
+                    }
+                    // check between 2 items
+                    if (before.roundedStarCount > after.roundedStarCount) {
+                        if (after.roundedStarCount >= 1) {
+                            UiModel.SeparatorItem("${after.roundedStarCount}0.000+ stars")
+                        } else {
+                            UiModel.SeparatorItem("< 10.000+ stars")
+                        }
+                    } else {
+                        // no separator
+                        null
+                    }
+                }
+            }
+            .cachedIn(viewModelScope)
+        currentSearchResult = newResult
+        return newResult
     }
 
 }
 
+
+sealed class UiModel {
+    data class RepoItem(val repo: RepositoryDetailsResponse) : UiModel()
+    data class SeparatorItem(val description: String) : UiModel()
+}
+
+private val UiModel.RepoItem.roundedStarCount: Int
+    get() = this.repo.starts / 10_000

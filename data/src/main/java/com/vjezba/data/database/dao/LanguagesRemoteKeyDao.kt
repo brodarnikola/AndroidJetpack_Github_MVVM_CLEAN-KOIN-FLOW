@@ -20,16 +20,19 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.vjezba.data.database.model.RepositoryDetailsResponseRemoteKey
+import com.vjezba.data.database.model.LanguagesRemoteKeyDb
 
 @Dao
-interface LanguagesRepositoriesRemoteKeyDao {
+interface LanguagesRemoteKeyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(keys: RepositoryDetailsResponseRemoteKey)
+    suspend fun insertAll(languagesRemoteKeyDb: List<LanguagesRemoteKeyDb>)
 
-    @Query("SELECT * FROM remote_keys WHERE name = :name")
-    suspend fun remoteKeyByPost(name: String): RepositoryDetailsResponseRemoteKey
+    @Query("SELECT * FROM remote_keys WHERE repoId = :repoId")
+    suspend fun remoteKeyByPost(repoId: Long): LanguagesRemoteKeyDb
 
-    @Query("DELETE FROM remote_keys WHERE name = :name")
-    suspend fun deleteBySubreddit(name: String)
+    /*@Query("DELETE FROM remote_keys WHERE repoId = :repoId")
+    suspend fun deleteBySubreddit(repoId: Long)*/
+
+    @Query("DELETE FROM remote_keys")
+    suspend fun deleteBySubredditWithoutParameter()
 }

@@ -31,17 +31,11 @@
 package com.vjezba.data.database.mapper
 
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
-import com.vjezba.data.database.model.LanguagesDb
-import com.vjezba.data.database.model.RepositoryDetailsResponseDb
+import com.vjezba.data.database.model.LanguagesRepoDb
 import com.vjezba.data.database.model.SavedAndAllLanguagesDb
-import com.vjezba.data.database.model.SavedLanguagesDb
 import com.vjezba.data.networking.model.RepositoryDetailsResponseApi
 import com.vjezba.domain.model.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlin.collections.map
 
 class DbMapperImpl : DbMapper {
 
@@ -107,21 +101,24 @@ class DbMapperImpl : DbMapper {
         }
     }
 
-    override fun mapApiResponseGithubToGithubDb(responseApi: List<RepositoryDetailsResponseApi>): List<RepositoryDetailsResponseDb> {
+    override fun mapApiResponseGithubToGithubDb(responseApi: List<RepositoryDetailsResponseApi>): List<LanguagesRepoDb> {
         return responseApi.map {
             with(it) {
-                RepositoryDetailsResponseDb(
+                LanguagesRepoDb(
                     id,
                     ownerApi.avatarUrl,
                     name,
                     description,
-                    html_url
+                    html_url,
+                    language,
+                    stars,
+                    forks
                 )
             }
         }
     }
 
-    override fun mapPagingRepositoryDetailsResponseDbToPagingRepositoryDetailsResponse(responseApi: PagingData<RepositoryDetailsResponseDb>): PagingData<RepositoryDetailsResponse> {
+    override fun mapPagingRepositoryDetailsResponseDbToPagingRepositoryDetailsResponse(responseApi: PagingData<LanguagesRepoDb>): PagingData<RepositoryDetailsResponse> {
         return responseApi.map {
             with(it) {
                 RepositoryDetailsResponse(
@@ -129,7 +126,10 @@ class DbMapperImpl : DbMapper {
                     RepositoryOwnerResponse(avatarUrl),
                     name,
                     description,
-                    html_url
+                    html_url,
+                    language,
+                    stars,
+                    forks
                 )
             }
         }

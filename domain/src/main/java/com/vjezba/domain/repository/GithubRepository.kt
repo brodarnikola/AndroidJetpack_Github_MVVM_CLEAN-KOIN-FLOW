@@ -26,5 +26,5 @@ interface GithubRepository {
     fun getSearchRepositoriesResultStream(query: String) : Flow<PagingData<RepositoryDetailsResponse>>
 
 
-    fun getSearchRepositoriesWithMediatorAndPaggingData(query: String, pageSize: Int) : Flow<PagingData<RepositoryDetailsResponse>>
+    fun getSearchRepositoriesWithMediatorAndPaggingData(query: String) : Flow<PagingData<RepositoryDetailsResponse>>
 }

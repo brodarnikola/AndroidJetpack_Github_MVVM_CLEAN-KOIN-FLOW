@@ -8,13 +8,14 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "github_repositories",
     indices = [Index(value = ["name"], unique = false)])
-data class RepositoryDetailsResponseDb(
+data class LanguagesRepoDb(
     @PrimaryKey @ColumnInfo(name = "id") val id: Long = 0,
     val avatarUrl: String = "",
     @ColumnInfo(collate = ColumnInfo.NOCASE)
     val name: String? = "",
     val description: String? = "",
-    val html_url: String? = ""
-) {
-    var indexInResponse: Int = -1
-}
+    val html_url: String? = "",
+    val language: String? = "",
+    val stars: Int = 0,
+    val forks: Int = 0
+)

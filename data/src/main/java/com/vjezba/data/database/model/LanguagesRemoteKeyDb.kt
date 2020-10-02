@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package com.vjezba.domain.repository
+package com.vjezba.data.database.model
 
-import androidx.paging.PagingData
-import com.vjezba.domain.model.RepositoryDetailsResponse
-import kotlinx.coroutines.flow.Flow
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-/**
- * Common interface shared by the different repository implementations.
- * Note: this only exists for sample purposes - typically an app would implement a repo once, either
- * network+db, or network-only
- */
-interface PaggingWithNetworkAndDbRepository {
-    fun exampleOfPaggingWithNetworkAndDb(languageName: String, pageSize: Int): Flow<PagingData<RepositoryDetailsResponse>>
-}
+@Entity(tableName = "remote_keys")
+data class LanguagesRemoteKeyDb(
+    @PrimaryKey
+    val repoId: Long,
+    val prevKey: Int?,
+    val nextKey: Int?
+)

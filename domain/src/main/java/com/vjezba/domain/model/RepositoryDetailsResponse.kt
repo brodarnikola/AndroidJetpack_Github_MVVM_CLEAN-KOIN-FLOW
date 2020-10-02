@@ -6,5 +6,8 @@ data class RepositoryDetailsResponse(
     val ownerApi: RepositoryOwnerResponse = RepositoryOwnerResponse(""),
     val name: String? = "",
     val description: String? = "",
-    val html_url: String? = ""
+    val html_url: String? = "",
+    val language: String? = "",
+    val starts: Int = 0,
+    val forks: Int? = 0
 )

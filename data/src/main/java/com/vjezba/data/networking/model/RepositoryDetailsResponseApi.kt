@@ -12,5 +12,11 @@ data class RepositoryDetailsResponseApi(
     @SerializedName("description")
     val description: String? = "",
     @SerializedName("html_url")
-    val html_url: String? = ""
+    val html_url: String? = "",
+    @SerializedName("language")
+    val language: String? = "",
+    @SerializedName("stargazers_count")
+    val stars: Int = 0,
+    @SerializedName("forks_count")
+    val forks: Int = 0
 )

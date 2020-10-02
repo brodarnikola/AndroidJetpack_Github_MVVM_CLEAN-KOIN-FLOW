@@ -14,29 +14,31 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.databinding.FragmentPaggingNetworkAndDbDataBinding
-import com.vjezba.androidjetpackgithub.ui.adapters.GalleryAdapter
-import com.vjezba.androidjetpackgithub.viewmodels.LanguagesListViewModel
+import com.vjezba.androidjetpackgithub.ui.adapters.languagerepos.ReposAdapter
+import com.vjezba.androidjetpackgithub.ui.adapters.languagerepos.ReposLoadStateAdapter
 import com.vjezba.androidjetpackgithub.viewmodels.PaggingWithNetworkAndDbDataViewModel
-import com.vjezba.androidjetpackgithub.viewmodels.PaggingWithNetworkAndDbViewModel
 import kotlinx.android.synthetic.main.activity_languages_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.androidx.viewmodel.ext.android.getStateViewModel
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import kotlinx.coroutines.launch
 
+
+@ExperimentalCoroutinesApi
 class PaggingWithNetworkAndDbDataFragment : Fragment() {
 
-    private val viewModel by lazy {
-        getStateViewModel<PaggingWithNetworkAndDbDataViewModel>()
-    }
+    private val viewModel : PaggingWithNetworkAndDbDataViewModel by viewModel()
     private val args: PaggingWithNetworkAndDbDataFragmentArgs by navArgs()
 
-    private val adapter =
-        GalleryAdapter()
+    private val adapter = ReposAdapter()
 
     private var progressBarRepos: ProgressBar? = null
     private var languageListRepository: RecyclerView? = null
+
+    private var searchJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,14 +50,15 @@ class PaggingWithNetworkAndDbDataFragment : Fragment() {
         context ?: return binding.root
 
         activity?.toolbar?.title = getString(R.string.gallery_title) + ": " + args.languageName
-
-        viewModel.showSubreddit(args.languageName)
-
+        activity?.speedDial?.visibility = View.GONE
 
         progressBarRepos = binding.progressBarRepositories
         languageListRepository = binding.languageListRepository
 
-        binding.languageListRepository.adapter = adapter
+        binding.languageListRepository.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = ReposLoadStateAdapter { adapter.retry() },
+            footer = ReposLoadStateAdapter { adapter.retry() }
+        )
 
         adapter.addLoadStateListener { loadState ->
             binding.languageListRepository.isVisible = loadState.source.refresh is LoadState.NotLoading
@@ -71,21 +74,32 @@ class PaggingWithNetworkAndDbDataFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "\uD83D\uDE28 Wooops ${it.error}",
-                    Toast.LENGTH_LONG
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         }
 
-        activity?.speedDial?.visibility = View.GONE
+
+
+        // Scroll to top when the list is refreshed from network.
+//        lifecycleScope.launch {
+//            adapter.loadStateFlow
+//                // Only emit when REFRESH LoadState for RemoteMediator changes.
+//                .distinctUntilChangedBy { it.refresh }
+//                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+//                .filter { it.refresh is LoadState.NotLoading }
+//                .collect { languageListRepository!!.scrollToPosition(0) }
+//        }
+
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
 
-        lifecycleScope.launchWhenCreated {
-            @OptIn(ExperimentalCoroutinesApi::class)
-            viewModel.posts.collectLatest {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.searchRepo(args.languageName).collectLatest {
                 adapter.submitData(it)
             }
         }

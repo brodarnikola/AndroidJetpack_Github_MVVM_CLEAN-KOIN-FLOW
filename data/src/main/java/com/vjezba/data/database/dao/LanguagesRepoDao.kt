@@ -16,26 +16,28 @@
 
 package com.vjezba.data.database.dao
 
-import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.vjezba.data.database.model.LanguagesDb
-import com.vjezba.data.database.model.LegoSet
-import com.vjezba.data.database.model.RepositoryDetailsResponseDb
-import kotlinx.coroutines.flow.Flow
+import com.vjezba.data.database.model.LanguagesRepoDb
 
 /**
  * The Data Access Object for the Plant class.
  */
 @Dao
-interface GithubRepositoriesDao {
-    @Query("SELECT * FROM github_repositories WHERE name = :name ORDER BY name ASC")
-    fun getGithuBRepositories(name: String): DataSource.Factory<Int, RepositoryDetailsResponseDb>
+interface LanguagesRepoDao {
+
+    @Query("SELECT * FROM github_repositories WHERE language = :language ORDER BY stars DESC")
+    fun getLanguageRepoWithRemoteMediatorAndPagging(language: String): PagingSource<Int, LanguagesRepoDb>
+
+    /*@Query("DELETE FROM github_repositories WHERE name = :subreddit")
+    suspend fun deleteGithubRepositories(subreddit: String)*/
+
+    @Query("DELETE FROM github_repositories ")
+    suspend fun deleteGithubRepositoriesWithoutParameter()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllGithubRepositories(languages: List<RepositoryDetailsResponseDb>)
+    suspend fun insertAll(languages: List<LanguagesRepoDb>)
 }

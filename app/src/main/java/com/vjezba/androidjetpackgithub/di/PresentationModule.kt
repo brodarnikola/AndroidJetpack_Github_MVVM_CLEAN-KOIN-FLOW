@@ -45,5 +45,5 @@ val presentationModule = module {
   viewModel { EnterDetailsViewModel() }
   viewModel { LanguagesActivityViewModel(get()) }
   viewModel { PaggingWithNetworkAndDbViewModel( ) }
-  viewModel { (handle: SavedStateHandle) -> PaggingWithNetworkAndDbDataViewModel(get(), handle ) }
+  viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
 }
