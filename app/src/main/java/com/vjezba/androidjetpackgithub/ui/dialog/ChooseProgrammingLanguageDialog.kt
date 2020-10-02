@@ -44,7 +44,7 @@ class ChooseProgrammingLanguageDialog constructor(  ) : DialogFragment() {
                 resources.getResourceEntryName(radioGroupLanguage.checkedRadioButtonId) == "kotlin" -> "Kotlin"
                 resources.getResourceEntryName(radioGroupLanguage.checkedRadioButtonId) == "swift" -> "Swift"
                 resources.getResourceEntryName(radioGroupLanguage.checkedRadioButtonId) == "java" -> "Java"
-                else -> "C++"
+                else -> "PHP"
             }
 
             val direction =
