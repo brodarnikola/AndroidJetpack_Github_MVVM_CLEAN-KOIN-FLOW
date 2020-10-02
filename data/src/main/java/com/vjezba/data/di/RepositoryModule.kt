@@ -15,5 +15,5 @@ val repositoryModule = module {
   factory<DbMapper> { DbMapperImpl() }
   factory<LanguagesRepository> { LanguagesRepositoryImpl(get(), get()) }
   factory<SavedLanguagesRepository> { SavedLanguagesRepositoryImpl(get(), get()) }
-  factory<GithubRepository> { GithubRepositoryImpl(get(), get()) }
+  factory<GithubRepository> { GithubRepositoryImpl(get(), get(), get()) }
 }

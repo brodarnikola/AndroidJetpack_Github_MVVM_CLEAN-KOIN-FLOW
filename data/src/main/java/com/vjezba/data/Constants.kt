@@ -19,5 +19,5 @@ package com.vjezba.data
 /**
  * Constants used throughout the app.
  */
-const val DATABASE_NAME = "programming-language-db"
+const val DATABASE_NAME = "programming-language-db-1"
 const val PLANT_DATA_FILENAME = "languages.json"

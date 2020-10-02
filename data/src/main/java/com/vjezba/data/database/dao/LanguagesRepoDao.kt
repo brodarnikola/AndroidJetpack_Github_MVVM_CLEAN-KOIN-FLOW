@@ -16,28 +16,28 @@
 
 package com.vjezba.data.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.vjezba.data.database.model.LanguagesDb
+import com.vjezba.data.database.model.LanguagesRepoDb
 
 /**
  * The Data Access Object for the Plant class.
  */
 @Dao
-interface LanguagesDao {
-    @Query("SELECT * FROM languages ORDER BY name")
-    fun getLanguages(): LiveData<List<LanguagesDb>>
+interface LanguagesRepoDao {
 
-    @Query("SELECT * FROM languages WHERE typeLanguage = :onlyMobileProgrammingLanguages ORDER BY name")
-    fun getOnlyMobileProgrammingLanguages(onlyMobileProgrammingLanguages: String): LiveData<List<LanguagesDb>>
+    @Query("SELECT * FROM github_repositories WHERE language = :language ORDER BY stars DESC")
+    fun getLanguageRepoWithRemoteMediatorAndPagging(language: String): PagingSource<Int, LanguagesRepoDb>
 
-    @Query("SELECT * FROM languages WHERE id = :languageId")
-    fun getLanguageRepo(languageId: Int): LiveData<LanguagesDb>
+    /*@Query("DELETE FROM github_repositories WHERE name = :subreddit")
+    suspend fun deleteGithubRepositories(subreddit: String)*/
+
+    @Query("DELETE FROM github_repositories ")
+    suspend fun deleteGithubRepositoriesWithoutParameter()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(languages: List<LanguagesDb>)
+    suspend fun insertAll(languages: List<LanguagesRepoDb>)
 }

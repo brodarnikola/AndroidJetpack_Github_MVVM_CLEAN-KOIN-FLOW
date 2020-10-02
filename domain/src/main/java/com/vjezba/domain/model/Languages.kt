@@ -22,7 +22,7 @@ data class Languages(
     val name: String,
     val description: String,
     val createdBy: String = "",
-    val createdAt: Int = 7, // how often the plant should be watered, in days
+    val createdAt: Int = 0,
     val typeLanguage: String = "",
     val imageUrl: String = ""
 )

@@ -37,22 +37,11 @@ interface GithubRepositoryApi {
         @Query("per_page") perPage: Int
     ): RepositoryResponseApi
 
-    /*companion object {
-        private const val BASE_URL = "https://api.github.com/"
+    @GET("search/repositories?sort=stars&order=desc")
+    suspend fun searchGithubRepositoryByProgrammingLanguage(
+        @Query("q") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int
+    ): RepositoryResponseApi
 
-        fun create(): GithubRepositoryApi {
-            val logger = HttpLoggingInterceptor().apply { level = Level.BASIC }
-
-            val client = OkHttpClient.Builder()
-                .addInterceptor(logger)
-                .build()
-
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(GithubRepositoryApi::class.java)
-        }
-    }*/
 }

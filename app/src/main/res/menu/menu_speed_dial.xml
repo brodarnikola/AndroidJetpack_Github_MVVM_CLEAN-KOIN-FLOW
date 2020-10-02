@@ -3,7 +3,7 @@
     <item
         android:id="@+id/action_slideshow_fragment"
         android:icon="@drawable/ic_add_24dp"
-        android:title="Slideshow Example" />
+        android:title="Pagging DB and Network" />
 
     <item
         android:id="@+id/action_dance"
