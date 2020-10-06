@@ -6,8 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "github_repositories",
-    indices = [Index(value = ["name"], unique = false)])
+@Entity(tableName = "github_repositories")
 data class LanguagesRepoDb(
     @PrimaryKey @ColumnInfo(name = "id") val id: Long = 0,
     val avatarUrl: String = "",
