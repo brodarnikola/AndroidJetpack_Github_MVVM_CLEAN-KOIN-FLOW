@@ -60,16 +60,16 @@ class GalleryFragment : Fragment() {
         context ?: return binding.root
 
         progressBarRepos = binding.progressBarRepositories
-        languageListRepository = binding.languageListRepository
+        languageListRepository = binding.languageListRepos
 
-        binding.languageListRepository.adapter = adapter
+        binding.languageListRepos.adapter = adapter
         search(args.languageName)
 
         activity?.speedDial?.visibility = View.GONE
         activity?.toolbar?.title = getString(R.string.gallery_title) + ": " + args.languageName
 
         adapter.addLoadStateListener { loadState ->
-            binding.languageListRepository.isVisible = loadState.source.refresh is LoadState.NotLoading
+            binding.languageListRepos.isVisible = loadState.source.refresh is LoadState.NotLoading
             // Show loading spinner during initial load or refresh.
             binding.progressBarRepositories.isVisible = loadState.source.refresh is LoadState.Loading
 
