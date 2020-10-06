@@ -31,6 +31,7 @@
 package com.vjezba.data.database.mapper
 
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.vjezba.data.database.model.LanguagesRepoDb
 import com.vjezba.data.database.model.SavedAndAllLanguagesDb
 import com.vjezba.data.networking.model.RepositoryDetailsResponseApi
