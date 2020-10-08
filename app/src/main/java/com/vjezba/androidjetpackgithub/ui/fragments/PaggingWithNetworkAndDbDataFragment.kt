@@ -92,6 +92,13 @@ class PaggingWithNetworkAndDbDataFragment : Fragment() {
             }
         }
 
+
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             viewModel.searchRepo(args.languageName).collectLatest {
@@ -106,15 +113,8 @@ class PaggingWithNetworkAndDbDataFragment : Fragment() {
                 .distinctUntilChangedBy { it.refresh }
                 // Only react to cases where Remote REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.languageListRepos.scrollToPosition(0) }
+                .collect { languageListRepository?.scrollToPosition(0) }
         }
-
-        return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-
 
     }
 

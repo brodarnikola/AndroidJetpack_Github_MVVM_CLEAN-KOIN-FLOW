@@ -77,10 +77,11 @@ class PageKeyedRemoteMediator(
             val endOfPaginationReached = items.isEmpty()
 
             db.withTransaction {
-                /*if (loadType == REFRESH) {
-                    postDao.deleteGithubRepositoriesWithoutParameter()
-                    languagesRemoteKeyDao.deleteBySubredditWithoutParameter()
-                }*/
+                // clear all tables in the database
+//                if (loadType == REFRESH) {
+//                    languageReposDao.deleteGithubRepositoriesWithoutParameter()
+//                    languagesRemoteKeyDao.deleteBySubredditWithoutParameter()
+//                }
                 val prevKey = if (page == GITHUB_STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = items.map {
