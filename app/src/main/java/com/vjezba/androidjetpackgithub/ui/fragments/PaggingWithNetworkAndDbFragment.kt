@@ -14,7 +14,9 @@ import com.vjezba.androidjetpackgithub.ui.dialog.ChooseProgrammingLanguageDialog
 import com.vjezba.androidjetpackgithub.viewmodels.PaggingWithNetworkAndDbViewModel
 import kotlinx.android.synthetic.main.activity_languages_main.*
 import kotlinx.android.synthetic.main.fragment_pagging_network_and_db.*
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,6 +25,8 @@ private const val UPDATE_PERIOD = 10000L
 class PaggingWithNetworkAndDbFragment : Fragment() {
 
     private val viewModel : PaggingWithNetworkAndDbViewModel by viewModel()
+
+    private var automaticIncreaseNumberByOne: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,13 +59,14 @@ class PaggingWithNetworkAndDbFragment : Fragment() {
 
         btnChooseLanguage.setOnClickListener {
             val chooseProgrammingLanguageDialog =
-                ChooseProgrammingLanguageDialog()
+                ChooseProgrammingLanguageDialog(automaticIncreaseNumberByOne)
             chooseProgrammingLanguageDialog.show(
                 (requireActivity() as LanguagesActivity).supportFragmentManager,
                 "")
         }
 
-        lifecycleScope.launch {
+        automaticIncreaseNumberByOne?.cancel()
+        automaticIncreaseNumberByOne = lifecycleScope.launch {
             while (true) {
                 try {
                     handleUpdate()
