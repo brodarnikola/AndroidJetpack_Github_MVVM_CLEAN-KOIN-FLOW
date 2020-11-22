@@ -138,7 +138,7 @@ class WeatherFlowExampleFragment : Fragment() {
       }
 
 */
-      val locationDetailsFinal = it?.sortedByDescending { it.date } ?: listOf()
+      val locationDetailsFinal = it?.sortedBy { it.date } ?: listOf()
 
       forecastAdapter.setData(locationDetailsFinal.toImmutableList())
     })
