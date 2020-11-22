@@ -51,7 +51,7 @@ class GithubRepositoryImpl  constructor(
 
         val finalQuery = "language:" + query
         val repositoryDetailsResponse = Pager(
-            config = PagingConfig(NETWORK_PAGE_SIZE),
+            config = PagingConfig(NETWORK_PAGE_SIZE, enablePlaceholders = false),
             remoteMediator = PageKeyedRemoteMediator(db, service, finalQuery, dbMapper!!),
             pagingSourceFactory = pagingSourceFactory
         ).flow
@@ -60,7 +60,7 @@ class GithubRepositoryImpl  constructor(
     }
 
     companion object {
-        private const val NETWORK_PAGE_SIZE = 25
+        private const val NETWORK_PAGE_SIZE = 50
     }
 
 

@@ -4,6 +4,7 @@ import com.vjezba.data.networking.GithubRepositoryApi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -25,7 +26,7 @@ val networkingModule = module {
             .build()
     }
 
-    single {
+    single(named("retrofitGithub")) {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(get())

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.databinding.FragmentPaggingNetworkAndDbDataBinding
@@ -20,11 +21,14 @@ import com.vjezba.androidjetpackgithub.viewmodels.PaggingWithNetworkAndDbDataVie
 import kotlinx.android.synthetic.main.activity_languages_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlinx.coroutines.launch
+import java.io.InvalidObjectException
 
 
 @ExperimentalCoroutinesApi
@@ -53,17 +57,24 @@ class PaggingWithNetworkAndDbDataFragment : Fragment() {
         activity?.speedDial?.visibility = View.GONE
 
         progressBarRepos = binding.progressBarRepositories
-        languageListRepository = binding.languageListRepository
+        languageListRepository = binding.languageListRepos
 
-        binding.languageListRepository.adapter = adapter.withLoadStateHeaderAndFooter(
+
+        // add dividers between RecyclerView's row items
+        val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        binding.languageListRepos.addItemDecoration(decoration)
+
+        binding.languageListRepos.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ReposLoadStateAdapter { adapter.retry() },
             footer = ReposLoadStateAdapter { adapter.retry() }
         )
 
         adapter.addLoadStateListener { loadState ->
-            binding.languageListRepository.isVisible = loadState.source.refresh is LoadState.NotLoading
+            binding.languageListRepos.isVisible = loadState.source.refresh is LoadState.NotLoading
             // Show loading spinner during initial load or refresh.
             binding.progressBarRepositories.isVisible = loadState.source.refresh is LoadState.Loading
+            // Show the retry state if initial load or refresh fails.
+            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
 
             // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error
@@ -71,25 +82,16 @@ class PaggingWithNetworkAndDbDataFragment : Fragment() {
                 ?: loadState.append as? LoadState.Error
                 ?: loadState.prepend as? LoadState.Error
             errorState?.let {
-                Toast.makeText(
-                    requireContext(),
-                    "\uD83D\uDE28 Wooops ${it.error}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if( it.error != InvalidObjectException("") ) {
+                    Toast.makeText(
+                        requireContext(),
+                        "\uD83D\uDE28 Wooops ${it.error}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 
-
-
-        // Scroll to top when the list is refreshed from network.
-//        lifecycleScope.launch {
-//            adapter.loadStateFlow
-//                // Only emit when REFRESH LoadState for RemoteMediator changes.
-//                .distinctUntilChangedBy { it.refresh }
-//                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
-//                .filter { it.refresh is LoadState.NotLoading }
-//                .collect { languageListRepository!!.scrollToPosition(0) }
-//        }
 
         return binding.root
     }
@@ -103,6 +105,17 @@ class PaggingWithNetworkAndDbDataFragment : Fragment() {
                 adapter.submitData(it)
             }
         }
+
+        // Scroll to top when the list is refreshed from network.
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { languageListRepository?.scrollToPosition(0) }
+        }
+
     }
 
 

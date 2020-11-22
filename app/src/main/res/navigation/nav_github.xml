@@ -35,6 +35,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_view_pager_fragment_to_flow_reactive_stream_example_weather_fragment"
+            app:destination="@id/flow_reactive_stream_example_weather_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
     <fragment
@@ -144,6 +152,14 @@
         <argument
             android:name="id"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/flow_reactive_stream_example_weather_fragment"
+        android:name="com.vjezba.androidjetpackgithub.ui.fragments.WeatherFlowExampleFragment"
+        android:label="@string/menu_flow_weather_example"
+        tools:layout="@layout/fragment_weather_flow_example" >
+
     </fragment>
 
 </navigation>

@@ -7,6 +7,9 @@ import com.vjezba.androidjetpackgithub.di.presentationModule
 import com.vjezba.data.di.databaseModule
 import com.vjezba.data.di.networkingModule
 import com.vjezba.data.di.repositoryModule
+import com.vjezba.data.di.weather.weatherDatabaseModule
+import com.vjezba.data.di.weather.weatherNetworkingModule
+import com.vjezba.data.di.weather.weatherRepositoryModule
 import com.vjezba.domain.di.interactionModule
 import dagger.android.DispatchingAndroidInjector
 import org.koin.android.ext.koin.androidContext
@@ -35,10 +38,12 @@ class App : Application(), HasActivityInjector {
     val interactionModules = listOf(interactionModule)
     val dataModules = listOf( networkingModule, repositoryModule, databaseModule)
 
+    val weatherModules = listOf( weatherNetworkingModule, weatherRepositoryModule, weatherDatabaseModule)
+
     startKoin {
       androidContext(this@App)
       if (BuildConfig.DEBUG) androidLogger(Level.ERROR)
-      modules(appModules + interactionModules + dataModules)
+      modules(appModules + interactionModules + dataModules + weatherModules)
     }
 
     AppInjector.init(this)

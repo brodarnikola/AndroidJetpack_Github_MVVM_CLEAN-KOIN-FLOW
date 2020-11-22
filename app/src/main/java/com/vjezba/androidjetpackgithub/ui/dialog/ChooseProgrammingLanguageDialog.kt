@@ -13,8 +13,9 @@ import androidx.navigation.fragment.findNavController
 import com.vjezba.androidjetpackgithub.R
 import com.vjezba.androidjetpackgithub.ui.fragments.PaggingWithNetworkAndDbFragmentDirections
 import kotlinx.android.synthetic.main.dialog_choose_programing_language.*
+import kotlinx.coroutines.Job
 
-class ChooseProgrammingLanguageDialog constructor(  ) : DialogFragment() {
+class ChooseProgrammingLanguageDialog constructor( val automaticIncreaseNumberByOne: Job?) : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -40,6 +41,7 @@ class ChooseProgrammingLanguageDialog constructor(  ) : DialogFragment() {
         kotlin.isChecked = true
 
         next.setOnClickListener {
+            automaticIncreaseNumberByOne?.cancel()
             val selectedLanguage = when {
                 resources.getResourceEntryName(radioGroupLanguage.checkedRadioButtonId) == "kotlin" -> "Kotlin"
                 resources.getResourceEntryName(radioGroupLanguage.checkedRadioButtonId) == "swift" -> "Swift"

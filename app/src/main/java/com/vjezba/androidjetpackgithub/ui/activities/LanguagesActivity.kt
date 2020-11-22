@@ -1,11 +1,13 @@
 package com.vjezba.androidjetpackgithub.ui.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -25,12 +27,14 @@ import com.vjezba.domain.repository.UserManager
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_languages.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import javax.inject.Inject
+
 
 class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
@@ -51,7 +55,7 @@ class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        nav_view.setNavigationItemSelectedListener{
+        nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.lego_fragment -> {
                     val intent = Intent(this, LegoThemeActivity::class.java)
@@ -62,7 +66,8 @@ class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
             true
         }
 
-        val drawerToggle = ActionBarDrawerToggle(this, drawer_layout,
+        val drawerToggle = ActionBarDrawerToggle(
+            this, drawer_layout,
             R.string.open,
             R.string.close
         )
@@ -78,31 +83,36 @@ class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
             setOf(
                 R.id.view_pager_fragment,
                 R.id.paggin_with_network_and_db,
-                R.id.lego_fragment
+                R.id.lego_fragment,
+                R.id.flow_reactive_stream_example_weather_fragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
     }
 
     override fun onStart() {
         super.onStart()
+
+        val headerView = nav_view.getHeaderView(0)
+        val navUsername = headerView.findViewById(R.id.tvNameOfUser) as TextView
+        navUsername.text = "Welcome: ".plus(userManager.getUserName())
+
         setupSpeedDialView()
         logoutUser()
     }
 
     private fun logoutUser() {
-        val logout= nav_view?.getHeaderView(0)?.findViewById<ImageView>(R.id.ivLogout)
+        val logout = nav_view?.getHeaderView(0)?.findViewById<ImageView>(R.id.ivLogout)
         logout?.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                val languagesActivityViewModel : LanguagesActivityViewModel by viewModel()
+                val languagesActivityViewModel: LanguagesActivityViewModel by viewModel()
                 languagesActivityViewModel.deleteAllSavedProgrammingLanguagesOfUser()
                 userManager.logout()
                 withContext(Dispatchers.Main) {
-                        val intent = Intent(this@LanguagesActivity, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                    val intent = Intent(this@LanguagesActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
             }
         }
