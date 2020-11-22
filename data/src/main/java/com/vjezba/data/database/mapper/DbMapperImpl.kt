@@ -32,6 +32,9 @@ package com.vjezba.data.database.mapper
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.vjezba.data.database.AppDatabase
+import com.vjezba.data.database.model.DbForecast
+import com.vjezba.data.database.model.DbLocationDetails
 import com.vjezba.data.database.model.LanguagesRepoDb
 import com.vjezba.data.database.model.SavedAndAllLanguagesDb
 import com.vjezba.data.networking.model.RepositoryDetailsResponseApi
@@ -131,6 +134,65 @@ class DbMapperImpl : DbMapper {
                     language,
                     stars,
                     forks
+                )
+            }
+        }
+    }
+
+
+    override fun mapDomainLocationDetailsToDb(locationDetails: LocationDetails): DbLocationDetails {
+        return with(locationDetails) {
+            DbLocationDetails(
+                time, sunrise, sunset, title, id
+            )
+        }
+    }
+
+    override fun mapDbLocationDetailsToDomain(locationDetails: DbLocationDetails): LocationDetails {
+        return with(locationDetails) {
+            LocationDetails(emptyList(), time, sunrise, sunset, title, id)
+        }
+    }
+
+    override fun mapDomainForecastsToDb(forecasts: List<Forecast>): List<DbForecast> {
+        return forecasts.map {
+            with(it) {
+                DbForecast(
+                    id,
+                    state,
+                    windDirection,
+                    date,
+                    minTemp,
+                    maxTemp,
+                    temp,
+                    windSpeed,
+                    pressure,
+                    humidity,
+                    visibility,
+                    predictability,
+                    weatherStateAbbreviation
+                )
+            }
+        }
+    }
+
+    override fun mapDbForecastsToDomain(forecasts: List<DbForecast>): List<Forecast> {
+        return forecasts.map {
+            with(it) {
+                Forecast(
+                    id,
+                    state,
+                    windDirection,
+                    date,
+                    minTemp,
+                    maxTemp,
+                    temp,
+                    windSpeed,
+                    pressure,
+                    humidity,
+                    visibility,
+                    predictability,
+                    weatherStateAbbreviation
                 )
             }
         }

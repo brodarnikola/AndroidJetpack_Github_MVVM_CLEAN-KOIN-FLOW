@@ -28,37 +28,13 @@
  * THE SOFTWARE.
  */
 
-package com.vjezba.androidjetpackgithub.di
+package com.vjezba.domain.model
 
-import androidx.lifecycle.SavedStateHandle
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapperImpl
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoaderImpl
-import com.vjezba.androidjetpackgithub.viewmodels.*
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
-
-val presentationModule = module {
-  viewModel { GalleryViewModel(get()) }
-  viewModel { (handle: SavedStateHandle) -> LanguagesListViewModel(handle, get()) }
-  viewModel { SavedLanguagesListViewModel(get()) }
-  viewModel { (languagedId : Int) -> LanguageDetailsViewModel(get(), get(), languagedId) }
-  viewModel { LoginViewModel(get()) }
-  factory { RegistrationViewModel(get()) }
-  viewModel { EnterDetailsViewModel() }
-  viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { PaggingWithNetworkAndDbViewModel( ) }
-  viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
-
-  viewModel { FlowWeatherViewModel(get(), get() ) }
-
-
-
-  single<ImageLoader> { ImageLoaderImpl() }
-
-  //single { Picasso.get() }
-
-  single<WeatherViewStateMapper> { WeatherViewStateMapperImpl() }
-
-}
+data class LocationDetails(
+  val forecasts: List<Forecast>,
+  val time: String,
+  val sunrise: String,
+  val sunset: String,
+  val title: String,
+  val id: Int
+)

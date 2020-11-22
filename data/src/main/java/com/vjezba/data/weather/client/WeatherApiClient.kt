@@ -28,37 +28,19 @@
  * THE SOFTWARE.
  */
 
-package com.vjezba.androidjetpackgithub.di
+package com.vjezba.data.weather.client
 
-import androidx.lifecycle.SavedStateHandle
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapperImpl
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoaderImpl
-import com.vjezba.androidjetpackgithub.viewmodels.*
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import com.vjezba.data.weather.model.ApiLocation
+import com.vjezba.data.weather.model.ApiLocationDetails
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
-val presentationModule = module {
-  viewModel { GalleryViewModel(get()) }
-  viewModel { (handle: SavedStateHandle) -> LanguagesListViewModel(handle, get()) }
-  viewModel { SavedLanguagesListViewModel(get()) }
-  viewModel { (languagedId : Int) -> LanguageDetailsViewModel(get(), get(), languagedId) }
-  viewModel { LoginViewModel(get()) }
-  factory { RegistrationViewModel(get()) }
-  viewModel { EnterDetailsViewModel() }
-  viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { PaggingWithNetworkAndDbViewModel( ) }
-  viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
+interface WeatherApiClient {
 
-  viewModel { FlowWeatherViewModel(get(), get() ) }
+  @GET("location/search/")
+  suspend fun findLocation(@Query("query") location: String): List<ApiLocation>
 
-
-
-  single<ImageLoader> { ImageLoaderImpl() }
-
-  //single { Picasso.get() }
-
-  single<WeatherViewStateMapper> { WeatherViewStateMapperImpl() }
-
+  @GET("location/{woeid}/")
+  suspend fun getLocationDetails(@Path("woeid") woeid: Int): ApiLocationDetails
 }

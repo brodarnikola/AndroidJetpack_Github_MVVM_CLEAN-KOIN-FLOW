@@ -28,37 +28,39 @@
  * THE SOFTWARE.
  */
 
-package com.vjezba.androidjetpackgithub.di
+package com.vjezba.androidjetpackgithub.ui.adapters
 
-import androidx.lifecycle.SavedStateHandle
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapperImpl
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoaderImpl
-import com.vjezba.androidjetpackgithub.viewmodels.*
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.TextView
+import com.vjezba.androidjetpackgithub.R
+import com.vjezba.androidjetpackgithub.ui.mapper.LocationViewState
 
-val presentationModule = module {
-  viewModel { GalleryViewModel(get()) }
-  viewModel { (handle: SavedStateHandle) -> LanguagesListViewModel(handle, get()) }
-  viewModel { SavedLanguagesListViewModel(get()) }
-  viewModel { (languagedId : Int) -> LanguageDetailsViewModel(get(), get(), languagedId) }
-  viewModel { LoginViewModel(get()) }
-  factory { RegistrationViewModel(get()) }
-  viewModel { EnterDetailsViewModel() }
-  viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { PaggingWithNetworkAndDbViewModel( ) }
-  viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
+class LocationFlowAdapter(
+  private val layoutInflater: LayoutInflater,
+  private val onLocationClick: (LocationViewState) -> Unit
+) : BaseAdapter() {
 
-  viewModel { FlowWeatherViewModel(get(), get() ) }
+  private val locations = mutableListOf<LocationViewState>()
 
+  override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    val itemView = layoutInflater.inflate(R.layout.list_item_location_flow, parent, false)
+    itemView.findViewById<TextView>(R.id.location).text = locations[position].location
+    itemView.setOnClickListener { onLocationClick(locations[position]) }
+    return itemView
+  }
 
+  override fun getItem(position: Int) = locations[position]
 
-  single<ImageLoader> { ImageLoaderImpl() }
+  override fun getItemId(position: Int) = position.toLong()
 
-  //single { Picasso.get() }
+  override fun getCount() = locations.size
 
-  single<WeatherViewStateMapper> { WeatherViewStateMapperImpl() }
-
+  fun setData(locations: List<LocationViewState>) {
+    this.locations.clear()
+    this.locations.addAll(locations)
+    notifyDataSetChanged()
+  }
 }

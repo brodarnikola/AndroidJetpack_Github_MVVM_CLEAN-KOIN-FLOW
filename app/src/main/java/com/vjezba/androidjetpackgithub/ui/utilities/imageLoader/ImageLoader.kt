@@ -28,37 +28,12 @@
  * THE SOFTWARE.
  */
 
-package com.vjezba.androidjetpackgithub.di
+package com.vjezba.androidjetpackgithub.ui.utilities.imageLoader
 
-import androidx.lifecycle.SavedStateHandle
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapperImpl
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoaderImpl
-import com.vjezba.androidjetpackgithub.viewmodels.*
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import android.content.Context
+import android.widget.ImageView
 
-val presentationModule = module {
-  viewModel { GalleryViewModel(get()) }
-  viewModel { (handle: SavedStateHandle) -> LanguagesListViewModel(handle, get()) }
-  viewModel { SavedLanguagesListViewModel(get()) }
-  viewModel { (languagedId : Int) -> LanguageDetailsViewModel(get(), get(), languagedId) }
-  viewModel { LoginViewModel(get()) }
-  factory { RegistrationViewModel(get()) }
-  viewModel { EnterDetailsViewModel() }
-  viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { PaggingWithNetworkAndDbViewModel( ) }
-  viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
+interface ImageLoader {
 
-  viewModel { FlowWeatherViewModel(get(), get() ) }
-
-
-
-  single<ImageLoader> { ImageLoaderImpl() }
-
-  //single { Picasso.get() }
-
-  single<WeatherViewStateMapper> { WeatherViewStateMapperImpl() }
-
+  fun load(imageResource: String, target: ImageView, context: Context)
 }

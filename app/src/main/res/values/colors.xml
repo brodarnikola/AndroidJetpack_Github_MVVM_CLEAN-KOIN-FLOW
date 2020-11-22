@@ -22,4 +22,11 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="colorPrimaryDark">#3700B3</color>
 
+    <!-- weather colors -->
+    <color name="colorPrimaryWeather">#039be5</color>
+    <color name="colorPrimaryDarkWeather">#006db3</color>
+    <color name="colorPrimaryLightWeather">#63ccff</color>
+    <color name="colorAccentWeather">#000000</color>
+    <color name="editTextHintColorWeather">#a7acb0</color>
+
 </resources>

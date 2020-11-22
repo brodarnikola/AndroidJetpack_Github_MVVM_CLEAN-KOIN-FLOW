@@ -28,37 +28,39 @@
  * THE SOFTWARE.
  */
 
-package com.vjezba.androidjetpackgithub.di
+package com.vjezba.data.weather.model
 
-import androidx.lifecycle.SavedStateHandle
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapperImpl
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoaderImpl
-import com.vjezba.androidjetpackgithub.viewmodels.*
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import com.squareup.moshi.Json
+import java.util.*
 
-val presentationModule = module {
-  viewModel { GalleryViewModel(get()) }
-  viewModel { (handle: SavedStateHandle) -> LanguagesListViewModel(handle, get()) }
-  viewModel { SavedLanguagesListViewModel(get()) }
-  viewModel { (languagedId : Int) -> LanguageDetailsViewModel(get(), get(), languagedId) }
-  viewModel { LoginViewModel(get()) }
-  factory { RegistrationViewModel(get()) }
-  viewModel { EnterDetailsViewModel() }
-  viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { PaggingWithNetworkAndDbViewModel( ) }
-  viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
+data class ApiLocation(
+  val title: String,
+  @Json(name = "location_type") val locationType: String,
+  @Json(name = "woeid") val id: Int,
+  @Json(name = "latt_long") val latitudeLongitude: String
+)
 
-  viewModel { FlowWeatherViewModel(get(), get() ) }
+data class ApiLocationDetails(
+  @Json(name = "consolidated_weather") val forecasts: List<ApiForecast>,
+  val time: String,
+  @Json(name = "sun_rise") val sunrise: String,
+  @Json(name = "sun_set") val sunset: String,
+  val title: String,
+  @Json(name = "woeid") val id: Int
+)
 
-
-
-  single<ImageLoader> { ImageLoaderImpl() }
-
-  //single { Picasso.get() }
-
-  single<WeatherViewStateMapper> { WeatherViewStateMapperImpl() }
-
-}
+data class ApiForecast(
+  val id: Long,
+  @Json(name = "weather_state_name") val weatherState: String,
+  @Json(name = "weather_state_abbr") val weatherStateAbbreviation: String,
+  @Json(name = "wind_direction_compass") val windDirection: String,
+  @Json(name = "applicable_date") val date: String,
+  @Json(name = "min_temp") val minTemp: Double,
+  @Json(name = "max_temp") val maxTemp: Double,
+  @Json(name = "the_temp") val temp: Double,
+  @Json(name = "wind_speed") val windSpeed: Double,
+  @Json(name = "air_pressure") val airPressure: Double,
+  @Json(name = "humidity") val humidity: Double,
+  @Json(name = "visibility") val visibility: Double,
+  @Json(name = "predictability") val predictability: Int
+)

@@ -28,37 +28,38 @@
  * THE SOFTWARE.
  */
 
-package com.vjezba.androidjetpackgithub.di
+package com.vjezba.data.database.model
 
-import androidx.lifecycle.SavedStateHandle
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapperImpl
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoaderImpl
-import com.vjezba.androidjetpackgithub.viewmodels.*
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.*
 
-val presentationModule = module {
-  viewModel { GalleryViewModel(get()) }
-  viewModel { (handle: SavedStateHandle) -> LanguagesListViewModel(handle, get()) }
-  viewModel { SavedLanguagesListViewModel(get()) }
-  viewModel { (languagedId : Int) -> LanguageDetailsViewModel(get(), get(), languagedId) }
-  viewModel { LoginViewModel(get()) }
-  factory { RegistrationViewModel(get()) }
-  viewModel { EnterDetailsViewModel() }
-  viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { PaggingWithNetworkAndDbViewModel( ) }
-  viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
-
-  viewModel { FlowWeatherViewModel(get(), get() ) }
-
-
-
-  single<ImageLoader> { ImageLoaderImpl() }
-
-  //single { Picasso.get() }
-
-  single<WeatherViewStateMapper> { WeatherViewStateMapperImpl() }
-
+@Entity(tableName = "location_details_table")
+data class DbLocationDetails(
+    val time: String,
+    val sunrise: String,
+    val sunset: String,
+    val title: String,
+    @PrimaryKey val id: Int
+) {
+  companion object {
+    val EMPTY = DbLocationDetails("", "", "", "", -1)
+  }
 }
+
+@Entity(tableName = "forecasts_table")
+data class DbForecast(
+    @PrimaryKey val id: Long,
+    val state: String,
+    val windDirection: String,
+    val date: String,
+    val minTemp: Double,
+    val maxTemp: Double,
+    val temp: Double,
+    val windSpeed: Double,
+    val pressure: Double,
+    val humidity: Double,
+    val visibility: Double,
+    val predictability: Int,
+    val weatherStateAbbreviation: String
+)

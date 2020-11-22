@@ -28,37 +28,51 @@
  * THE SOFTWARE.
  */
 
-package com.vjezba.androidjetpackgithub.di
+package com.vjezba.data.weather.mapper
 
-import androidx.lifecycle.SavedStateHandle
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapperImpl
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoaderImpl
-import com.vjezba.androidjetpackgithub.viewmodels.*
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
-
-val presentationModule = module {
-  viewModel { GalleryViewModel(get()) }
-  viewModel { (handle: SavedStateHandle) -> LanguagesListViewModel(handle, get()) }
-  viewModel { SavedLanguagesListViewModel(get()) }
-  viewModel { (languagedId : Int) -> LanguageDetailsViewModel(get(), get(), languagedId) }
-  viewModel { LoginViewModel(get()) }
-  factory { RegistrationViewModel(get()) }
-  viewModel { EnterDetailsViewModel() }
-  viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { PaggingWithNetworkAndDbViewModel( ) }
-  viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
-
-  viewModel { FlowWeatherViewModel(get(), get() ) }
+import com.vjezba.data.weather.model.ApiForecast
+import com.vjezba.data.weather.model.ApiLocation
+import com.vjezba.data.weather.model.ApiLocationDetails
+import com.vjezba.domain.model.Forecast
+import com.vjezba.domain.model.Location
+import com.vjezba.domain.model.LocationDetails
 
 
+class ApiMapperImpl : ApiMapper {
 
-  single<ImageLoader> { ImageLoaderImpl() }
+  override fun mapApiLocationDetailsToDomain(apiLocationDetails: ApiLocationDetails): LocationDetails {
+    return with(apiLocationDetails) {
+      LocationDetails(
+        forecasts.map { mapApiForecastToDomain(it) },
+        time,
+        sunrise,
+        sunset,
+        title,
+        id
+      )
+    }
+  }
 
-  //single { Picasso.get() }
+  override fun mapApiLocationToDomain(apiLocation: ApiLocation) = Location(
+    apiLocation.id,
+    apiLocation.title
+  )
 
-  single<WeatherViewStateMapper> { WeatherViewStateMapperImpl() }
-
+  private fun mapApiForecastToDomain(apiForecast: ApiForecast) = with(apiForecast) {
+    Forecast(
+      id,
+      weatherState,
+      windDirection,
+      date,
+      minTemp,
+      maxTemp,
+      temp,
+      windSpeed,
+      airPressure,
+      humidity,
+      visibility,
+      predictability,
+      weatherStateAbbreviation
+    )
+  }
 }

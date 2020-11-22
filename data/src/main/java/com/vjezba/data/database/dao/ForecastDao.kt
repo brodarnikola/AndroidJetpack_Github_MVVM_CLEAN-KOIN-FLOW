@@ -28,37 +28,47 @@
  * THE SOFTWARE.
  */
 
-package com.vjezba.androidjetpackgithub.di
+package com.vjezba.data.database.dao
 
-import androidx.lifecycle.SavedStateHandle
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapperImpl
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoaderImpl
-import com.vjezba.androidjetpackgithub.viewmodels.*
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Transaction
+import com.vjezba.data.database.model.DbForecast
+import com.vjezba.data.database.model.DbLocationDetails
+import kotlinx.coroutines.flow.Flow
 
-val presentationModule = module {
-  viewModel { GalleryViewModel(get()) }
-  viewModel { (handle: SavedStateHandle) -> LanguagesListViewModel(handle, get()) }
-  viewModel { SavedLanguagesListViewModel(get()) }
-  viewModel { (languagedId : Int) -> LanguageDetailsViewModel(get(), get(), languagedId) }
-  viewModel { LoginViewModel(get()) }
-  factory { RegistrationViewModel(get()) }
-  viewModel { EnterDetailsViewModel() }
-  viewModel { LanguagesActivityViewModel(get()) }
-  viewModel { PaggingWithNetworkAndDbViewModel( ) }
-  viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
+@Dao
+interface ForecastDao {
 
-  viewModel { FlowWeatherViewModel(get(), get() ) }
+  @Query("SELECT * FROM forecasts_table")
+  fun getForecasts(): Flow<List<DbForecast>>
 
+  @Query("SELECT * FROM location_details_table")
+  suspend fun getLocationDetails(): DbLocationDetails?
 
+  @Transaction
+  suspend fun updateLocationDetails(locationDetails: DbLocationDetails) {
+    clearLocationDetails()
+    insertLocationDetails(locationDetails)
+  }
 
-  single<ImageLoader> { ImageLoaderImpl() }
+  @Query("DELETE FROM location_details_table")
+  suspend fun clearLocationDetails()
 
-  //single { Picasso.get() }
+  @Insert
+  suspend fun insertLocationDetails(locationDetails: DbLocationDetails)
 
-  single<WeatherViewStateMapper> { WeatherViewStateMapperImpl() }
+  @Transaction
+  suspend fun updateForecasts(forecasts: List<DbForecast>) {
+    clearForecasts()
+    insertAllForecast(forecasts)
+  }
+
+  @Insert
+  suspend fun insertAllForecast(forecasts: List<DbForecast>)
+
+  @Query("DELETE FROM forecasts_table")
+  suspend fun clearForecasts()
 
 }
