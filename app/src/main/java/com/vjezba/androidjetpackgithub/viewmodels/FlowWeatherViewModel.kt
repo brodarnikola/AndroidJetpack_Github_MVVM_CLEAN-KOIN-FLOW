@@ -38,13 +38,10 @@ import com.vjezba.androidjetpackgithub.ui.mapper.ForecastViewState
 import com.vjezba.androidjetpackgithub.ui.mapper.LocationViewState
 import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
 import com.vjezba.domain.repository.WeatherRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 private const val SEARCH_DELAY_MILLIS = 500L
 private const val MIN_QUERY_LENGTH = 2
@@ -74,6 +71,9 @@ class FlowWeatherViewModel(
     .asFlow()
     //2
     .debounce(SEARCH_DELAY_MILLIS)
+    // other way of swithing between main and background thread in FLOW
+    //.flowOn(Dispatchers.Main)
+    .flowOn(Dispatchers.IO)
     //3
     .mapLatest {
       if (it.length >= MIN_QUERY_LENGTH) {

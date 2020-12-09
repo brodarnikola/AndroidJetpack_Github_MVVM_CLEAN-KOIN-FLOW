@@ -64,13 +64,6 @@ class WeatherRepositoryImpl(
     }
   }
 
-
-
-    fun formatToViewDateTimeDefaults(dateInString: String): String{
-        val sdf= SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-        return sdf.format(dateInString)
-    }
-
   override suspend fun fetchLocationDetails(id: Int) = withContext(backgroundDispatcher) {
     val locationDetails = try {
       apiMapper.mapApiLocationDetailsToDomain(
