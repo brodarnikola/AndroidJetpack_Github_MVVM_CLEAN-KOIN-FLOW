@@ -20,5 +20,10 @@
             android:id="@+id/flow_reactive_stream_example_weather_fragment"
             android:icon="@drawable/ic_menu_gallery"
             android:title="FLOW WEATHER EXAMPLE" />
+
+        <item
+            android:id="@+id/animation_fragment"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Animations example" />
     </group>
 </menu>

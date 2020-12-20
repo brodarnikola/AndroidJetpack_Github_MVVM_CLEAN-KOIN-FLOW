@@ -26,12 +26,12 @@ val networkingModule = module {
             .build()
     }
 
-    single(named("retrofitGithub")) {
+    single<Retrofit>(named("retrofitGithub")) {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(get())
             .addConverterFactory(get())
             .build()
     }
-    single { get<Retrofit>().create(GithubRepositoryApi::class.java) }
+    single { get<Retrofit>(named("retrofitGithub")).create(GithubRepositoryApi::class.java) }
 }

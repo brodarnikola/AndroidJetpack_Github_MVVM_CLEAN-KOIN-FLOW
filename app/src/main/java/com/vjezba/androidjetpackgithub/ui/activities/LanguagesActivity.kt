@@ -84,7 +84,8 @@ class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 R.id.view_pager_fragment,
                 R.id.paggin_with_network_and_db,
                 R.id.lego_fragment,
-                R.id.flow_reactive_stream_example_weather_fragment
+                R.id.flow_reactive_stream_example_weather_fragment,
+                R.id.animation_fragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
