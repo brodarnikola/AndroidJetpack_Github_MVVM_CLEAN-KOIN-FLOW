@@ -2,7 +2,6 @@ package com.vjezba.androidjetpackgithub
 
 import android.app.Activity
 import android.app.Application
-import com.vjezba.androidjetpackgithub.di.AppInjector
 import com.vjezba.androidjetpackgithub.di.presentationModule
 import com.vjezba.data.di.databaseModule
 import com.vjezba.data.di.networkingModule
@@ -19,11 +18,8 @@ import org.koin.core.logger.Level
 import javax.inject.Inject
 import dagger.android.HasActivityInjector
 
-class App : Application(), HasActivityInjector {
+class App : Application() {
 
-
-  @Inject
-  lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
   companion object {
     lateinit var instance: Application
@@ -46,11 +42,7 @@ class App : Application(), HasActivityInjector {
       modules(appModules + interactionModules + dataModules + weatherModules)
     }
 
-    AppInjector.init(this)
-
   }
-
-  override fun activityInjector() = dispatchingAndroidInjector
 
 }
 

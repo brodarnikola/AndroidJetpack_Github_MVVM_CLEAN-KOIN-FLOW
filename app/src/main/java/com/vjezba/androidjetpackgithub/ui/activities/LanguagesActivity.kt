@@ -55,17 +55,6 @@ class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        nav_view.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.lego_fragment -> {
-                    val intent = Intent(this, LegoThemeActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-            }
-            true
-        }
-
         val drawerToggle = ActionBarDrawerToggle(
             this, drawer_layout,
             R.string.open,
@@ -83,7 +72,6 @@ class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
             setOf(
                 R.id.view_pager_fragment,
                 R.id.paggin_with_network_and_db,
-                R.id.lego_fragment,
                 R.id.flow_reactive_stream_example_weather_fragment,
                 R.id.animation_fragment
             ), drawerLayout
@@ -130,12 +118,12 @@ class LanguagesActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     navController.navigate(direction)
                     false // true to keep the Speed Dial open
                 }
-                R.id.action_dance -> {
+                /*R.id.action_dance -> {
                     val direction =
                         HomeViewPagerFragmentDirections.actionViewPagerFragmentToLegoThemeFragment()
                     navController.navigate(direction)
                     false // true to keep the Speed Dial open
-                }
+                }*/
                 R.id.action_dogo -> {
                     Toast.makeText(this, "Dogo clicked", Toast.LENGTH_LONG).show()
                     false // true to keep the Speed Dial open
