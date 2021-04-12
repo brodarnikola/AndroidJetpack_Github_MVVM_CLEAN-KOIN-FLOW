@@ -69,19 +69,7 @@ class PaggingWithNetworkAndDbFragment : Fragment() {
         automaticIncreaseNumberByOne?.cancel()
         automaticIncreaseNumberByOne = lifecycleScope.launch {
 
-            (1..3).asFlow().map { requestFlow(it) }
-                .onEach { stringData -> println("Data of flow is: " + stringData) }
-                .collect()
-
-            // launchIn means, we are collecting data asinkron
-            // collect, collectLatest and so on.. means, we are collecting data sinkrono
-
-            exampleOfAsynchronFunction(this)// this is asincron function because of operator launchIn
-            exampleOfSyncronFunction() // this is sincrono function because of operator collect
-
-            println("Only when this this two above function 'exampleOfAsynchronFunction' and 'exampleOfSyncronFunction'" +
-                    "  are done, then only it will be executed this line" +
-                    "\n Because this function 'exampleOfSyncronFunction' is suspending function of, because of operator 'collect'  ")
+            flowExamples(this)
 
             while (true) {
                 delay(UPDATE_PERIOD)
@@ -92,7 +80,48 @@ class PaggingWithNetworkAndDbFragment : Fragment() {
                 }
             }
         }
+    }
 
+    private fun handleUpdate() {
+        viewModel.incrementAutomaticallyByOne()
+    }
+
+    private suspend fun flowExamples(coroutineScope: CoroutineScope) {
+
+        combine(f1, f2, f3) { list, list2, list3 ->
+            list + list2 + list3
+        }
+            // print -> [1, 2, 3, 4, 5, 6]
+            .onEach {
+                println(it)
+            }
+            .launchIn(coroutineScope)
+
+        (1..3).asFlow().map { requestFlow(it) }
+            .onEach { stringData -> println("Data of flow is: " + stringData) }
+            .collect()
+
+        // launchIn means, we are collecting data asinkron
+        // collect, collectLatest and so on.. means, we are collecting data sinkrono
+
+        exampleOfAsynchronFunction(coroutineScope)// this is asincron function because of operator launchIn
+        exampleOfSyncronFunction() // this is sincrono function because of operator collect
+
+        println("Only when this this two above function 'exampleOfAsynchronFunction' and 'exampleOfSyncronFunction'" +
+                "  are done, then only it will be executed this line" +
+                "\n Because this function 'exampleOfSyncronFunction' is suspending function of, because of operator 'collect'  ")
+    }
+
+    val f1 = flow {
+        emit(listOf(1, 2))
+    }
+
+    val f2 = flow {
+        emit(listOf(3, 4))
+    }
+
+    val f3 = flow {
+        emit(listOf(5, 6))
     }
 
     private suspend fun exampleOfSyncronFunction() {
@@ -114,10 +143,6 @@ class PaggingWithNetworkAndDbFragment : Fragment() {
         emit("$i: First")
         delay(500) // wait 500 ms
         emit("$i: Second")
-    }
-
-    private fun handleUpdate() {
-        viewModel.incrementAutomaticallyByOne()
     }
 
 }

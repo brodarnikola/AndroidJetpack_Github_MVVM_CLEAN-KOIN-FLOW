@@ -37,6 +37,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.vjezba.androidjetpackgithub.databinding.FragmentWeatherFlowExampleBinding
@@ -47,8 +48,8 @@ import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
 import com.vjezba.androidjetpackgithub.viewmodels.FlowWeatherViewModel
 import kotlinx.android.synthetic.main.activity_languages_main.*
 import kotlinx.android.synthetic.main.fragment_weather_flow_example.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import okhttp3.internal.toImmutableList
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -57,69 +58,69 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 @ExperimentalCoroutinesApi
 class WeatherFlowExampleFragment : Fragment() {
 
-  private val imageLoader: ImageLoader by inject()
-  private val homeViewModel: FlowWeatherViewModel by viewModel() // by viewModel<FlowWeatherViewModel>()
+    private val imageLoader: ImageLoader by inject()
+    private val homeViewModel: FlowWeatherViewModel by viewModel() // by viewModel<FlowWeatherViewModel>()
 
-  private val forecastAdapter by lazy { ForecastFlowAdapter(layoutInflater, imageLoader) }
-  private val locationAdapter by lazy { LocationFlowAdapter(layoutInflater, ::onLocationClick) }
+    private val forecastAdapter by lazy { ForecastFlowAdapter(layoutInflater, imageLoader) }
+    private val locationAdapter by lazy { LocationFlowAdapter(layoutInflater, ::onLocationClick) }
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-    val binding = FragmentWeatherFlowExampleBinding.inflate(inflater, container, false)
-    context ?: return binding.root
+        val binding = FragmentWeatherFlowExampleBinding.inflate(inflater, container, false)
+        context ?: return binding.root
 
-    activity?.speedDial?.visibility = View.GONE
-    return binding.root
-  }
+        activity?.speedDial?.visibility = View.GONE
+        return binding.root
+    }
 
-  override fun onStart() {
-    super.onStart()
+    override fun onStart() {
+        super.onStart()
 
-    initUi()
-  }
+        initUi()
+    }
 
-  private fun initUi() {
-    initSearchBar()
-    initRecyclerView()
-    initObservers()
-  }
+    private fun initUi() {
+        initSearchBar()
+        initRecyclerView()
+        initObservers()
+    }
 
-  private fun initSearchBar() {
-    locationsList.adapter = locationAdapter
+    private fun initSearchBar() {
+        locationsList.adapter = locationAdapter
 
-    search.isActivated = true
-    search.onActionViewExpanded()
-    search.isIconified = true
-    search.clearFocus()
+        search.isActivated = true
+        search.onActionViewExpanded()
+        search.isIconified = true
+        search.clearFocus()
 
-    search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-      override fun onQueryTextSubmit(query: String): Boolean {
-        return false
-      }
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
 
-      override fun onQueryTextChange(newText: String): Boolean {
-        homeViewModel.queryChannel.offer(newText)
-        return false
-      }
-    })
-  }
+            override fun onQueryTextChange(newText: String): Boolean {
+                homeViewModel.queryChannel.offer(newText)
+                return false
+            }
+        })
+    }
 
-  private fun initRecyclerView() {
-    forecastList.layoutManager = LinearLayoutManager(requireContext(), VERTICAL, false)
-    forecastList.adapter = forecastAdapter
+    private fun initRecyclerView() {
+        forecastList.layoutManager = LinearLayoutManager(requireContext(), VERTICAL, false)
+        forecastList.adapter = forecastAdapter
 
-    //val snapHelper = LinearSnapHelper()
-    //snapHelper.attachToRecyclerView(forecastList)
-  }
+        //val snapHelper = LinearSnapHelper()
+        //snapHelper.attachToRecyclerView(forecastList)
+    }
 
-  private fun initObservers() {
-    homeViewModel.forecasts.observe(viewLifecycleOwner, Observer {
+    private fun initObservers() {
+        homeViewModel.forecasts.observe(viewLifecycleOwner, Observer {
 
-      val dtStart = "2010-10-15"/*
+            val dtStart = "2010-10-15"/*
       val format =
         SimpleDateFormat("yyyy-MM-dd")
       try {
@@ -138,18 +139,84 @@ class WeatherFlowExampleFragment : Fragment() {
       }
 
 */
-      val locationDetailsFinal = it?.sortedBy { it.date } ?: listOf()
+            val locationDetailsFinal = it?.sortedBy { it.date } ?: listOf()
 
-      forecastAdapter.setData(locationDetailsFinal.toImmutableList())
-    })
+            forecastAdapter.setData(locationDetailsFinal.toImmutableList())
+        })
 
-    homeViewModel.locations.observe(viewLifecycleOwner, Observer {
-      locationAdapter.setData(it)
-    })
-  }
+        homeViewModel.locations.observe(viewLifecycleOwner, Observer {
+            locationAdapter.setData(it)
+        })
 
-  private fun onLocationClick(locationViewState: LocationViewState) {
-    homeViewModel.queryChannel.offer("")
-    homeViewModel.fetchLocationDetails(locationViewState.id)
-  }
+        lifecycleScope.launch {
+            flowExamples(this)
+        }
+    }
+
+    private fun onLocationClick(locationViewState: LocationViewState) {
+        homeViewModel.queryChannel.offer("")
+        homeViewModel.fetchLocationDetails(locationViewState.id)
+    }
+
+    private suspend fun flowExamples(coroutineScope: CoroutineScope) {
+
+        combine(f1, f2, f3) { list, list2, list3 ->
+            list + list2 + list3
+        }
+            // print -> [1, 2, 3, 4, 5, 6]
+            .onEach {
+                println(it)
+            }
+            .launchIn(coroutineScope)
+
+        (1..3).asFlow().map { requestFlow(it) }
+            .onEach { stringData -> println("Data of flow is: " + stringData) }
+            .collect()
+
+        // launchIn means, we are collecting data asinkron
+        // collect, collectLatest and so on.. means, we are collecting data sinkrono
+
+        exampleOfAsynchronFunction(coroutineScope)// this is asincron function because of operator launchIn
+        exampleOfSyncronFunction() // this is sincrono function because of operator collect
+
+        println(
+            "Only when this this two above function 'exampleOfAsynchronFunction' and 'exampleOfSyncronFunction'" +
+                    "  are done, then only it will be executed this line" +
+                    "\n Because this function 'exampleOfSyncronFunction' is suspending function of, because of operator 'collect'  "
+        )
+    }
+
+    val f1 = flow {
+        emit(listOf(1, 2))
+    }
+
+    val f2 = flow {
+        emit(listOf(3, 4))
+    }
+
+    val f3 = flow {
+        emit(listOf(5, 6))
+    }
+
+    private suspend fun exampleOfSyncronFunction() {
+        val nums1 = (1..3).asFlow().onEach { delay(300) }  // numbers 1..4
+        val strs1 = flowOf("one", "two", "three").onEach { delay(400) }  // strings
+        nums1.combine(strs1) { a, b -> "$a -> $b" } // compose a single string
+            .collect { println("COMBINE operator: Data of two combines flows ( nums and strs ) is: " + it) }
+    }
+
+    private fun exampleOfAsynchronFunction(coroutineScope: CoroutineScope) {
+        val nums = (1..3).asFlow().onEach { delay(300) } // numbers 1..4
+        val strs = flowOf("one", "two", "three").onEach { delay(400) }  // strings
+        nums.zip(strs) { a, b -> "$a -> $b" } // compose a single string
+            .onEach { println("ZIP operator: Data of two combines flows ( nums and strs ) is: " + it) }
+            .launchIn(coroutineScope)
+    }
+
+    fun requestFlow(i: Int): Flow<String> = flow {
+        emit("$i: First")
+        delay(500) // wait 500 ms
+        emit("$i: Second")
+    }
+
 }
