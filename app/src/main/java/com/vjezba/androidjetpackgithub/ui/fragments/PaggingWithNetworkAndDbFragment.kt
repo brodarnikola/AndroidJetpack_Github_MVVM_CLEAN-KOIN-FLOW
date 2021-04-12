@@ -14,6 +14,7 @@ import com.vjezba.androidjetpackgithub.ui.dialog.ChooseProgrammingLanguageDialog
 import com.vjezba.androidjetpackgithub.viewmodels.PaggingWithNetworkAndDbViewModel
 import kotlinx.android.synthetic.main.activity_languages_main.*
 import kotlinx.android.synthetic.main.fragment_pagging_network_and_db.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -69,20 +70,18 @@ class PaggingWithNetworkAndDbFragment : Fragment() {
         automaticIncreaseNumberByOne = lifecycleScope.launch {
 
             (1..3).asFlow().map { requestFlow(it) }
-                .collect {
-                    println("Data of flow is: " + it)
-                }
+                .onEach { stringData -> println("Data of flow is: " + stringData) }
+                .collect()
 
-            val nums = (1..3).asFlow().onEach { delay(300) } // numbers 1..4
-            val strs = flowOf("one", "two", "three").onEach { delay(400) }  // strings
-            nums.zip(strs) { a, b -> "$a -> $b" } // compose a single string
-                .collect { println( "ZIP operator: Data of two combines flows ( nums and strs ) is: " + it ) }
+            // launchIn means, we are collecting data asinkron
+            // collect, collectLatest and so on.. means, we are collecting data sinkrono
 
+            exampleOfAsynchronFunction(this)// this is asincron function because of operator launchIn
+            exampleOfSyncronFunction() // this is sincrono function because of operator collect
 
-            val nums1 = (1..3).asFlow().onEach { delay(300) }  // numbers 1..4
-            val strs1 = flowOf("one", "two", "three").onEach { delay(400) }  // strings
-            nums1.combine(strs1) { a, b -> "$a -> $b" } // compose a single string
-                .collect { println( "COMBINE operator: Data of two combines flows ( nums and strs ) is: " + it ) }
+            println("Only when this this two above function 'exampleOfAsynchronFunction' and 'exampleOfSyncronFunction'" +
+                    "  are done, then only it will be executed this line" +
+                    "\n Because this function 'exampleOfSyncronFunction' is suspending function of, because of operator 'collect'  ")
 
             while (true) {
                 delay(UPDATE_PERIOD)
@@ -94,6 +93,21 @@ class PaggingWithNetworkAndDbFragment : Fragment() {
             }
         }
 
+    }
+
+    private suspend fun exampleOfSyncronFunction() {
+        val nums1 = (1..3).asFlow().onEach { delay(300) }  // numbers 1..4
+        val strs1 = flowOf("one", "two", "three").onEach { delay(400) }  // strings
+        nums1.combine(strs1) { a, b -> "$a -> $b" } // compose a single string
+            .collect { println( "COMBINE operator: Data of two combines flows ( nums and strs ) is: " + it ) }
+    }
+
+    private fun exampleOfAsynchronFunction( coroutineScope: CoroutineScope) {
+        val nums = (1..3).asFlow().onEach { delay(300) } // numbers 1..4
+        val strs = flowOf("one", "two", "three").onEach { delay(400) }  // strings
+        nums.zip(strs) { a, b -> "$a -> $b" } // compose a single string
+            .onEach { println( "ZIP operator: Data of two combines flows ( nums and strs ) is: " + it ) }
+            .launchIn(coroutineScope)
     }
 
     fun requestFlow(i: Int): Flow<String> = flow {
