@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_languages_main.*
 import kotlinx.android.synthetic.main.fragment_pagging_network_and_db.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -67,6 +67,23 @@ class PaggingWithNetworkAndDbFragment : Fragment() {
 
         automaticIncreaseNumberByOne?.cancel()
         automaticIncreaseNumberByOne = lifecycleScope.launch {
+
+            (1..3).asFlow().map { requestFlow(it) }
+                .collect {
+                    println("Data of flow is: " + it)
+                }
+
+            val nums = (1..3).asFlow().onEach { delay(300) } // numbers 1..4
+            val strs = flowOf("one", "two", "three").onEach { delay(400) }  // strings
+            nums.zip(strs) { a, b -> "$a -> $b" } // compose a single string
+                .collect { println( "ZIP operator: Data of two combines flows ( nums and strs ) is: " + it ) }
+
+
+            val nums1 = (1..3).asFlow().onEach { delay(300) }  // numbers 1..4
+            val strs1 = flowOf("one", "two", "three").onEach { delay(400) }  // strings
+            nums1.combine(strs1) { a, b -> "$a -> $b" } // compose a single string
+                .collect { println( "COMBINE operator: Data of two combines flows ( nums and strs ) is: " + it ) }
+
             while (true) {
                 delay(UPDATE_PERIOD)
                 try {
@@ -76,6 +93,13 @@ class PaggingWithNetworkAndDbFragment : Fragment() {
                 }
             }
         }
+
+    }
+
+    fun requestFlow(i: Int): Flow<String> = flow {
+        emit("$i: First")
+        delay(500) // wait 500 ms
+        emit("$i: Second")
     }
 
     private fun handleUpdate() {
