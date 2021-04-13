@@ -53,7 +53,7 @@ val presentationModule = module {
   viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
 
   viewModel { FlowWeatherViewModel(get(), get() ) }
-  viewModel { FlowMultipleExamplesViewModel(get(), get() ) }
+  viewModel { FlowMultipleExamplesViewModel() }
 
 
   single<ImageLoader> { ImageLoaderImpl() }

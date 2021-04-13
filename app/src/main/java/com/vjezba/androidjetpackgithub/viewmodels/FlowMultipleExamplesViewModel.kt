@@ -30,74 +30,98 @@
 
 package com.vjezba.androidjetpackgithub.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.vjezba.androidjetpackgithub.ui.mapper.ForecastViewState
-import com.vjezba.androidjetpackgithub.ui.mapper.LocationViewState
-import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
-import com.vjezba.domain.repository.WeatherRepository
+import androidx.lifecycle.*
+import com.vjezba.data.Post
+import com.vjezba.data.networking.FlowRepositoryApi
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-
-private const val SEARCH_DELAY_MILLIS = 500L
-private const val MIN_QUERY_LENGTH = 2
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class FlowMultipleExamplesViewModel(
-  private val weatherRepository: WeatherRepository,
-  private val homeViewStateMapper: WeatherViewStateMapper
-) : ViewModel() {
+class FlowMultipleExamplesViewModel : ViewModel() {
 
-  //1
-  val forecasts: LiveData<List<ForecastViewState>> = weatherRepository
-    //2
-    .getForecasts()
-    //3
-    .map {
-      homeViewStateMapper.mapForecastsToViewState(it)
-    }
-    //4
-    .asLiveData()
 
-  val queryChannel = BroadcastChannel<String>(Channel.CONFLATED)
+    private val _postData: MutableLiveData<List<Post>> = MutableLiveData()
+    val postData: LiveData<List<Post>> = _postData
 
-  private val _locations = queryChannel
-    //1
-    .asFlow()
-    //2
-    .debounce(SEARCH_DELAY_MILLIS)
-    // other way of swithing between main and background thread in FLOW
-    //.flowOn(Dispatchers.Main)
-    .flowOn(Dispatchers.IO)
-    //3
-    .mapLatest {
-      if (it.length >= MIN_QUERY_LENGTH) {
-        getLocations(it)
-      } else {
-        emptyList()
-      }
-    }
-    //4
-    .catch {
-      // Log Error
+    private val _commentData: MutableLiveData<Post> = MutableLiveData()
+    val commentData: LiveData<Post> = _commentData
+
+    init {
+        viewModelScope.launch {
+            getAllPosts()
+        }
     }
 
-  val locations = _locations.asLiveData()
+    private suspend fun getAllPosts() {
+        val retrofit = setupRetrofitFlow()
 
-  private suspend fun getLocations(query: String): List<LocationViewState> {
-    val locations = viewModelScope.async { weatherRepository.findLocation(query) }
+        flowOf(retrofit.getPosts())
+            .flatMapMerge {
+                delay(1500)
+                _postData.value = it
+                it.asFlow()
+            }
+            .onEach {
 
-    return homeViewStateMapper.mapLocationsToViewState(locations.await())
-  }
+                // First example to launch new flow ( to get data -> comments for every posts )
+                // In this it is launched 100 coroutines
+//                val postData = it
+//                flowOf(retrofit.getComments(it.id))
+//                    .map {
+//
+//                        val delayFlow: Int =
+//                            (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
+//                        delay(delayFlow.toLong())
+//
+//                        postData.comments = it
+//                        _commentData.value = postData
+//                    }
+//                    .launchIn(viewModelScope)
 
-  fun fetchLocationDetails(cityId: Int) {
-    viewModelScope.launch {
-      weatherRepository.fetchLocationDetails(cityId)
+                // Second example to launch new flow ( to get data -> comments for every posts )
+                // In this it is launched 100 coroutines
+//                viewModelScope.launch {
+//                    val delayFlow: Int = (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
+//                    delay(delayFlow.toLong())
+//
+//                    val listComments = retrofit.getComments(it.id)
+//
+//                    it.comments = listComments
+//                    _commentData.value = it
+//                }
+
+                // Third example to launch new flow ( to get data -> comments for every posts )
+                // In this it is launched 100 coroutines
+                flow {
+
+                    val delayFlow: Int = (Random().nextInt(5) + 1) * 1000 // sleep thread for x ms
+                    delay(delayFlow.toLong())
+
+                    val listComments = retrofit.getComments(it.id)
+                    emit(listComments)
+
+                    it.comments = listComments
+                    _commentData.value = it
+
+                }.launchIn(viewModelScope)
+            }
+            .launchIn(viewModelScope)
+
     }
-  }
+
+    private suspend fun setupRetrofitFlow(): FlowRepositoryApi {
+        return Retrofit.Builder()
+            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient())
+            //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build().create(FlowRepositoryApi::class.java)
+    }
+
+
 }
