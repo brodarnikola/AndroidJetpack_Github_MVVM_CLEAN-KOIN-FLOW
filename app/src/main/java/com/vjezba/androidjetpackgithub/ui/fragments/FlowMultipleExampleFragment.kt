@@ -46,11 +46,13 @@ import com.vjezba.androidjetpackgithub.ui.adapters.FlowMultipleExamplesAdapter
 import com.vjezba.androidjetpackgithub.ui.mapper.LocationViewState
 import com.vjezba.androidjetpackgithub.viewmodels.FlowMultipleExamplesViewModel
 import com.vjezba.data.Post
+import com.vjezba.data.networking.FlowRepositoryApi
 import com.vjezba.data.networking.GithubRepositoryApi
 import kotlinx.android.synthetic.main.activity_languages_main.*
 import kotlinx.android.synthetic.main.fragment_flow_multiple_examples.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -60,7 +62,7 @@ import java.util.*
 @ExperimentalCoroutinesApi
 class FlowMultipleExampleFragment : Fragment() {
 
-    private val homeViewModel: FlowMultipleExamplesViewModel by viewModel() // by viewModel<FlowWeatherViewModel>()
+    //private val homeViewModel: FlowMultipleExamplesViewModel by viewModel() // by viewModel<FlowWeatherViewModel>()
 
     private val flowMultipleExamplesAdapter by lazy { FlowMultipleExamplesAdapter() }
 
@@ -92,9 +94,99 @@ class FlowMultipleExampleFragment : Fragment() {
     private fun setupFlowRestApiCall() {
 
         lifecycleScope.launch {
+            val startTime = System.currentTimeMillis() // remember the start time
+            (1..3).asFlow().onEach {
+                delay(100)
+                } // a number every 100 ms
+                .flatMapMerge { requestFlow(it) }
+                .collect { value -> // collect and print
+                    println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+                }
+        }
 
-            val retrofit = setupRetrofitFlatMap()
-            val getPostsData = retrofit.getPosts()
+        lifecycleScope.launch {
+
+            val retrofit = setupRetrofitFlow()
+
+            // 1 donekle dobar primjer, samo steta kaj je sinkroni
+//            val postList = retrofit.getPosts()
+//            flowMultipleExamplesAdapter.setPosts(postList.toMutableList())
+//
+//            postList
+//                .asFlow()
+//                .map {
+//                    val dataCommnet =  retrofit.getComments(it.id)
+//                    //.onEach {
+//                    it.comments = dataCommnet
+//                    flowMultipleExamplesAdapter.updatePost(it)
+//                    it
+//                }
+//                .launchIn(this)
+
+            var listPostData = listOf<Post>()
+
+            flowOf( retrofit.getPosts() )
+//                .flowOn(Dispatchers.IO)
+//                .mapLatest {
+//                    listPostData = it
+//                    flowMultipleExamplesAdapter.setPosts(it.toMutableList())
+//                    it
+//                }
+//                .flowOn(Dispatchers.Main)
+//                .
+                .collect {
+                    flowMultipleExamplesAdapter.setPosts(it.toMutableList())
+                    for( postData in it ) {
+                        flowOf( retrofit.getComments(postData.id) )
+                            .onEach {
+                                postData.comments = it
+                                flowMultipleExamplesAdapter.updatePost(postData)
+                                it
+                            }
+                            .launchIn(this)
+                    }
+                }
+
+
+//            val test6 = retrofit.getPosts()
+//                .asFlow()
+//                .map {
+//                    val comments = retrofit.getComments(it.id)
+//                    it.comments = comments
+//                    flowMultipleExamplesAdapter.updatePost(it)
+//                    it
+//                }
+//                .collect {
+//                }
+
+
+//            val test5 = retrofit.getPosts()
+//                .asFlow()
+//                .debounce(3000)
+//                .map {postData ->
+//                    val comments = retrofit.getComments(postData.id)
+//                    postData.comments = comments
+//                    flowMultipleExamplesAdapter.updatePost(postData)
+////                        .onEach {
+////                            postData.comments = it
+////                            flowMultipleExamplesAdapter.updatePost(postData)
+////                        }
+//                }
+//                .launchIn(this)
+                //.collect {
+                    //flowMultipleExamplesAdapter.setPosts(listPostData.toMutableList())
+                //}
+//
+//            val getPostsData = retrofit.getPosts().asFlow()
+////                .collect {
+////
+////                }
+//                .onEach {
+//                    println("Data is:  " + it + "\n")
+//                }
+//                .launchIn(this)
+
+
 
         }
 
@@ -123,12 +215,13 @@ class FlowMultipleExampleFragment : Fragment() {
 //            })
     }
 
-    private suspend fun setupRetrofitFlatMap(): GithubRepositoryApi {
+    private suspend fun setupRetrofitFlow(): FlowRepositoryApi {
         return Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient())
             //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build().create(GithubRepositoryApi::class.java)
+            .build().create(FlowRepositoryApi::class.java)
     }
 
     private fun initRecyclerView() {
@@ -138,23 +231,18 @@ class FlowMultipleExampleFragment : Fragment() {
     }
 
     private fun initObservers() {
-        homeViewModel.forecasts.observe(viewLifecycleOwner, Observer {
-            val locationDetailsFinal = it?.sortedBy { it.date } ?: listOf()
-            //forecastAdapter.setData(locationDetailsFinal.toImmutableList())
-        })
-
-        homeViewModel.locations.observe(viewLifecycleOwner, Observer {
-            //locationAdapter.setData(it)
-        })
+//        homeViewModel.forecasts.observe(viewLifecycleOwner, Observer {
+//            val locationDetailsFinal = it?.sortedBy { it.date } ?: listOf()
+//            //forecastAdapter.setData(locationDetailsFinal.toImmutableList())
+//        })
+//
+//        homeViewModel.locations.observe(viewLifecycleOwner, Observer {
+//            //locationAdapter.setData(it)
+//        })
 
         lifecycleScope.launch {
             flowExamples(this)
         }
-    }
-
-    private fun onLocationClick(locationViewState: LocationViewState) {
-        homeViewModel.queryChannel.offer("")
-        homeViewModel.fetchLocationDetails(locationViewState.id)
     }
 
     private suspend fun flowExamples(coroutineScope: CoroutineScope) {

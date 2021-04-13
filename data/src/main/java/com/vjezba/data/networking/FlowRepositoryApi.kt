@@ -23,6 +23,8 @@ import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -32,20 +34,19 @@ import retrofit2.http.Query
 /**
  * Used to connect to the Unsplash API to fetch photos
  */
-interface GithubRepositoryApi {
+interface FlowRepositoryApi {
 
-    @GET("search/repositories")
-    suspend fun searchGithubRepository(
-        @Query("q") query: String,
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int
-    ): RepositoryResponseApi
+    @GET("posts")
+    suspend fun getPosts(): List<Post> //Response<Flow<List<Post>>>
 
-    @GET("search/repositories?sort=stars&order=desc")
-    suspend fun searchGithubRepositoryByProgrammingLanguage(
-        @Query("q") query: String,
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int
-    ): RepositoryResponseApi
+    @GET("posts/{id}/comments")
+    suspend fun getComments(
+        @Path("id") id: Int
+    ): List<Comment>
+
+    @GET("posts/{id}")
+    fun getPost(
+        @Path("id") id: Int
+    ): Flow<Post>
 
 }
