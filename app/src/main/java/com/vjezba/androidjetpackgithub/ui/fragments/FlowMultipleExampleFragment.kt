@@ -53,7 +53,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 @ExperimentalCoroutinesApi
 class FlowMultipleExampleFragment : Fragment() {
 
-    private val homeViewModel: FlowMultipleExamplesViewModel by viewModel() // by viewModel<FlowWeatherViewModel>()
+    private val homeViewModel: FlowMultipleExamplesViewModel by viewModel()
 
     private val flowMultipleExamplesAdapter by lazy { FlowMultipleExamplesAdapter() }
 
