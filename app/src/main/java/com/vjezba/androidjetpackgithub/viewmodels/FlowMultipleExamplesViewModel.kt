@@ -70,18 +70,18 @@ class FlowMultipleExamplesViewModel : ViewModel() {
 
                 // First example to launch new flow ( to get data -> comments for every posts )
                 // In this it is launched 100 coroutines
-//                val postData = it
-//                flowOf(retrofit.getComments(it.id))
-//                    .map {
-//
-//                        val delayFlow: Int =
-//                            (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
-//                        delay(delayFlow.toLong())
-//
-//                        postData.comments = it
-//                        _commentData.value = postData
-//                    }
-//                    .launchIn(viewModelScope)
+                val postData = it
+                flowOf(retrofit.getComments(it.id))
+                    .map {
+
+                        val delayFlow: Int =
+                            (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
+                        delay(delayFlow.toLong())
+
+                        postData.comments = it
+                        _commentData.value = postData
+                    }
+                    .launchIn(viewModelScope)
 
                 // Second example to launch new flow ( to get data -> comments for every posts )
                 // In this it is launched 100 coroutines
@@ -97,18 +97,18 @@ class FlowMultipleExamplesViewModel : ViewModel() {
 
                 // Third example to launch new flow ( to get data -> comments for every posts )
                 // In this it is launched 100 coroutines
-                flow {
-
-                    val delayFlow: Int = (Random().nextInt(5) + 1) * 1000 // sleep thread for x ms
-                    delay(delayFlow.toLong())
-
-                    val listComments = retrofit.getComments(it.id)
-                    emit(listComments)
-
-                    it.comments = listComments
-                    _commentData.value = it
-
-                }.launchIn(viewModelScope)
+//                flow {
+//
+//                    val delayFlow: Int = (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
+//                    delay(delayFlow.toLong())
+//
+//                    val listComments = retrofit.getComments(it.id)
+//                    emit(listComments)
+//
+//                    it.comments = listComments
+//                    _commentData.value = it
+//
+//                }.launchIn(viewModelScope)
             }
             .launchIn(viewModelScope)
 
