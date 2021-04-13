@@ -30,7 +30,9 @@
 
 package com.vjezba.androidjetpackgithub.ui.fragments
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,11 +45,16 @@ import com.vjezba.androidjetpackgithub.databinding.FragmentFlowMultipleExamplesB
 import com.vjezba.androidjetpackgithub.ui.adapters.FlowMultipleExamplesAdapter
 import com.vjezba.androidjetpackgithub.ui.mapper.LocationViewState
 import com.vjezba.androidjetpackgithub.viewmodels.FlowMultipleExamplesViewModel
+import com.vjezba.data.Post
+import com.vjezba.data.networking.GithubRepositoryApi
 import kotlinx.android.synthetic.main.activity_languages_main.*
 import kotlinx.android.synthetic.main.fragment_flow_multiple_examples.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -77,28 +84,51 @@ class FlowMultipleExampleFragment : Fragment() {
     }
 
     private fun initUi() {
-        initSearchBar()
         initRecyclerView()
+        setupFlowRestApiCall()
         initObservers()
     }
 
-    private fun initSearchBar() {
+    private fun setupFlowRestApiCall() {
 
-//        search.isActivated = true
-//        search.onActionViewExpanded()
-//        search.isIconified = true
-//        search.clearFocus()
-//
-//        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                return false
+        lifecycleScope.launch {
+
+            val retrofit = setupRetrofitFlatMap()
+            val getPostsData = retrofit.getPosts()
+
+        }
+
+//        getPostObservable()
+//            .flatMap { posts ->
+//                getCommentsObservable(posts)
 //            }
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(object : io.reactivex.Observer<Post> {
 //
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                homeViewModel.queryChannel.offer(newText)
-//                return false
-//            }
-//        })
+//
+//                override fun onComplete() {}
+//
+//
+//                override fun onSubscribe(d: Disposable) {
+//                    githubReposCompositeDisposable?.add(d)
+//                }
+//
+//                override fun onNext(post: Post) {
+//                    adapter?.updatePost(post)
+//                }
+//
+//                override fun onError(e: Throwable) {
+//                    Log.e(ContentValues.TAG, "onError received: ", e)
+//                }
+//            })
+    }
+
+    private suspend fun setupRetrofitFlatMap(): GithubRepositoryApi {
+        return Retrofit.Builder()
+            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build().create(GithubRepositoryApi::class.java)
     }
 
     private fun initRecyclerView() {

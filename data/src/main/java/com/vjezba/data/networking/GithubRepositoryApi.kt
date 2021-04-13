@@ -16,13 +16,17 @@
 
 package com.vjezba.data.networking
 
+import com.vjezba.data.Comment
+import com.vjezba.data.Post
 import com.vjezba.data.networking.model.RepositoryResponseApi
+import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -43,5 +47,18 @@ interface GithubRepositoryApi {
         @Query("page") page: Int,
         @Query("per_page") perPage: Int
     ): RepositoryResponseApi
+
+    @GET("posts")
+    fun getPosts(): Flow<List<Post>>
+
+    @GET("posts/{id}/comments")
+    fun getComments(
+        @Path("id") id: Int
+    ): Flow<List<Comment>>
+
+    @GET("posts/{id}")
+    fun getPost(
+        @Path("id") id: Int
+    ): Flow<Post>
 
 }

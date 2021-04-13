@@ -39,7 +39,7 @@ class FlowMultipleExamplesAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReposFlatMapHolder {
         val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_rxjava2_flatmap_repos, null, false)
+            .inflate(R.layout.list_flow_multiple_examples, null, false)
         return ReposFlatMapHolder(view)
     }
 
