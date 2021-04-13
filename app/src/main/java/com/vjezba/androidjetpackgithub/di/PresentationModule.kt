@@ -31,6 +31,7 @@
 package com.vjezba.androidjetpackgithub.di
 
 import androidx.lifecycle.SavedStateHandle
+import com.vjezba.androidjetpackgithub.ui.fragments.FlowMultipleExampleFragment
 import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapper
 import com.vjezba.androidjetpackgithub.ui.mapper.WeatherViewStateMapperImpl
 import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
@@ -52,7 +53,7 @@ val presentationModule = module {
   viewModel { PaggingWithNetworkAndDbDataViewModel(get() ) }
 
   viewModel { FlowWeatherViewModel(get(), get() ) }
-
+  viewModel { FlowMultipleExamplesViewModel(get(), get() ) }
 
 
   single<ImageLoader> { ImageLoaderImpl() }

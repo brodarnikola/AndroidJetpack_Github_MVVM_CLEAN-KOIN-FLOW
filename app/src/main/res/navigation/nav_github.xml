@@ -124,12 +124,11 @@
 
     </fragment>
 
-
     <fragment
         android:id="@+id/flow_examples_fragment"
-        android:name="com.vjezba.androidjetpackgithub.ui.fragments.AnimationsFragment"
-        android:label="flow_multiple_examples_fragment"
-        tools:layout="@layout/fragment_weather_flow_example" >
+        android:name="com.vjezba.androidjetpackgithub.ui.fragments.FlowMultipleExampleFragment"
+        android:label="FLOW MULTIPLE EXAMPLES FRAGMENT"
+        tools:layout="@layout/fragment_flow_multiple_examples" >
 
     </fragment>
 
