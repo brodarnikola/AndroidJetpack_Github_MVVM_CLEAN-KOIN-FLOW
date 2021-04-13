@@ -34,36 +34,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.vjezba.androidjetpackgithub.databinding.FragmentFlowMultipleExamplesBinding
-import com.vjezba.androidjetpackgithub.ui.adapters.ForecastFlowAdapter
-import com.vjezba.androidjetpackgithub.ui.adapters.LocationFlowAdapter
+import com.vjezba.androidjetpackgithub.ui.adapters.FlowMultipleExamplesAdapter
 import com.vjezba.androidjetpackgithub.ui.mapper.LocationViewState
-import com.vjezba.androidjetpackgithub.ui.utilities.imageLoader.ImageLoader
 import com.vjezba.androidjetpackgithub.viewmodels.FlowMultipleExamplesViewModel
-import com.vjezba.androidjetpackgithub.viewmodels.FlowWeatherViewModel
 import kotlinx.android.synthetic.main.activity_languages_main.*
-import kotlinx.android.synthetic.main.fragment_weather_flow_example.*
+import kotlinx.android.synthetic.main.fragment_flow_multiple_examples.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import okhttp3.internal.toImmutableList
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 class FlowMultipleExampleFragment : Fragment() {
 
-    private val imageLoader: ImageLoader by inject()
     private val homeViewModel: FlowMultipleExamplesViewModel by viewModel() // by viewModel<FlowWeatherViewModel>()
 
-    private val forecastAdapter by lazy { ForecastFlowAdapter(layoutInflater, imageLoader) }
-    private val locationAdapter by lazy { LocationFlowAdapter(layoutInflater, ::onLocationClick) }
+    private val flowMultipleExamplesAdapter by lazy { FlowMultipleExamplesAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,41 +83,38 @@ class FlowMultipleExampleFragment : Fragment() {
     }
 
     private fun initSearchBar() {
-        locationsList.adapter = locationAdapter
 
-        search.isActivated = true
-        search.onActionViewExpanded()
-        search.isIconified = true
-        search.clearFocus()
-
-        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                homeViewModel.queryChannel.offer(newText)
-                return false
-            }
-        })
+//        search.isActivated = true
+//        search.onActionViewExpanded()
+//        search.isIconified = true
+//        search.clearFocus()
+//
+//        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                homeViewModel.queryChannel.offer(newText)
+//                return false
+//            }
+//        })
     }
 
     private fun initRecyclerView() {
-        forecastList.layoutManager = LinearLayoutManager(requireContext(), VERTICAL, false)
-        forecastList.adapter = forecastAdapter
 
-        //val snapHelper = LinearSnapHelper()
-        //snapHelper.attachToRecyclerView(forecastList)
+        list_repos_flat_map.layoutManager = LinearLayoutManager(requireContext(), VERTICAL, false)
+        list_repos_flat_map.adapter = flowMultipleExamplesAdapter
     }
 
     private fun initObservers() {
         homeViewModel.forecasts.observe(viewLifecycleOwner, Observer {
             val locationDetailsFinal = it?.sortedBy { it.date } ?: listOf()
-            forecastAdapter.setData(locationDetailsFinal.toImmutableList())
+            //forecastAdapter.setData(locationDetailsFinal.toImmutableList())
         })
 
         homeViewModel.locations.observe(viewLifecycleOwner, Observer {
-            locationAdapter.setData(it)
+            //locationAdapter.setData(it)
         })
 
         lifecycleScope.launch {

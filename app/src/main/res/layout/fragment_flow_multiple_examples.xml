@@ -10,46 +10,34 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/home_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimaryDarkWeather"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:closeIcon="@drawable/ic_close_white"
-                app:queryHint="Type your location here"
-                app:searchHintIcon="@null"
-                app:searchIcon="@drawable/ic_search_white" />
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <ListView
-            android:id="@+id/locationsList"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/colorPrimaryWeather"
-            android:maxHeight="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_toolbar" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/forecastList"
+        <TextView
+            android:id="@+id/tvFlatMapExample"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:scrollbars="none"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="8dp"
+            android:text="Practicing flat map example"
+            android:textAlignment="center"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/locationsList" />
+            app:layout_constraintTop_toBottomOf="@+id/viewSeparator" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_repos_flat_map"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:clipToPadding="false"
+            android:paddingEnd="@dimen/card_side_margin"
+            android:paddingStart="@dimen/card_side_margin"
+            android:paddingTop="@dimen/margin_small"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/list_rxjava2_flatmap_repos"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFlatMapExample" />
+
 
 
     </LinearLayout>
