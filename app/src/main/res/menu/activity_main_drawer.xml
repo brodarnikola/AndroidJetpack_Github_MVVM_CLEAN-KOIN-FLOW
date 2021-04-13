@@ -21,5 +21,11 @@
             android:id="@+id/animation_fragment"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Animations example" />
+
+        <item
+            android:id="@+id/flow_examples_fragment"
+            android:icon="@drawable/ic_star"
+            android:title="Flow multiple example" />
+
     </group>
 </menu>

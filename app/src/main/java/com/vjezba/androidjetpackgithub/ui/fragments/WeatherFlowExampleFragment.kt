@@ -119,28 +119,7 @@ class WeatherFlowExampleFragment : Fragment() {
 
     private fun initObservers() {
         homeViewModel.forecasts.observe(viewLifecycleOwner, Observer {
-
-            val dtStart = "2010-10-15"/*
-      val format =
-        SimpleDateFormat("yyyy-MM-dd")
-      try {
-        val date: Date = format.parse(dtStart)
-        System.out.println(date)
-      } catch (e: ParseException) {
-        e.printStackTrace()
-      }
-
-
-      val format = SimpleDateFormat("yyyy-MM-dd")
-      for( items in it ?: listOf() ) {
-        val incorrectDate = items.date
-        items.date
-        // val correctDate = formatToViewDateTimeDefaults(incorrectDate)
-      }
-
-*/
             val locationDetailsFinal = it?.sortedBy { it.date } ?: listOf()
-
             forecastAdapter.setData(locationDetailsFinal.toImmutableList())
         })
 

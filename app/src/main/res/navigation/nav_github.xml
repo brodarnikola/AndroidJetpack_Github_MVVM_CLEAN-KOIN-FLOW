@@ -43,6 +43,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_view_pager_fragment_to_flow_multiple_examples_fragment"
+            app:destination="@id/flow_examples_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
     <fragment
@@ -115,5 +123,16 @@
         tools:layout="@layout/fragment_weather_flow_example" >
 
     </fragment>
+
+
+    <fragment
+        android:id="@+id/flow_examples_fragment"
+        android:name="com.vjezba.androidjetpackgithub.ui.fragments.AnimationsFragment"
+        android:label="flow_multiple_examples_fragment"
+        tools:layout="@layout/fragment_weather_flow_example" >
+
+    </fragment>
+
+
 
 </navigation>

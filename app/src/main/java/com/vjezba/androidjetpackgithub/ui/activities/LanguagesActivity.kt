@@ -62,7 +62,8 @@ class LanguagesActivity : AppCompatActivity() {
                 R.id.view_pager_fragment,
                 R.id.paggin_with_network_and_db,
                 R.id.flow_reactive_stream_example_weather_fragment,
-                R.id.animation_fragment
+                R.id.animation_fragment,
+                R.id.flow_examples_fragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
