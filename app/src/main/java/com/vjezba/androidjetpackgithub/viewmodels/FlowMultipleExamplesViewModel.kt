@@ -58,7 +58,7 @@ class FlowMultipleExamplesViewModel : ViewModel() {
     }
 
     private suspend fun getAllPosts() {
-        val retrofit = setupRetrofitFlow()
+        val retrofit = setupRetrofitFlowExample()
 
         flowOf(retrofit.getPosts())
             .flatMapLatest {
@@ -115,12 +115,11 @@ class FlowMultipleExamplesViewModel : ViewModel() {
 
     }
 
-    private suspend fun setupRetrofitFlow(): FlowRepositoryApi {
+    private suspend fun setupRetrofitFlowExample(): FlowRepositoryApi {
         return Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient())
-            //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build().create(FlowRepositoryApi::class.java)
     }
 
