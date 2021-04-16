@@ -17,7 +17,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="8dp"
-            android:text="Practicing flow example. First we are getting results ( post ) from one rest servis ( synchronous call ).\nAfter that we are using this data ( post ) to get comments for every single post ( in this case we are creating 100 asynchronous call ) ."
+            android:text="Practicing flow example. First we are getting results ( post ) from one rest servis ( synchronous call ).\nAfter that we are using this data ( post ) to get comments for every single post ( in this case we are creating 100 coroutine, flow asynchronous call ) ."
             android:textAlignment="textStart"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
