@@ -125,6 +125,10 @@ class FlowMultipleExampleFragment : Fragment() {
             .onEach { stringData -> println("Data of flow is: " + stringData) }
             .collect()
 
+        exampleOfFlatMapConcatFlow(coroutineScope)
+        exampleOfFlatMapMergeFlow(coroutineScope)
+        exampleOfFlatMapLatestlow(coroutineScope)
+
         // launchIn means, we are collecting data asinkron
         // collect, collectLatest and so on.. means, we are collecting data sinkrono
 
@@ -137,6 +141,43 @@ class FlowMultipleExampleFragment : Fragment() {
                     "\n Because this function 'exampleOfSyncronFunction' is suspending function of, because of operator 'collect'  "
         )
     }
+
+    private suspend fun exampleOfFlatMapConcatFlow(coroutineScope: CoroutineScope) {
+        val startTime = System.currentTimeMillis()
+        (1..3).asFlow().onEach { delay(100) }
+            .flatMapConcat {
+                requestFlow(it)
+            }
+            .map {
+                println("Example of flatMapConcat: $it at ${System.currentTimeMillis() - startTime} ms from star")
+            }
+            .launchIn(coroutineScope)
+    }
+
+    private fun exampleOfFlatMapMergeFlow(coroutineScope: CoroutineScope) {
+        val startTime = System.currentTimeMillis()
+        (1..3).asFlow().onEach { delay(100) }
+            .flatMapMerge {
+                requestFlow(it)
+            }
+            .map {
+                println("Example of flatMapMerge: $it at ${System.currentTimeMillis() - startTime} ms from star")
+            }
+            .launchIn(coroutineScope)
+    }
+
+    private suspend fun exampleOfFlatMapLatestlow(coroutineScope: CoroutineScope) {
+        val startTime = System.currentTimeMillis()
+        (1..3).asFlow().onEach { delay(100) }
+            .flatMapLatest {
+                requestFlow(it)
+            }
+            .map {
+                println("Example of flatMapLatest: $it at ${System.currentTimeMillis() - startTime} ms from star")
+            }
+            .launchIn(coroutineScope)
+    }
+
 
     val f1 = flow {
         emit(listOf(1, 2))
