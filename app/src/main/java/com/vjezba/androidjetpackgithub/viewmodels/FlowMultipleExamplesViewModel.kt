@@ -62,14 +62,16 @@ class FlowMultipleExamplesViewModel : ViewModel() {
 
         flowOf(retrofit.getPosts())
             .flatMapLatest {
-                delay(1500)
+                // with purpose here is this 1000 miliseconds delay,
+                // so that you can see a progressBar inside FlowMultipleExampleFragment
+                delay(1000)
                 _postData.value = it
                 it.asFlow()
             }
             .onEach {
 
                 // First example to launch new flow ( to get data -> comments for every posts )
-                // In this it is launched 100 coroutines
+                // In this example it is launched 100 coroutines
                 val postData = it
                 flowOf(retrofit.getComments(it.id))
                     .map {
@@ -84,7 +86,7 @@ class FlowMultipleExamplesViewModel : ViewModel() {
                     .launchIn(viewModelScope)
 
                 // Second example to launch new flow ( to get data -> comments for every posts )
-                // In this it is launched 100 coroutines
+                // In this example it is launched 100 coroutines
 //                viewModelScope.launch {
 //                    val delayFlow: Int = (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
 //                    delay(delayFlow.toLong())
@@ -96,7 +98,7 @@ class FlowMultipleExamplesViewModel : ViewModel() {
 //                }
 
                 // Third example to launch new flow ( to get data -> comments for every posts )
-                // In this it is launched 100 coroutines
+                // In this example it is launched 100 coroutines
 //                flow {
 //
 //                    val delayFlow: Int = (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
