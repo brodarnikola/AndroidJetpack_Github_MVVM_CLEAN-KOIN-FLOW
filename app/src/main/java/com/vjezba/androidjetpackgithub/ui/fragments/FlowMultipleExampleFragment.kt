@@ -83,13 +83,19 @@ class FlowMultipleExampleFragment : Fragment() {
 
     private fun initObservers() {
 
+        var counter0 = 1
         homeViewModel.postData.observe(viewLifecycleOwner, Observer {
             flowMultipleExamplesAdapter.setPosts(it.toMutableList())
             progressBarFlow.visibility = View.GONE
+            Log.d("HowManyTimes", "1111 How many times it will enter here: ${counter0}")
+            counter0++
         })
 
+        var counter1 = 1
         homeViewModel.commentData.observe(viewLifecycleOwner, Observer {
             flowMultipleExamplesAdapter.updatePost(it)
+            Log.d("HowManyTimes", "2222 How many times it will enter here: ${counter1}")
+            counter1++
         })
 
         lifecycleScope.launch {
