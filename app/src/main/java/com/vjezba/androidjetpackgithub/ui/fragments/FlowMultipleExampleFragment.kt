@@ -127,7 +127,7 @@ class FlowMultipleExampleFragment : Fragment() {
 
         exampleOfFlatMapConcatFlow(coroutineScope)
         exampleOfFlatMapMergeFlow(coroutineScope)
-        exampleOfFlatMapLatestlow(coroutineScope)
+        exampleOfFlatMapLatestFlow(coroutineScope)
 
         // launchIn means, we are collecting data asinkron
         // collect, collectLatest and so on.. means, we are collecting data sinkrono
@@ -166,7 +166,7 @@ class FlowMultipleExampleFragment : Fragment() {
             .launchIn(coroutineScope)
     }
 
-    private suspend fun exampleOfFlatMapLatestlow(coroutineScope: CoroutineScope) {
+    private suspend fun exampleOfFlatMapLatestFlow(coroutineScope: CoroutineScope) {
         val startTime = System.currentTimeMillis()
         (1..3).asFlow().onEach { delay(100) }
             .flatMapLatest {
