@@ -48,6 +48,7 @@ import kotlinx.android.synthetic.main.fragment_flow_multiple_examples.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -117,7 +118,7 @@ class FlowMultipleExampleFragment : Fragment() {
         }
             // print -> [1, 2, 3, 4, 5, 6]
             .onEach {
-                println(it)
+                println( "Using combine operator of flow: " + it)
             }
             .launchIn(coroutineScope)
 
@@ -149,7 +150,7 @@ class FlowMultipleExampleFragment : Fragment() {
                 requestFlow(it)
             }
             .map {
-                println("Example of flatMapConcat: $it at ${System.currentTimeMillis() - startTime} ms from star")
+                println("Example of flatMapConcat: $it at ${System.currentTimeMillis() - startTime} ms from start")
             }
             .launchIn(coroutineScope)
     }
@@ -161,7 +162,7 @@ class FlowMultipleExampleFragment : Fragment() {
                 requestFlow(it)
             }
             .map {
-                println("Example of flatMapMerge: $it at ${System.currentTimeMillis() - startTime} ms from star")
+                println("Example of flatMapMerge: $it at ${System.currentTimeMillis() - startTime} ms from start")
             }
             .launchIn(coroutineScope)
     }
@@ -173,22 +174,37 @@ class FlowMultipleExampleFragment : Fragment() {
                 requestFlow(it)
             }
             .map {
-                println("Example of flatMapLatest: $it at ${System.currentTimeMillis() - startTime} ms from star")
+                println("Example of flatMapLatest: $it at ${System.currentTimeMillis() - startTime} ms from start")
             }
             .launchIn(coroutineScope)
     }
 
 
     val f1 = flow {
+        val startTime = System.currentTimeMillis()
+        val delayFlow: Int =
+        (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
+        delay(delayFlow.toLong())
         emit(listOf(1, 2))
+        println("Example of delaying coroutine and combine flow: 1 at ${System.currentTimeMillis() - startTime} ms from start")
     }
 
     val f2 = flow {
+        val startTime = System.currentTimeMillis()
+        val delayFlow: Int =
+            (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
+        delay(delayFlow.toLong())
         emit(listOf(3, 4))
+        println("Example of delaying coroutine and combine flow: 2 at ${System.currentTimeMillis() - startTime} ms from start")
     }
 
     val f3 = flow {
+        val startTime = System.currentTimeMillis()
+        val delayFlow: Int =
+            (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
+        delay(delayFlow.toLong())
         emit(listOf(5, 6))
+        println("Example of delaying coroutine and combine flow: 3 at ${System.currentTimeMillis() - startTime} ms from start")
     }
 
     private suspend fun exampleOfSyncronFunction() {
