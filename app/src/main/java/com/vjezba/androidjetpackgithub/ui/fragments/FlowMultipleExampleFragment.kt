@@ -114,10 +114,12 @@ class FlowMultipleExampleFragment : Fragment() {
     private suspend fun flowExamples(coroutineScope: CoroutineScope) {
 
         // combine is a asynchron way of combining this 3 flows, coroutines
-        combine(f1, f2, f3) { list, list2, list3 ->
-            list + list2 + list3
+        combine(f1, f2, f3) { list1, list2, list3 ->
+            list1 + list2 + list3
         }
-            // print -> [1, 2, 3, 4, 5, 6]
+            // print -> [1, 2, 3, 4, 5, 6], because of this line of code list1 + list2 + list3
+                // because first we are printing data from list1,
+                // after that we are printing data from list2 and in the end from list3
             .onEach {
                 println( "Using combine operator of flow: " + it)
             }
