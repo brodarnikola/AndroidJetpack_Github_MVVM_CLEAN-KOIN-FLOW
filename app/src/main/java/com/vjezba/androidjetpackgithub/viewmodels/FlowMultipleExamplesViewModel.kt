@@ -72,6 +72,7 @@ class FlowMultipleExamplesViewModel : ViewModel() {
 
                 // First example to launch new flow ( to get data -> comments for every posts )
                 // In this example it is launched 100 coroutines
+                // example of creating flow with "flowOf"
                 val postData = it
                 flowOf(retrofit.getComments(it.id))
                     .map {
@@ -87,6 +88,7 @@ class FlowMultipleExamplesViewModel : ViewModel() {
 
                 // Second example to launch new flow ( to get data -> comments for every posts )
                 // In this example it is launched 100 coroutines
+                // example of flow viewModelScope
 //                viewModelScope.launch {
 //                    val delayFlow: Int = (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
 //                    delay(delayFlow.toLong())
@@ -99,6 +101,7 @@ class FlowMultipleExamplesViewModel : ViewModel() {
 
                 // Third example to launch new flow ( to get data -> comments for every posts )
                 // In this example it is launched 100 coroutines
+                // example of flow builder
 //                flow {
 //
 //                    val delayFlow: Int = (Random().nextInt(3) + 1) * 1000 // sleep thread for x ms
