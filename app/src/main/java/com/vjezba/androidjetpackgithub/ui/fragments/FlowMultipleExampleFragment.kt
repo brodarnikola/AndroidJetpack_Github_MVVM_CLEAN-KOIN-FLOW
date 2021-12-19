@@ -213,14 +213,20 @@ class FlowMultipleExampleFragment : Fragment() {
     private suspend fun exampleOfSyncronFunction() {
         val nums1 = (1..3).asFlow().onEach { delay(300) }  // numbers 1..4
         val strs1 = flowOf("one", "two", "three").onEach { delay(400) }  // strings
-        nums1.combine(strs1) { a, b -> "$a -> $b" } // compose a single string
+        nums1.combine(strs1) { a, b -> "$a -> $b" }
+             // combine is working like that, when new flow data comes in nums1 or strs1,
+             // then it will combine this flow and send to collect terminal operator
+             //  compose a single string
             .collect { println("COMBINE operator: Data of two combines flows ( nums and strs ) is: " + it) }
     }
 
     private fun exampleOfAsynchronFunction(coroutineScope: CoroutineScope) {
         val nums = (1..3).asFlow().onEach { delay(300) } // numbers 1..4
         val strs = flowOf("one", "two", "three").onEach { delay(400) }  // strings
-        nums.zip(strs) { a, b -> "$a -> $b" } // compose a single string
+        nums.zip(strs) { a, b -> "$a -> $b" }
+            // zip is working like that, waiting for values from nums and strs flow,
+            // and then doing something with this values
+            // compose a single string
             .onEach { println("ZIP operator: Data of two combines flows ( nums and strs ) is: " + it) }
             .launchIn(coroutineScope)
     }
